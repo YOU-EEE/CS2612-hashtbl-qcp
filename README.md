@@ -5,16 +5,16 @@
 获取本repo内容指令：
 
 ```
-git clone https://bitbucket.org/WxWyashen/cs2612-2024fall.git
-cd cs2612-2024fall
+git clone https://lzh11com@bitbucket.org/qinxiang-SJTU/cs2612-2025fall.git
+cd cs2612-2025fall
 git submodule init
 git submodule update
 ```
 或者使用
 
 ```
-git clone https://bitbucket.org/WxWyashen/cs2612-2024fall.git
-cd cs2612-2024fall
+git clone https://lzh11com@bitbucket.org/qinxiang-SJTU/cs2612-2025fall.git
+cd cs2612-2025fall
 git submodule update --init --recursive
 ```
 repo和子模块内提供了相关的Makefile和_CoqProject用于整个项目文件的编译。
@@ -26,7 +26,7 @@ windows需要自行提供CONFIGURE文件用于提供相关依赖的地址，请�
 以cygwin编译环境下的CONFIGURE设置为例：
 
 ```
-COQBIN=/cygdrive/d/Coq-8.15.2/bin/
+COQBIN=/cygdrive/d/Coq-8.15.2/bin/ 
 SUF=   // 这里写SUF=.exe也可以
 ```
 如果你的编译环境是windows的powershell, CONFIGURE设置为
