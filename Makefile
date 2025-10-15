@@ -31,7 +31,7 @@ COMPCERT_FILE_NAMES = \
 COMPCERT_FILES=$(COMPCERT_FILE_NAMES:%.v=$(COMPCERT_DIR)/%.v)
 
 PL_FILE_NAMES = \
-	Syntax.v SimpleProofsAndDefs.v HighOrder.v SimpleInductiveType.v
+	Syntax.v SimpleProofsAndDefs.v HighOrder.v SimpleInductiveType.v AlgebraicStructure.v Rewrite.v DenotationsOfExpr.v
 PL_FILES=$(PL_FILE_NAMES:%.v=$(PL_DIR)/%.v)
 
 ASSIGNMENT_FILE_NAMES = \
