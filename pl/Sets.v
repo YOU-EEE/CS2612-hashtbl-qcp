@@ -3,7 +3,8 @@ Require Import Coq.Strings.String.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Psatz.
 Require Import Coq.Classes.Morphisms.
-Require Import SetsClass.SetsClass. Import SetsNotation.
+Require Import SetsClass.SetsClass.
+Import SetsNotation.
 Local Open Scope string.
 Local Open Scope Z.
 Local Open Scope sets.

@@ -20,7 +20,7 @@ COMPCERT_FLAG = -R $(COMPCERT_DIR) compcert.lib
 DEP_FLAG = -R $(PL_DIR) PL -R $(SETS_DIR) SetsClass -R $(COMPCERT_DIR) compcert.lib -R $(ASSIGNMENT_DIR) PL.Assignment
 
 SETS_FILE_NAMES = \
-   SetsClass.v SetsClass_AxiomFree.v SetsDomain.v SetElement.v SetElementProperties.v RelsDomain.v SetProd.v SetsDomain_Classic.v
+   Test.v SetsClass.v SetsClass_AxiomFree.v SetsDomain.v SetElement.v SetElementProperties.v RelsDomain.v SetProd.v SetsDomain_Classic.v
 
    
 SETS_FILES=$(SETS_FILE_NAMES:%.v=$(SETS_DIR)/%.v)
@@ -31,7 +31,7 @@ COMPCERT_FILE_NAMES = \
 COMPCERT_FILES=$(COMPCERT_FILE_NAMES:%.v=$(COMPCERT_DIR)/%.v)
 
 PL_FILE_NAMES = \
-	Syntax.v SimpleProofsAndDefs.v HighOrder.v SimpleInductiveType.v AlgebraicStructure.v Rewrite.v DenotationsOfExpr.v DenotationsAsRels.v Sets.v
+	Syntax.v SimpleProofsAndDefs.v HighOrder.v SimpleInductiveType.v AlgebraicStructure.v Rewrite.v DenotationsOfExpr.v DenotationsAsRels.v Sets.v 
 PL_FILES=$(PL_FILE_NAMES:%.v=$(PL_DIR)/%.v)
 
 ASSIGNMENT_FILE_NAMES = \
