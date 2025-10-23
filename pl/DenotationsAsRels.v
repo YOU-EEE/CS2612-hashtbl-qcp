@@ -440,4 +440,122 @@ Proof.
 Qed.
 
 
+(** * 复杂程序语句语义性质的证明 *)
+
+(** 下面证明几条程序语句语义的一般性性质。我们首先可以证明，两种while语句语义的定义方式
+    是等价的。*)
+
+Lemma while_sem1_while_sem2_equiv:
+  forall D0 D1,
+    WhileSem1.while_sem D0 D1 ==
+    WhileSem2.while_sem D0 D1.
+Proof.
+  intros.
+  unfold WhileSem1.while_sem, while_sem.
+  apply Sets_equiv_Sets_included; split.
+  + apply Sets_indexed_union_included.
+    intros n.
+    rewrite <- (Sets_included_indexed_union (S n)).
+    induction n; simpl.
+    - Sets_unfold; intros; tauto.
+    - rewrite IHn; simpl.
+      Sets_unfold; intros; tauto.
+  + apply Sets_indexed_union_included.
+    intros n.
+    induction n; simpl.
+    - apply Sets_empty_included.
+    - rewrite IHn.
+      clear n IHn.
+      apply Sets_union_included.
+      * rewrite Rels_concat_indexed_union_distr_l.
+        rewrite Rels_concat_indexed_union_distr_l.
+        apply Sets_indexed_union_included.
+        intros n.
+        rewrite <- (Sets_included_indexed_union (S n)).
+        simpl.
+        reflexivity.
+      * rewrite <- (Sets_included_indexed_union O).
+        simpl.
+        reflexivity.
+Qed.
+
+(** 还可以证明，_[boundedLB]_是递增的。*)
+
+Lemma boundedLB_inc1: forall D0 D1 n,
+  boundedLB D0 D1 n ⊆ boundedLB D0 D1 (S n).
+Proof.
+  intros.
+  induction n; simpl.
+  + apply Sets_empty_included.
+  + rewrite IHn at 1.
+    reflexivity.
+Qed.
+
+Theorem boundedLB_inc: forall D0 D1 n m,
+  boundedLB D0 D1 m ⊆ boundedLB D0 D1 (n + m).
+Proof.
+  intros.
+  induction n; simpl.
+  + reflexivity.
+  + rewrite IHn.
+    rewrite (boundedLB_inc1 D0 D1 (n + m)) at 1.
+    simpl.
+    reflexivity.
+Qed.
+
+#[export] Instance while_sem_congr:
+  Proper (Sets.equiv ==>
+          Sets.equiv ==>
+          Sets.equiv) while_sem.
+Proof.
+  unfold Proper, respectful, while_sem.
+  intros D01 D02 H0 D11 D12 H1.
+  apply Sets_indexed_union_congr.
+  intros n.
+  induction n; simpl.
+  + reflexivity.
+  + rewrite IHn, H0, H1.
+    reflexivity.
+Qed.
+
+#[export] Instance CWhile_congr:
+  Proper (bequiv ==> cequiv ==> cequiv) CWhile.
+Proof.
+  unfold Proper, respectful, bequiv, cequiv; intros.
+  intros; simpl.
+  apply while_sem_congr; tauto.
+Qed.
+
+(** 前面提到，while循环语句的行为也可以描述为：只要循环条件成立，就先执行循环体再重新执
+    行循环。我们可以证明，我们目前定义的程序语义符合这一性质。*)
+
+Lemma while_unroll1: forall e c,
+  [[ while (e) do {c} ]] ~=~
+  [[ if (e) then { c; while (e) do {c} } else {skip} ]].
+Proof.
+  unfold cequiv.
+  intros; simpl.
+  unfold while_sem, if_sem, seq_sem, skip_sem.
+  rewrite Rels_concat_id_r.
+  apply Sets_equiv_Sets_included; split.
+  + apply Sets_indexed_union_included.
+    intros n.
+    destruct n; simpl.
+    - apply Sets_empty_included.
+    - rewrite <- (Sets_included_indexed_union n).
+      reflexivity.
+  + apply Sets_union_included.
+    - rewrite Rels_concat_indexed_union_distr_l.
+      rewrite Rels_concat_indexed_union_distr_l.
+      apply Sets_indexed_union_included; intros.
+      rewrite <- (Sets_included_indexed_union (S n)).
+      simpl.
+      apply Sets_included_union1.
+    - rewrite <- (Sets_included_indexed_union (S O)).
+      simpl boundedLB.
+      apply Sets_included_union2.
+Qed.
+
+
+
 End DntSem_SimpleWhile4.
