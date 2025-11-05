@@ -424,7 +424,9 @@ Notation "e1 '~=~' e2" := (ltac:(any_equiv e1 e2))
 #[export] Instance iequiv_equiv: Equivalence iequiv.
 Proof.
   unfold iequiv.
+  
   apply equiv_in_domain.
+
   apply func_equiv_equiv.
 Qed.
 
