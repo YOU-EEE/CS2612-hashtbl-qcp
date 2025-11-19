@@ -277,6 +277,7 @@ Record M (A: Type): Type := {
 
 Module Notations.
 
+<<<<<<< HEAD
 Notation "x '.(nrm)'" := (nrm _ x)
   (at level 1, only printing).
 
@@ -292,6 +293,11 @@ Notation "x '.(nrm)'" := (ltac:(any_nrm x))
 
 Notation "x '.(err)'" := (ltac:(any_err x))
   (at level 1, only parsing).
+=======
+Notation "x '.(nrm)'" := (nrm _ x) (at level 1).
+
+Notation "x '.(err)'" := (err _ x) (at level 1).
+>>>>>>> 50be186ca494c678ce30813d689c823cd6ca5138
 
 End Notations.
 
@@ -299,7 +305,11 @@ Import Notations.
 
 Definition ret (A: Type) (a: A): M A := {|
   nrm := Sets.singleton a;
+<<<<<<< HEAD
   err := False;
+=======
+  err := ∅;
+>>>>>>> 50be186ca494c678ce30813d689c823cd6ca5138
 |}.
 
 Definition bind (A B: Type) (f: M A) (g: A -> M B):
@@ -349,6 +359,11 @@ Definition choice {A: Type} (f g: SetMonadE.M A):
     SetMonadE.err := f.(err) \/ g.(err);
   |}.
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 50be186ca494c678ce30813d689c823cd6ca5138
 Definition compute_abs (z: Z): SetMonadE.M Z :=
   choice
     (assume (z >= 0);; ret z)
@@ -712,6 +727,7 @@ Fixpoint eval_expr (e: expr): state -> SetMonadE.M Z :=
 
 
 End DntSem_While.
+<<<<<<< HEAD
 
 (** * WhileDeref语言表达式的指称语义 *)
 
@@ -929,3 +945,5 @@ Fixpoint eval_expr (e: expr): state -> SetMonadE.M Z :=
 
 
 End DntSem_WhileDeref.
+=======
+>>>>>>> 50be186ca494c678ce30813d689c823cd6ca5138
