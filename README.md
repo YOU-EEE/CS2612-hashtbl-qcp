@@ -26,17 +26,17 @@ windows需要自行提供CONFIGURE文件用于提供相关依赖的地址，请�
 以cygwin编译环境下的CONFIGURE设置为例：
 
 ```
-COQBIN=/cygdrive/d/Coq-8.15.2/bin/ 
+COQBIN=/cygdrive/d/Coq-8.20.1/bin/ 
 SUF=   // 这里写SUF=.exe也可以
 ```
 如果你的编译环境是windows的powershell, CONFIGURE设置为
 ```
-COQBIN=D:\Coq-8.15.2\bin\\
+COQBIN=D:\Coq-8.20.1\bin\\
 SUF=.exe
 ```
 如果你的编译环境是wsl，CONFIGURE设置为
 ```
-COQBIN=/mnt/d/Coq-8.15.2/bin/
+COQBIN=/mnt/d/Coq-8.20.1/bin/
 SUF=.exe
 ```
 编译之前请先确认你的环境中是否有make，具体指令为:
