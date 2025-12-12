@@ -42,7 +42,7 @@ Proof.
     rewrite <- app_assoc. reflexivity.
 Qed.
 
-Lemma proof_of_insertion_return_wit_1_1 : insertion_return_wit_1_1.
+Lemma proof_of_insertion_return_wit_2 : insertion_return_wit_2.
 Proof.
   pre_process.
   sep_apply sll_zero; try easy. 
@@ -56,7 +56,7 @@ Proof.
     apply upperbound_insert_nil; easy.
 Qed. 
 
-Lemma proof_of_insertion_return_wit_1_2 : insertion_return_wit_1_2.
+Lemma proof_of_insertion_return_wit_1 : insertion_return_wit_1.
 Proof. 
   pre_process.
   Exists (l1 ++ a::l2).

@@ -40,7 +40,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_dequeue_return_wit_1_1 : dequeue_return_wit_1_1.
+Lemma proof_of_dequeue_return_wit_2 : dequeue_return_wit_2.
 Proof.
   pre_process.
   subst.
@@ -52,7 +52,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_dequeue_return_wit_1_2 : dequeue_return_wit_1_2.
+Lemma proof_of_dequeue_return_wit_1 : dequeue_return_wit_1.
 Proof.
   pre_process.
   subst.

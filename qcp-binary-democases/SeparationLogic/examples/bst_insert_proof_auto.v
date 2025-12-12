@@ -20,24 +20,24 @@ Import get_right_most.
 Import naive_C_Rules.
 Local Open Scope sac.
 
-Lemma proof_of_insert_safety_wit_1 : insert_safety_wit_1.
+Lemma proof_of_insert_safety_wit_1_low_level_spec : insert_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_insert_safety_wit_2 : insert_safety_wit_2.
+Lemma proof_of_insert_safety_wit_2_low_level_spec : insert_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_insert_safety_wit_3 : insert_safety_wit_3.
+Lemma proof_of_insert_safety_wit_3_low_level_spec : insert_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_insert_safety_wit_4 : insert_safety_wit_4.
+Lemma proof_of_insert_safety_wit_4_low_level_spec : insert_safety_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_insert_partial_solve_wit_1 : insert_partial_solve_wit_1.
+Lemma proof_of_insert_partial_solve_wit_1_low_level_spec : insert_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_insert_partial_solve_wit_2_pure : insert_partial_solve_wit_2_pure.
+Lemma proof_of_insert_partial_solve_wit_2_low_level_spec_pure : insert_partial_solve_wit_2_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_insert_partial_solve_wit_2 : insert_partial_solve_wit_2.
+Lemma proof_of_insert_partial_solve_wit_2_low_level_spec : insert_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 

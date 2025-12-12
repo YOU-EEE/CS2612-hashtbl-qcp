@@ -72,7 +72,7 @@ Proof.
 Qed.
 
 
-Lemma proof_of_delete_return_wit_1 : delete_return_wit_1.
+Lemma proof_of_delete_return_wit_1_low_level_spec : delete_return_wit_1_low_level_spec.
 Proof. 
   pre_process.
   Exists b_pre_v_2.
@@ -84,7 +84,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_delete_return_wit_2_1 : delete_return_wit_2_1.
+Lemma proof_of_delete_return_wit_5_low_level_spec : delete_return_wit_5_low_level_spec.
 Proof.
   pre_process.
   Exists p_left.
@@ -99,7 +99,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_delete_return_wit_2_2 : delete_return_wit_2_2.
+Lemma proof_of_delete_return_wit_4_low_level_spec : delete_return_wit_4_low_level_spec.
 Proof. 
   pre_process.
   Exists p_right.
@@ -108,7 +108,7 @@ Proof.
   entailer!.
   destruct (Key.dec x_pre p_key) as [[? | ?] | ?];
     try Key.order.
-  assert (r0 = tree_delete x_pre tr). {
+  assert (r0 = tree_delete x_pre tr_low_level_spec). {
     rewrite e.
     rewrite H4.
     simpl.
@@ -120,7 +120,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_delete_return_wit_2_3 : delete_return_wit_2_3.
+Lemma proof_of_delete_return_wit_3_low_level_spec : delete_return_wit_3_low_level_spec.
 Proof. 
   pre_process.
   Exists b_pre_v_2.
@@ -132,7 +132,7 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma proof_of_delete_return_wit_2_4 : delete_return_wit_2_4.
+Lemma proof_of_delete_return_wit_2_low_level_spec : delete_return_wit_2_low_level_spec.
 Proof. 
   pre_process.
   Exists b_pre_v_2.

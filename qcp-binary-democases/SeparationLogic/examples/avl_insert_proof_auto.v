@@ -73,22 +73,22 @@ Proof. Admitted.
 Lemma proof_of_update_height_safety_wit_18 : update_height_safety_wit_18.
 Proof. Admitted. 
 
-Lemma proof_of_update_height_return_wit_1_1 : update_height_return_wit_1_1.
+Lemma proof_of_update_height_return_wit_1 : update_height_return_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_update_height_return_wit_1_2 : update_height_return_wit_1_2.
+Lemma proof_of_update_height_return_wit_2 : update_height_return_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_update_height_return_wit_1_3 : update_height_return_wit_1_3.
+Lemma proof_of_update_height_return_wit_3 : update_height_return_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_update_height_return_wit_1_4 : update_height_return_wit_1_4.
+Lemma proof_of_update_height_return_wit_4 : update_height_return_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_update_height_return_wit_1_5 : update_height_return_wit_1_5.
+Lemma proof_of_update_height_return_wit_5 : update_height_return_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_update_height_return_wit_1_6 : update_height_return_wit_1_6.
+Lemma proof_of_update_height_return_wit_6 : update_height_return_wit_6.
 Proof. Admitted. 
 
 Lemma proof_of_update_height_partial_solve_wit_1 : update_height_partial_solve_wit_1.
@@ -250,16 +250,16 @@ Proof. Admitted.
 Lemma proof_of_balance_factor_return_wit_1 : balance_factor_return_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_balance_factor_return_wit_2_1 : balance_factor_return_wit_2_1.
+Lemma proof_of_balance_factor_return_wit_2 : balance_factor_return_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_balance_factor_return_wit_2_2 : balance_factor_return_wit_2_2.
+Lemma proof_of_balance_factor_return_wit_3 : balance_factor_return_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_balance_factor_return_wit_2_3 : balance_factor_return_wit_2_3.
+Lemma proof_of_balance_factor_return_wit_4 : balance_factor_return_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_balance_factor_return_wit_2_4 : balance_factor_return_wit_2_4.
+Lemma proof_of_balance_factor_return_wit_5 : balance_factor_return_wit_5.
 Proof. Admitted. 
 
 Lemma proof_of_balance_factor_partial_solve_wit_1 : balance_factor_partial_solve_wit_1.
@@ -487,112 +487,112 @@ Proof. Admitted.
 Lemma proof_of_balance_safety_wit_66 : balance_safety_wit_66.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_1_1 : balance_return_wit_1_1.
+Lemma proof_of_balance_return_wit_1 : balance_return_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_1_2 : balance_return_wit_1_2.
+Lemma proof_of_balance_return_wit_2 : balance_return_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_1_3 : balance_return_wit_1_3.
+Lemma proof_of_balance_return_wit_3 : balance_return_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_1_4 : balance_return_wit_1_4.
+Lemma proof_of_balance_return_wit_4 : balance_return_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_2_1 : balance_return_wit_2_1.
+Lemma proof_of_balance_return_wit_5 : balance_return_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_2_2 : balance_return_wit_2_2.
+Lemma proof_of_balance_return_wit_6 : balance_return_wit_6.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_2_3 : balance_return_wit_2_3.
+Lemma proof_of_balance_return_wit_7 : balance_return_wit_7.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_2_4 : balance_return_wit_2_4.
+Lemma proof_of_balance_return_wit_8 : balance_return_wit_8.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_1 : balance_return_wit_3_1.
+Lemma proof_of_balance_return_wit_9 : balance_return_wit_9.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_2 : balance_return_wit_3_2.
+Lemma proof_of_balance_return_wit_10 : balance_return_wit_10.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_3 : balance_return_wit_3_3.
+Lemma proof_of_balance_return_wit_11 : balance_return_wit_11.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_4 : balance_return_wit_3_4.
+Lemma proof_of_balance_return_wit_12 : balance_return_wit_12.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_5 : balance_return_wit_3_5.
+Lemma proof_of_balance_return_wit_13 : balance_return_wit_13.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_6 : balance_return_wit_3_6.
+Lemma proof_of_balance_return_wit_14 : balance_return_wit_14.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_7 : balance_return_wit_3_7.
+Lemma proof_of_balance_return_wit_15 : balance_return_wit_15.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_3_8 : balance_return_wit_3_8.
+Lemma proof_of_balance_return_wit_16 : balance_return_wit_16.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_4_1 : balance_return_wit_4_1.
+Lemma proof_of_balance_return_wit_17 : balance_return_wit_17.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_4_2 : balance_return_wit_4_2.
+Lemma proof_of_balance_return_wit_18 : balance_return_wit_18.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_4_3 : balance_return_wit_4_3.
+Lemma proof_of_balance_return_wit_19 : balance_return_wit_19.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_4_4 : balance_return_wit_4_4.
+Lemma proof_of_balance_return_wit_20 : balance_return_wit_20.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_5_1 : balance_return_wit_5_1.
+Lemma proof_of_balance_return_wit_21 : balance_return_wit_21.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_5_2 : balance_return_wit_5_2.
+Lemma proof_of_balance_return_wit_22 : balance_return_wit_22.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_5_3 : balance_return_wit_5_3.
+Lemma proof_of_balance_return_wit_23 : balance_return_wit_23.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_5_4 : balance_return_wit_5_4.
+Lemma proof_of_balance_return_wit_24 : balance_return_wit_24.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_1 : balance_return_wit_6_1.
+Lemma proof_of_balance_return_wit_25 : balance_return_wit_25.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_2 : balance_return_wit_6_2.
+Lemma proof_of_balance_return_wit_26 : balance_return_wit_26.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_3 : balance_return_wit_6_3.
+Lemma proof_of_balance_return_wit_27 : balance_return_wit_27.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_4 : balance_return_wit_6_4.
+Lemma proof_of_balance_return_wit_28 : balance_return_wit_28.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_5 : balance_return_wit_6_5.
+Lemma proof_of_balance_return_wit_29 : balance_return_wit_29.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_6 : balance_return_wit_6_6.
+Lemma proof_of_balance_return_wit_30 : balance_return_wit_30.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_7 : balance_return_wit_6_7.
+Lemma proof_of_balance_return_wit_31 : balance_return_wit_31.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_6_8 : balance_return_wit_6_8.
+Lemma proof_of_balance_return_wit_32 : balance_return_wit_32.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_7_1 : balance_return_wit_7_1.
+Lemma proof_of_balance_return_wit_33 : balance_return_wit_33.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_7_2 : balance_return_wit_7_2.
+Lemma proof_of_balance_return_wit_34 : balance_return_wit_34.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_7_3 : balance_return_wit_7_3.
+Lemma proof_of_balance_return_wit_35 : balance_return_wit_35.
 Proof. Admitted. 
 
-Lemma proof_of_balance_return_wit_7_4 : balance_return_wit_7_4.
+Lemma proof_of_balance_return_wit_36 : balance_return_wit_36.
 Proof. Admitted. 
 
 Lemma proof_of_balance_partial_solve_wit_1 : balance_partial_solve_wit_1.
@@ -736,10 +736,10 @@ Proof. Admitted.
 Lemma proof_of_insert_return_wit_2 : insert_return_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_insert_return_wit_3_1 : insert_return_wit_3_1.
+Lemma proof_of_insert_return_wit_3 : insert_return_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_insert_return_wit_3_2 : insert_return_wit_3_2.
+Lemma proof_of_insert_return_wit_4 : insert_return_wit_4.
 Proof. Admitted. 
 
 Lemma proof_of_insert_partial_solve_wit_1 : insert_partial_solve_wit_1.

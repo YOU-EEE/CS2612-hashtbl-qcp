@@ -73,7 +73,7 @@ Proof.
     abs_ret_step.
 Qed.
 
-Lemma proof_of_merge_return_wit_1_1 : merge_return_wit_1_1.
+Lemma proof_of_merge_return_wit_2 : merge_return_wit_2.
 Proof.
   pre_process.
   sep_apply (sll_zero y); [ | tauto].
@@ -88,7 +88,7 @@ Proof.
   destruct l1; abs_ret_step.
 Qed.
 
-Lemma proof_of_merge_return_wit_1_2 : merge_return_wit_1_2.
+Lemma proof_of_merge_return_wit_1 : merge_return_wit_1.
 Proof.
   pre_process.
   sep_apply (sll_zero x); [ | tauto].
@@ -112,22 +112,22 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_split_rec_return_wit_1 : split_rec_return_wit_1.
+Lemma proof_of_split_rec_return_wit_1_low_level_spec : split_rec_return_wit_1_low_level_spec.
 Proof. 
   pre_process.
   sep_apply sll_zero;auto.
   Intros.
   unfold maketuple in *.
-  subst l.
-  Exists q_pre_v_2 p_pre_v_2 l1 l2.
+  subst l_low_level_spec.
+  Exists q_pre_v_2 p_pre_v_2 l1_low_level_spec l2_low_level_spec.
   entailer!.
   unfold split_rec_rel in H0.
-  rewrite (split_rec_rel_unfold (nil, l1, l2)) in H0.
+  rewrite (split_rec_rel_unfold (nil, l1_low_level_spec, l2_low_level_spec)) in H0.
   simpl in H0.
   auto.
 Qed. 
 
-Lemma proof_of_split_rec_return_wit_2 : split_rec_return_wit_2.
+Lemma proof_of_split_rec_return_wit_2_low_level_spec : split_rec_return_wit_2_low_level_spec.
 Proof. 
   pre_process.
   clear H0.
@@ -139,30 +139,30 @@ Qed.
 Lemma proof_of_split_rec_which_implies_wit_2 : split_rec_which_implies_wit_2.
 Proof.
   pre_process.
-  subst l.
+  subst l_low_level_spec.
   entailer!.
   cbn [sll].
   entailer!.
   Exists p_v_next.
   entailer!.
   unfold split_rec_rel in H.
-  rewrite (split_rec_rel_unfold (x_data :: l_new, l1, l2)) in H.
+  rewrite (split_rec_rel_unfold (x_data :: l_new, l1_low_level_spec, l2_low_level_spec)) in H.
   simpl in H.
   tauto.
 Qed. 
 
-Lemma proof_of_merge_sort_entail_wit_1 : merge_sort_entail_wit_1.
+Lemma proof_of_merge_sort_entail_wit_1_low_level_spec : merge_sort_entail_wit_1_low_level_spec.
 Proof.
   pre_process.
   simpl sll.
   entailer!.
   unfold mergesortrec_loc0.
-  rewrite (mergesortrec_unfold l) in H.
+  rewrite (mergesortrec_unfold l_low_level_spec) in H.
   unfold mergesortrec_f in H.
   tauto.
 Qed.
 
-Lemma proof_of_merge_sort_entail_wit_2 : merge_sort_entail_wit_2.
+Lemma proof_of_merge_sort_entail_wit_2_low_level_spec : merge_sort_entail_wit_2_low_level_spec.
 Proof.
   pre_process.
   Exists s1 s2.
@@ -174,21 +174,21 @@ Proof.
     tauto.
 Qed.
 
-Lemma proof_of_merge_sort_entail_wit_3 : merge_sort_entail_wit_3.
+Lemma proof_of_merge_sort_entail_wit_3_low_level_spec : merge_sort_entail_wit_3_low_level_spec.
 Proof.
   pre_process.
   Exists l2_2 l0.
   entailer!.
 Qed.
 
-Lemma proof_of_merge_sort_entail_wit_4 : merge_sort_entail_wit_4.
+Lemma proof_of_merge_sort_entail_wit_4_low_level_spec : merge_sort_entail_wit_4_low_level_spec.
 Proof.
   pre_process.
   Exists l1_2 l0.
   entailer!.
 Qed.
 
-Lemma proof_of_merge_sort_return_wit_1 : merge_sort_return_wit_1.
+Lemma proof_of_merge_sort_return_wit_1_low_level_spec : merge_sort_return_wit_1_low_level_spec.
 Proof.
   pre_process.
   sep_apply (sll_zero q_callee_v); [ | tauto].
@@ -199,53 +199,53 @@ Proof.
   tauto.
 Qed.
 
-Lemma proof_of_merge_sort_partial_solve_wit_3_pure : merge_sort_partial_solve_wit_3_pure.
+Lemma proof_of_merge_sort_partial_solve_wit_3_low_level_spec_pure : merge_sort_partial_solve_wit_3_low_level_spec_pure.
 Proof.
   pre_process.
 Qed.
 
 
-Lemma proof_of_merge_sort3_entail_wit_1 : merge_sort3_entail_wit_1.
+Lemma proof_of_merge_sort3_entail_wit_1_low_level_spec : merge_sort3_entail_wit_1_low_level_spec.
 Proof.
   pre_process.
   simpl.
   entailer!.
   unfold gmergesortrec_loc0.
-  rewrite (gmergesortrec_unfold l) in H2.
+  rewrite (gmergesortrec_unfold l_low_level_spec) in H2.
   unfold gmergesortrec_f in H2.
   apply safeExec_choice_r in H2.
   unfold seq in H2.
-  rewrite (split_rel_refine_ext_split l).
+  rewrite (split_rel_refine_ext_split l_low_level_spec).
   prove_by_one_abs_step tt.
   abs_test_step.
   lia.
 Qed.
 
-Lemma proof_of_merge_sort3_entail_wit_2 : merge_sort3_entail_wit_2.
+Lemma proof_of_merge_sort3_entail_wit_2_low_level_spec : merge_sort3_entail_wit_2_low_level_spec.
 Proof.
   pre_process.
   Exists s1 s2.
   entailer!.
 Qed.
 
-Lemma proof_of_merge_sort3_entail_wit_3 : merge_sort3_entail_wit_3.
+Lemma proof_of_merge_sort3_entail_wit_3_low_level_spec : merge_sort3_entail_wit_3_low_level_spec.
 Proof.
   pre_process.
   Exists l2_2 l0.
   entailer!.
 Qed.
 
-Lemma proof_of_merge_sort3_entail_wit_4 : merge_sort3_entail_wit_4.
+Lemma proof_of_merge_sort3_entail_wit_4_low_level_spec : merge_sort3_entail_wit_4_low_level_spec.
 Proof.
   pre_process.
   Exists l1_2 l0.
   entailer!.
 Qed.
 
-Lemma proof_of_merge_sort3_return_wit_1 : merge_sort3_return_wit_1.
+Lemma proof_of_merge_sort3_return_wit_1_low_level_spec : merge_sort3_return_wit_1_low_level_spec.
 Proof.
   pre_process.
-  rewrite (gmergesortrec_unfold l) in H4.
+  rewrite (gmergesortrec_unfold l_low_level_spec) in H4.
   unfold gmergesortrec_f in H4.
   apply safeExec_choice_l in H4.
   Exists l0_2.
@@ -258,12 +258,12 @@ Proof.
   tauto.
 Qed.
 
-Lemma proof_of_merge_sort3_partial_solve_wit_5_pure : merge_sort3_partial_solve_wit_5_pure.
+Lemma proof_of_merge_sort3_partial_solve_wit_5_low_level_spec_pure : merge_sort3_partial_solve_wit_5_low_level_spec_pure.
 Proof.
   pre_process. 
 Qed. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_6_pure : merge_sort3_partial_solve_wit_6_pure.
+Lemma proof_of_merge_sort3_partial_solve_wit_6_low_level_spec_pure : merge_sort3_partial_solve_wit_6_low_level_spec_pure.
 Proof. 
   pre_process.
 Qed. 
@@ -271,7 +271,7 @@ Qed.
 Lemma proof_of_merge_sort3_derive_low_level_spec_aux_by_low_level_spec : merge_sort3_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
   pre_process.
-  Exists l.
+  Exists l_low_level_spec_aux.
   eapply safeExec_bind in H0 as (X' & ? & ?).
   Exists X'.
   entailer!.
@@ -285,7 +285,7 @@ Qed.
 Lemma proof_of_merge_sort3_derive_high_level_spec_by_low_level_spec : merge_sort3_derive_high_level_spec_by_low_level_spec.
 Proof.
   pre_process.
-  Exists l.
+  Exists l_high_level_spec.
   eExists.
   entailer!.
   2: apply safeExec_monad_Atrue_finnal.
@@ -299,7 +299,7 @@ Proof.
   my_destruct H0.
   assert (ATrue tt).
   { hnf. auto. }
-  specialize (H1 l tt retl x H3).
+  specialize (H1 l_high_level_spec tt retl x H3).
   assert ((return retl) x retl x).
   {
     hnf. split; auto.  
@@ -312,7 +312,7 @@ Qed.
 Lemma proof_of_merge_sort2_derive_low_level_spec_aux_by_low_level_spec : merge_sort2_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
   pre_process.
-  Exists l.
+  Exists l_low_level_spec_aux.
   eapply safeExec_bind in H as (X' & ? & ?).
   Exists X'.
   entailer!.
@@ -326,8 +326,8 @@ Qed.
 Lemma proof_of_merge_sort2_derive_high_level_spec_by_low_level_spec : merge_sort2_derive_high_level_spec_by_low_level_spec.
 Proof.
   pre_process.
-  Exists l.
-  Exists (gmergesortrec l tt).
+  Exists l_high_level_spec.
+  Exists (gmergesortrec l_high_level_spec tt).
   rewrite logic_equiv_coq_prop_andp_sepcon.
   entailer!.
   2: apply safeExec_monad_Atrue_finnal.
@@ -340,14 +340,14 @@ Proof.
   unfold Hoare in H0.
   assert (ATrue tt).
   { hnf. auto. }
-  specialize (H0 l tt retl x H1 H).
+  specialize (H0 l_high_level_spec tt retl x H1 H).
   entailer!.
 Qed.
 
 Lemma proof_of_merge_sort_derive_low_level_spec_aux_by_low_level_spec : merge_sort_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
   pre_process.
-  Exists l.
+  Exists l_low_level_spec_aux.
   eapply safeExec_bind in H as (X' & ? & ?).
   Exists X'.
   entailer!.
@@ -361,8 +361,8 @@ Qed.
 Lemma proof_of_merge_sort_derive_high_level_spec_by_low_level_spec : merge_sort_derive_high_level_spec_by_low_level_spec.
 Proof.
   pre_process.
-  Exists l.
-  Exists (mergesortrec l tt).
+  Exists l_high_level_spec.
+  Exists (mergesortrec l_high_level_spec tt).
   rewrite logic_equiv_coq_prop_andp_sepcon.
   entailer!.
   2: apply safeExec_monad_Atrue_finnal.
@@ -375,7 +375,7 @@ Proof.
   unfold Hoare in H0.
   assert (ATrue tt).
   { hnf. auto. }
-  specialize (H0 l tt retl x H1 H).
+  specialize (H0 l_high_level_spec tt retl x H1 H).
   entailer!.
 Qed.
 
@@ -383,7 +383,7 @@ Lemma proof_of_split_rec_derive_low_level_spec_aux_by_low_level_spec : split_rec
 Proof. 
   pre_process.
   Intros qptr pptr.
-  Exists l l1 l2.
+  Exists l_low_level_spec_aux l1_low_level_spec_aux l2_low_level_spec_aux.
   eapply safeExec_bind in H as (X' & ? & ?).
   Exists X'.
   entailer!.
@@ -402,7 +402,7 @@ Lemma proof_of_split_rec_derive_high_level_spec_by_low_level_spec : split_rec_de
 Proof. 
   pre_process.
   Intros qptr pptr.
-  Exists l nil nil X.
+  Exists l_high_level_spec nil nil X_high_level_spec.
   entailer!.
   Exists qptr.
   entailer!.

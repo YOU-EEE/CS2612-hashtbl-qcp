@@ -83,16 +83,7 @@ Proof.
   subst. simpl. lia.
 Qed.  
 
-Lemma proof_of_Always_positive_return_wit_2_1 : Always_positive_return_wit_2_1.
-Proof.
-  pre_process.
-  entailer!.
-  unfold Always_pos.
-  destruct (Z.eq_dec a_pre 0) ; try lia.
-  destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0) ; try nia.
-Qed. 
-
-Lemma proof_of_Always_positive_return_wit_2_2 : Always_positive_return_wit_2_2.
+Lemma proof_of_Always_positive_return_wit_2 : Always_positive_return_wit_2.
 Proof.
   pre_process.
   entailer!.
@@ -104,6 +95,15 @@ Qed.
 Lemma proof_of_Always_positive_return_wit_3 : Always_positive_return_wit_3.
 Proof.
   pre_process.
+  entailer!.
+  unfold Always_pos.
+  destruct (Z.eq_dec a_pre 0) ; try lia.
+  destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0) ; try nia.
+Qed. 
+
+Lemma proof_of_Always_positive_return_wit_4 : Always_positive_return_wit_4.
+Proof.
+  pre_process.
   entailer!. unfold Always_pos.
   subst.
   destruct (Z.eq_dec a_pre 0); try lia.
@@ -111,7 +111,7 @@ Proof.
   destruct (Z_gt_le_dec a_pre 0); try lia.
 Qed.  
 
-Lemma proof_of_Always_positive_return_wit_4 : Always_positive_return_wit_4.
+Lemma proof_of_Always_positive_return_wit_5 : Always_positive_return_wit_5.
 Proof.
   pre_process.
   entailer!. unfold Always_pos.

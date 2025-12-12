@@ -22,108 +22,108 @@ From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Local Open Scope sac.
 
-Lemma proof_of_inner_safety_wit_1 : inner_safety_wit_1.
+Lemma proof_of_inner_safety_wit_1_low_level_spec : inner_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_safety_wit_2 : inner_safety_wit_2.
+Lemma proof_of_inner_safety_wit_2_low_level_spec : inner_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_safety_wit_3 : inner_safety_wit_3.
+Lemma proof_of_inner_safety_wit_3_low_level_spec : inner_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_safety_wit_4 : inner_safety_wit_4.
+Lemma proof_of_inner_safety_wit_4_low_level_spec : inner_safety_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_safety_wit_5 : inner_safety_wit_5.
+Lemma proof_of_inner_safety_wit_5_low_level_spec : inner_safety_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_safety_wit_6 : inner_safety_wit_6.
+Lemma proof_of_inner_safety_wit_6_low_level_spec : inner_safety_wit_6_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_safety_wit_7 : inner_safety_wit_7.
+Lemma proof_of_inner_safety_wit_7_low_level_spec : inner_safety_wit_7_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_entail_wit_1 : inner_entail_wit_1.
+Lemma proof_of_inner_entail_wit_1_low_level_spec : inner_entail_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_partial_solve_wit_1 : inner_partial_solve_wit_1.
+Lemma proof_of_inner_partial_solve_wit_1_low_level_spec : inner_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_inner_partial_solve_wit_2 : inner_partial_solve_wit_2.
+Lemma proof_of_inner_partial_solve_wit_2_low_level_spec : inner_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_safety_wit_1 : constr_safety_wit_1.
+Lemma proof_of_constr_safety_wit_1_low_level_spec : constr_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_safety_wit_2 : constr_safety_wit_2.
+Lemma proof_of_constr_safety_wit_2_low_level_spec : constr_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_safety_wit_3 : constr_safety_wit_3.
+Lemma proof_of_constr_safety_wit_3_low_level_spec : constr_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_safety_wit_4 : constr_safety_wit_4.
+Lemma proof_of_constr_safety_wit_4_low_level_spec : constr_safety_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_safety_wit_5 : constr_safety_wit_5.
+Lemma proof_of_constr_safety_wit_5_low_level_spec : constr_safety_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_1 : constr_partial_solve_wit_1.
+Lemma proof_of_constr_partial_solve_wit_1_low_level_spec : constr_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_2_pure : constr_partial_solve_wit_2_pure.
+Lemma proof_of_constr_partial_solve_wit_2_low_level_spec_pure : constr_partial_solve_wit_2_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_2 : constr_partial_solve_wit_2.
+Lemma proof_of_constr_partial_solve_wit_2_low_level_spec : constr_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_3 : constr_partial_solve_wit_3.
+Lemma proof_of_constr_partial_solve_wit_3_low_level_spec : constr_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_4 : constr_partial_solve_wit_4.
+Lemma proof_of_constr_partial_solve_wit_4_low_level_spec : constr_partial_solve_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_5 : constr_partial_solve_wit_5.
+Lemma proof_of_constr_partial_solve_wit_5_low_level_spec : constr_partial_solve_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_6_pure : constr_partial_solve_wit_6_pure.
+Lemma proof_of_constr_partial_solve_wit_6_low_level_spec_pure : constr_partial_solve_wit_6_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_constr_partial_solve_wit_6 : constr_partial_solve_wit_6.
+Lemma proof_of_constr_partial_solve_wit_6_low_level_spec : constr_partial_solve_wit_6_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_1 : match_safety_wit_1.
+Lemma proof_of_match_safety_wit_1_low_level_spec : match_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_2 : match_safety_wit_2.
+Lemma proof_of_match_safety_wit_2_low_level_spec : match_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_3 : match_safety_wit_3.
+Lemma proof_of_match_safety_wit_3_low_level_spec : match_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_4 : match_safety_wit_4.
+Lemma proof_of_match_safety_wit_4_low_level_spec : match_safety_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_5 : match_safety_wit_5.
+Lemma proof_of_match_safety_wit_5_low_level_spec : match_safety_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_6 : match_safety_wit_6.
+Lemma proof_of_match_safety_wit_6_low_level_spec : match_safety_wit_6_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_7 : match_safety_wit_7.
+Lemma proof_of_match_safety_wit_7_low_level_spec : match_safety_wit_7_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_safety_wit_8 : match_safety_wit_8.
+Lemma proof_of_match_safety_wit_8_low_level_spec : match_safety_wit_8_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_partial_solve_wit_1 : match_partial_solve_wit_1.
+Lemma proof_of_match_partial_solve_wit_1_low_level_spec : match_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_partial_solve_wit_2 : match_partial_solve_wit_2.
+Lemma proof_of_match_partial_solve_wit_2_low_level_spec : match_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_partial_solve_wit_3 : match_partial_solve_wit_3.
+Lemma proof_of_match_partial_solve_wit_3_low_level_spec : match_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_match_partial_solve_wit_4 : match_partial_solve_wit_4.
+Lemma proof_of_match_partial_solve_wit_4_low_level_spec : match_partial_solve_wit_4_low_level_spec.
 Proof. Admitted. 
 

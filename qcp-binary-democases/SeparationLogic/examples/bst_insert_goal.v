@@ -25,9 +25,9 @@ From SimpleC.EE Require Import common_strategy_proof.
 
 (*----- Function insert -----*)
 
-Definition insert_safety_wit_1 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+Definition insert_safety_wit_1_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
+  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "b" ) )) # Ptr  |-> b)
@@ -41,9 +41,9 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   &&  [| ((INT_MIN) <= 1) |]
 .
 
-Definition insert_safety_wit_2 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+Definition insert_safety_wit_2_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
+  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "p" ) )) # Ptr  |-> b_v)
@@ -58,11 +58,11 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition insert_safety_wit_3 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (retval: Z) ,
+Definition insert_safety_wit_3_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (b_v = 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((retval)  # "tree" ->ₛ "key")) # Int  |-> x_pre)
@@ -81,11 +81,11 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition insert_safety_wit_4 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (retval: Z) ,
+Definition insert_safety_wit_4_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (b_v = 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((retval)  # "tree" ->ₛ "key")) # Int  |-> x_pre)
@@ -104,15 +104,15 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition insert_entail_wit_1 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_pre_v: Z) ,
+Definition insert_entail_wit_1_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) ,
   [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v tr )
+  **  (store_tree b_pre_v tr_low_level_spec )
 |--
   EX (b_v: Z)  (pt0: partial_tree)  (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb b_pre b_pre pt0 )
@@ -120,14 +120,14 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_pre_v: Z) ,
   **  (store_tree b_v tr0 )
 .
 
-Definition insert_entail_wit_2_1 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (pt0_2: partial_tree) (tr0_2: tree) (p_right: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) ,
+Definition insert_entail_wit_2_1_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v_2: Z) (b: Z) (pt0_2: partial_tree) (tr0_2: tree) (p_right: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) ,
   [| (x_pre < p_key) |] 
   &&  [| (INT_MIN <= p_key) |] 
   &&  [| (p_key <= INT_MAX) |] 
   &&  [| (tr0_2 = (make_tree (l0) (p_key) (p_value) (r0))) |] 
   &&  [| (b_v_2 <> 0) |] 
-  &&  [| ((combine_tree (pt0_2) ((tree_insert (x_pre) (value_pre) (tr0_2)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0_2) ((tree_insert (x_pre) (value_pre) (tr0_2)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v_2)  # "tree" ->ₛ "key")) # Int  |-> p_key)
@@ -140,7 +140,7 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (pt0_2:
   **  ((b) # Ptr  |-> b_v_2)
 |--
   EX (b_v: Z)  (pt0: partial_tree)  (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb &((b_v_2)  # "tree" ->ₛ "left") b_pre pt0 )
@@ -148,15 +148,15 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (pt0_2:
   **  (store_tree b_v tr0 )
 .
 
-Definition insert_entail_wit_2_2 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (pt0_2: partial_tree) (tr0_2: tree) (p_right: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) ,
+Definition insert_entail_wit_2_2_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v_2: Z) (b: Z) (pt0_2: partial_tree) (tr0_2: tree) (p_right: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) ,
   [| (p_key < x_pre) |] 
   &&  [| (x_pre >= p_key) |] 
   &&  [| (INT_MIN <= p_key) |] 
   &&  [| (p_key <= INT_MAX) |] 
   &&  [| (tr0_2 = (make_tree (l0) (p_key) (p_value) (r0))) |] 
   &&  [| (b_v_2 <> 0) |] 
-  &&  [| ((combine_tree (pt0_2) ((tree_insert (x_pre) (value_pre) (tr0_2)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0_2) ((tree_insert (x_pre) (value_pre) (tr0_2)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v_2)  # "tree" ->ₛ "key")) # Int  |-> p_key)
@@ -169,7 +169,7 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (pt0_2:
   **  ((b) # Ptr  |-> b_v_2)
 |--
   EX (b_v: Z)  (pt0: partial_tree)  (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb &((b_v_2)  # "tree" ->ₛ "right") b_pre pt0 )
@@ -177,11 +177,11 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (pt0_2:
   **  (store_tree b_v tr0 )
 .
 
-Definition insert_return_wit_1 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (retval: Z) ,
+Definition insert_return_wit_1_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (b_v = 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((retval)  # "tree" ->ₛ "key")) # Int  |-> x_pre)
@@ -194,18 +194,18 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
 |--
   EX (b_pre_v: Z) ,
   ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v (tree_insert (x_pre) (value_pre) (tr)) )
+  **  (store_tree b_pre_v (tree_insert (x_pre) (value_pre) (tr_low_level_spec)) )
 .
 
-Definition insert_return_wit_2 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (p_right: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) ,
+Definition insert_return_wit_2_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (p_right: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) ,
   [| (p_key >= x_pre) |] 
   &&  [| (x_pre >= p_key) |] 
   &&  [| (INT_MIN <= p_key) |] 
   &&  [| (p_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (p_key) (p_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v)  # "tree" ->ₛ "key")) # Int  |-> p_key)
@@ -219,13 +219,13 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
 |--
   EX (b_pre_v: Z) ,
   ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v (tree_insert (x_pre) (value_pre) (tr)) )
+  **  (store_tree b_pre_v (tree_insert (x_pre) (value_pre) (tr_low_level_spec)) )
 .
 
-Definition insert_partial_solve_wit_1 := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
+Definition insert_partial_solve_wit_1_low_level_spec := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
   [| (b_v = 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb b b_pre pt0 )
@@ -233,7 +233,7 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   **  (store_tree b_v tr0 )
 |--
   [| (b_v = 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb b b_pre pt0 )
@@ -241,10 +241,10 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   **  (store_tree b_v tr0 )
 .
 
-Definition insert_partial_solve_wit_2_pure := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
+Definition insert_partial_solve_wit_2_low_level_spec_pure := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
   [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "p" ) )) # Ptr  |-> b_v)
@@ -258,10 +258,10 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   [| (b_v <> 0) |]
 .
 
-Definition insert_partial_solve_wit_2_aux := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
+Definition insert_partial_solve_wit_2_low_level_spec_aux := 
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) ,
   [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb b b_pre pt0 )
@@ -270,7 +270,7 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
 |--
   [| (b_v <> 0) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_insert (x_pre) (value_pre) (tr0)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_tree b_v tr0 )
@@ -278,7 +278,7 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (pt0: par
   **  ((b) # Ptr  |-> b_v)
 .
 
-Definition insert_partial_solve_wit_2 := insert_partial_solve_wit_2_pure -> insert_partial_solve_wit_2_aux.
+Definition insert_partial_solve_wit_2_low_level_spec := insert_partial_solve_wit_2_low_level_spec_pure -> insert_partial_solve_wit_2_low_level_spec_aux.
 
 Definition insert_which_implies_wit_1 := 
 forall (tr0: tree) (p: Z) ,
@@ -298,27 +298,27 @@ forall (tr0: tree) (p: Z) ,
 .
 
 Definition insert_derive_high_level_spec_by_low_level_spec := 
-forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (m: mapping) ,
+forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (m_high_level_spec: mapping) ,
   EX b_pre_v,
   [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_map b_pre_v m )
+  **  (store_map b_pre_v m_high_level_spec )
 |--
-EX (tr: tree) ,
+EX (tr_low_level_spec: tree) ,
   (EX b_callee_v,
   [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b_pre) # Ptr  |-> b_callee_v)
-  **  (store_tree b_callee_v tr ))
+  **  (store_tree b_callee_v tr_low_level_spec ))
   **
   ((EX b_callee_v_2,
   ((b_pre) # Ptr  |-> b_callee_v_2)
-  **  (store_tree b_callee_v_2 (tree_insert (x_pre) (value_pre) (tr)) ))
+  **  (store_tree b_callee_v_2 (tree_insert (x_pre) (value_pre) (tr_low_level_spec)) ))
   -*
   (EX b_pre_v_2,
   ((b_pre) # Ptr  |-> b_pre_v_2)
-  **  (store_map b_pre_v_2 (map_insert (x_pre) (value_pre) (m)) )))
+  **  (store_map b_pre_v_2 (map_insert (x_pre) (value_pre) (m_high_level_spec)) )))
 .
 
 Module Type VC_Correct.
@@ -326,18 +326,18 @@ Module Type VC_Correct.
 Include bst_Strategy_Correct.
 Include common_Strategy_Correct.
 
-Axiom proof_of_insert_safety_wit_1 : insert_safety_wit_1.
-Axiom proof_of_insert_safety_wit_2 : insert_safety_wit_2.
-Axiom proof_of_insert_safety_wit_3 : insert_safety_wit_3.
-Axiom proof_of_insert_safety_wit_4 : insert_safety_wit_4.
-Axiom proof_of_insert_entail_wit_1 : insert_entail_wit_1.
-Axiom proof_of_insert_entail_wit_2_1 : insert_entail_wit_2_1.
-Axiom proof_of_insert_entail_wit_2_2 : insert_entail_wit_2_2.
-Axiom proof_of_insert_return_wit_1 : insert_return_wit_1.
-Axiom proof_of_insert_return_wit_2 : insert_return_wit_2.
-Axiom proof_of_insert_partial_solve_wit_1 : insert_partial_solve_wit_1.
-Axiom proof_of_insert_partial_solve_wit_2_pure : insert_partial_solve_wit_2_pure.
-Axiom proof_of_insert_partial_solve_wit_2 : insert_partial_solve_wit_2.
+Axiom proof_of_insert_safety_wit_1_low_level_spec : insert_safety_wit_1_low_level_spec.
+Axiom proof_of_insert_safety_wit_2_low_level_spec : insert_safety_wit_2_low_level_spec.
+Axiom proof_of_insert_safety_wit_3_low_level_spec : insert_safety_wit_3_low_level_spec.
+Axiom proof_of_insert_safety_wit_4_low_level_spec : insert_safety_wit_4_low_level_spec.
+Axiom proof_of_insert_entail_wit_1_low_level_spec : insert_entail_wit_1_low_level_spec.
+Axiom proof_of_insert_entail_wit_2_1_low_level_spec : insert_entail_wit_2_1_low_level_spec.
+Axiom proof_of_insert_entail_wit_2_2_low_level_spec : insert_entail_wit_2_2_low_level_spec.
+Axiom proof_of_insert_return_wit_1_low_level_spec : insert_return_wit_1_low_level_spec.
+Axiom proof_of_insert_return_wit_2_low_level_spec : insert_return_wit_2_low_level_spec.
+Axiom proof_of_insert_partial_solve_wit_1_low_level_spec : insert_partial_solve_wit_1_low_level_spec.
+Axiom proof_of_insert_partial_solve_wit_2_low_level_spec_pure : insert_partial_solve_wit_2_low_level_spec_pure.
+Axiom proof_of_insert_partial_solve_wit_2_low_level_spec : insert_partial_solve_wit_2_low_level_spec.
 Axiom proof_of_insert_which_implies_wit_1 : insert_which_implies_wit_1.
 Axiom proof_of_insert_derive_high_level_spec_by_low_level_spec : insert_derive_high_level_spec_by_low_level_spec.
 

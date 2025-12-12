@@ -20,7 +20,7 @@ Import get_right_most.
 Import naive_C_Rules.
 Local Open Scope sac.
 
-Lemma proof_of_insert_return_wit_1 : insert_return_wit_1.
+Lemma proof_of_insert_return_wit_1_low_level_spec : insert_return_wit_1_low_level_spec.
 Proof.
   pre_process.
   sep_apply (store_tree_zero); [ | tauto].
@@ -31,7 +31,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_insert_return_wit_2 : insert_return_wit_2.
+Lemma proof_of_insert_return_wit_2_low_level_spec : insert_return_wit_2_low_level_spec.
 Proof.
   pre_process.
   subst.
@@ -43,7 +43,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_insert_return_wit_3 : insert_return_wit_3.
+Lemma proof_of_insert_return_wit_3_low_level_spec : insert_return_wit_3_low_level_spec.
 Proof.
   pre_process.
   subst.
@@ -55,7 +55,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_insert_return_wit_4 : insert_return_wit_4.
+Lemma proof_of_insert_return_wit_4_low_level_spec : insert_return_wit_4_low_level_spec.
 Proof.
   pre_process.
   subst.

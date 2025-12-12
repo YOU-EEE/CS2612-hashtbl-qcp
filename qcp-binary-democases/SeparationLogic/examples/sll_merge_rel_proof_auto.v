@@ -56,73 +56,73 @@ Proof. Admitted.
 Lemma proof_of_merge_which_implies_wit_2 : merge_which_implies_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_split_rec_safety_wit_1 : split_rec_safety_wit_1.
+Lemma proof_of_split_rec_safety_wit_1_low_level_spec : split_rec_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_rec_partial_solve_wit_1_pure : split_rec_partial_solve_wit_1_pure.
+Lemma proof_of_split_rec_partial_solve_wit_1_low_level_spec_pure : split_rec_partial_solve_wit_1_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_split_rec_partial_solve_wit_1 : split_rec_partial_solve_wit_1.
+Lemma proof_of_split_rec_partial_solve_wit_1_low_level_spec : split_rec_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_rec_partial_solve_wit_2_pure : split_rec_partial_solve_wit_2_pure.
+Lemma proof_of_split_rec_partial_solve_wit_2_low_level_spec_pure : split_rec_partial_solve_wit_2_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_split_rec_partial_solve_wit_2 : split_rec_partial_solve_wit_2.
+Lemma proof_of_split_rec_partial_solve_wit_2_low_level_spec : split_rec_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_rec_partial_solve_wit_3_pure : split_rec_partial_solve_wit_3_pure.
+Lemma proof_of_split_rec_partial_solve_wit_3_low_level_spec_pure : split_rec_partial_solve_wit_3_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_split_rec_partial_solve_wit_3 : split_rec_partial_solve_wit_3.
+Lemma proof_of_split_rec_partial_solve_wit_3_low_level_spec : split_rec_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
 Lemma proof_of_split_rec_which_implies_wit_1 : split_rec_which_implies_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_safety_wit_1 : merge_sort_safety_wit_1.
+Lemma proof_of_merge_sort_safety_wit_1_low_level_spec : merge_sort_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_safety_wit_2 : merge_sort_safety_wit_2.
+Lemma proof_of_merge_sort_safety_wit_2_low_level_spec : merge_sort_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_safety_wit_3 : merge_sort_safety_wit_3.
+Lemma proof_of_merge_sort_safety_wit_3_low_level_spec : merge_sort_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_return_wit_2 : merge_sort_return_wit_2.
+Lemma proof_of_merge_sort_return_wit_2_low_level_spec : merge_sort_return_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_1_pure : merge_sort_partial_solve_wit_1_pure.
+Lemma proof_of_merge_sort_partial_solve_wit_1_low_level_spec_pure : merge_sort_partial_solve_wit_1_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_1 : merge_sort_partial_solve_wit_1.
+Lemma proof_of_merge_sort_partial_solve_wit_1_low_level_spec : merge_sort_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_2_pure : merge_sort_partial_solve_wit_2_pure.
+Lemma proof_of_merge_sort_partial_solve_wit_2_low_level_spec_pure : merge_sort_partial_solve_wit_2_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_2 : merge_sort_partial_solve_wit_2.
+Lemma proof_of_merge_sort_partial_solve_wit_2_low_level_spec : merge_sort_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_3 : merge_sort_partial_solve_wit_3.
+Lemma proof_of_merge_sort_partial_solve_wit_3_low_level_spec : merge_sort_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_4_pure : merge_sort_partial_solve_wit_4_pure.
+Lemma proof_of_merge_sort_partial_solve_wit_4_low_level_spec_pure : merge_sort_partial_solve_wit_4_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_4 : merge_sort_partial_solve_wit_4.
+Lemma proof_of_merge_sort_partial_solve_wit_4_low_level_spec : merge_sort_partial_solve_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_5_pure : merge_sort_partial_solve_wit_5_pure.
+Lemma proof_of_merge_sort_partial_solve_wit_5_low_level_spec_pure : merge_sort_partial_solve_wit_5_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_5 : merge_sort_partial_solve_wit_5.
+Lemma proof_of_merge_sort_partial_solve_wit_5_low_level_spec : merge_sort_partial_solve_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_6_pure : merge_sort_partial_solve_wit_6_pure.
+Lemma proof_of_merge_sort_partial_solve_wit_6_low_level_spec_pure : merge_sort_partial_solve_wit_6_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort_partial_solve_wit_6 : merge_sort_partial_solve_wit_6.
+Lemma proof_of_merge_sort_partial_solve_wit_6_low_level_spec : merge_sort_partial_solve_wit_6_low_level_spec.
 Proof. Admitted. 
 
 Lemma proof_of_merge_sort_which_implies_wit_1 : merge_sort_which_implies_wit_1.
@@ -131,55 +131,55 @@ Proof. Admitted.
 Lemma proof_of_merge_sort_which_implies_wit_2 : merge_sort_which_implies_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_safety_wit_1 : merge_sort3_safety_wit_1.
+Lemma proof_of_merge_sort3_safety_wit_1_low_level_spec : merge_sort3_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_safety_wit_2 : merge_sort3_safety_wit_2.
+Lemma proof_of_merge_sort3_safety_wit_2_low_level_spec : merge_sort3_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_safety_wit_3 : merge_sort3_safety_wit_3.
+Lemma proof_of_merge_sort3_safety_wit_3_low_level_spec : merge_sort3_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_return_wit_2 : merge_sort3_return_wit_2.
+Lemma proof_of_merge_sort3_return_wit_2_low_level_spec : merge_sort3_return_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_1_pure : merge_sort3_partial_solve_wit_1_pure.
+Lemma proof_of_merge_sort3_partial_solve_wit_1_low_level_spec_pure : merge_sort3_partial_solve_wit_1_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_1 : merge_sort3_partial_solve_wit_1.
+Lemma proof_of_merge_sort3_partial_solve_wit_1_low_level_spec : merge_sort3_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_2 : merge_sort3_partial_solve_wit_2.
+Lemma proof_of_merge_sort3_partial_solve_wit_2_low_level_spec : merge_sort3_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_3_pure : merge_sort3_partial_solve_wit_3_pure.
+Lemma proof_of_merge_sort3_partial_solve_wit_3_low_level_spec_pure : merge_sort3_partial_solve_wit_3_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_3 : merge_sort3_partial_solve_wit_3.
+Lemma proof_of_merge_sort3_partial_solve_wit_3_low_level_spec : merge_sort3_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_4_pure : merge_sort3_partial_solve_wit_4_pure.
+Lemma proof_of_merge_sort3_partial_solve_wit_4_low_level_spec_pure : merge_sort3_partial_solve_wit_4_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_4 : merge_sort3_partial_solve_wit_4.
+Lemma proof_of_merge_sort3_partial_solve_wit_4_low_level_spec : merge_sort3_partial_solve_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_5 : merge_sort3_partial_solve_wit_5.
+Lemma proof_of_merge_sort3_partial_solve_wit_5_low_level_spec : merge_sort3_partial_solve_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_6 : merge_sort3_partial_solve_wit_6.
+Lemma proof_of_merge_sort3_partial_solve_wit_6_low_level_spec : merge_sort3_partial_solve_wit_6_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_7_pure : merge_sort3_partial_solve_wit_7_pure.
+Lemma proof_of_merge_sort3_partial_solve_wit_7_low_level_spec_pure : merge_sort3_partial_solve_wit_7_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_7 : merge_sort3_partial_solve_wit_7.
+Lemma proof_of_merge_sort3_partial_solve_wit_7_low_level_spec : merge_sort3_partial_solve_wit_7_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_8_pure : merge_sort3_partial_solve_wit_8_pure.
+Lemma proof_of_merge_sort3_partial_solve_wit_8_low_level_spec_pure : merge_sort3_partial_solve_wit_8_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_merge_sort3_partial_solve_wit_8 : merge_sort3_partial_solve_wit_8.
+Lemma proof_of_merge_sort3_partial_solve_wit_8_low_level_spec : merge_sort3_partial_solve_wit_8_low_level_spec.
 Proof. Admitted. 
 
 Lemma proof_of_merge_sort3_which_implies_wit_1 : merge_sort3_which_implies_wit_1.

@@ -170,7 +170,7 @@ forall (x_pre: Z) ,
 Definition dll_copy_partial_solve_wit_1 := dll_copy_partial_solve_wit_1_pure -> dll_copy_partial_solve_wit_1_aux.
 
 Definition dll_copy_partial_solve_wit_2 := 
-forall (x_pre: Z) (retval_prev: Z) (retval_next: Z) (retval: Z) (y: Z) (t_prev: Z) (p_prev: Z) (p: Z) (t_data: Z) (t_next: Z) (t: Z) (x: Z) ,
+forall (x_pre: Z) (retval_prev: Z) (retval_next: Z) (retval: Z) (y: Z) (t_prev: Z) (p_prev: Z) (p: Z) (t_data: Z) (t_next: Z) (t: Z) ,
   [| (p <> 0) |] 
   &&  [| (t <> 0) |] 
   &&  [| (t_next = 0) |] 
@@ -185,7 +185,7 @@ forall (x_pre: Z) (retval_prev: Z) (retval_next: Z) (retval: Z) (y: Z) (t_prev: 
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape y 0 t_prev t )
 |--
-  EX (y_2: Z) ,
+  EX (x: Z)  (y_2: Z) ,
   [| (p <> 0) |] 
   &&  [| (t <> 0) |] 
   &&  [| (t_next = 0) |] 
@@ -461,24 +461,7 @@ forall (y_pre: Z) (x_pre: Z) ,
   (dlistrep_shape y_pre 0 )
 .
 
-Definition append_return_wit_2_1 := 
-forall (y_pre: Z) (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (v: Z) (t: Z) ,
-  [| (y_pre = 0) |] 
-  &&  [| (u = 0) |] 
-  &&  [| (u = t_next) |] 
-  &&  [| (t <> 0) |] 
-  &&  [| (x_pre <> 0) |]
-  &&  ((&((t)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> y_pre)
-  **  (dlistrep_shape u t )
-  **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
-  **  (dllseg_shape x_pre 0 t_prev t )
-  **  (dlistrep_shape y_pre 0 )
-|--
-  (dlistrep_shape x_pre 0 )
-.
-
-Definition append_return_wit_2_2 := 
+Definition append_return_wit_2 := 
 forall (y_pre: Z) (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (v: Z) (t: Z) (x: Z) (y: Z) ,
   [| (y_pre <> 0) |] 
   &&  [| (u = 0) |] 
@@ -493,6 +476,23 @@ forall (y_pre: Z) (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (v: Z) (t: Z) (x: Z)
   **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> y_pre)
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
+|--
+  (dlistrep_shape x_pre 0 )
+.
+
+Definition append_return_wit_3 := 
+forall (y_pre: Z) (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (v: Z) (t: Z) ,
+  [| (y_pre = 0) |] 
+  &&  [| (u = 0) |] 
+  &&  [| (u = t_next) |] 
+  &&  [| (t <> 0) |] 
+  &&  [| (x_pre <> 0) |]
+  &&  ((&((t)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> y_pre)
+  **  (dlistrep_shape u t )
+  **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
+  **  (dllseg_shape x_pre 0 t_prev t )
+  **  (dlistrep_shape y_pre 0 )
 |--
   (dlistrep_shape x_pre 0 )
 .
@@ -1122,28 +1122,7 @@ forall (x_pre: Z) (t_prev: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (retval: Z
   (dlistrep_shape x_pre 0 )
 .
 
-Definition multi_merge_return_wit_2_1 := 
-forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x: Z) (y_2: Z) (retval: Z) ,
-  [| (z = 0) |] 
-  &&  [| (y_2 = 0) |] 
-  &&  [| (y <> 0) |] 
-  &&  [| (u <> 0) |] 
-  &&  [| (u = t_next) |] 
-  &&  [| (t <> 0) |] 
-  &&  [| (x_pre <> 0) |]
-  &&  (dlistrep_shape retval y )
-  **  ((&((y)  # "list" ->ₛ "prev")) # Ptr  |-> t)
-  **  ((&((y)  # "list" ->ₛ "next")) # Ptr  |-> retval)
-  **  ((&((y)  # "list" ->ₛ "data")) # Int  |-> x)
-  **  ((&((t)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> y)
-  **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
-  **  (dllseg_shape x_pre 0 t_prev t )
-|--
-  (dlistrep_shape x_pre 0 )
-.
-
-Definition multi_merge_return_wit_2_2 := 
+Definition multi_merge_return_wit_2 := 
 forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x: Z) (y_2: Z) (retval: Z) ,
   [| (z = 0) |] 
   &&  [| (y_2 <> 0) |] 
@@ -1165,6 +1144,27 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x:
 .
 
 Definition multi_merge_return_wit_3 := 
+forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x: Z) (y_2: Z) (retval: Z) ,
+  [| (z = 0) |] 
+  &&  [| (y_2 = 0) |] 
+  &&  [| (y <> 0) |] 
+  &&  [| (u <> 0) |] 
+  &&  [| (u = t_next) |] 
+  &&  [| (t <> 0) |] 
+  &&  [| (x_pre <> 0) |]
+  &&  (dlistrep_shape retval y )
+  **  ((&((y)  # "list" ->ₛ "prev")) # Ptr  |-> t)
+  **  ((&((y)  # "list" ->ₛ "next")) # Ptr  |-> retval)
+  **  ((&((y)  # "list" ->ₛ "data")) # Int  |-> x)
+  **  ((&((t)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> y)
+  **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
+  **  (dllseg_shape x_pre 0 t_prev t )
+|--
+  (dlistrep_shape x_pre 0 )
+.
+
+Definition multi_merge_return_wit_4 := 
 forall (x_pre: Z) (retval: Z) ,
   [| (x_pre = 0) |]
   &&  (dlistrep_shape retval 0 )
@@ -1172,23 +1172,7 @@ forall (x_pre: Z) (retval: Z) ,
   (dlistrep_shape retval 0 )
 .
 
-Definition multi_merge_return_wit_4_1 := 
-forall (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (retval: Z) ,
-  [| (retval = 0) |] 
-  &&  [| (u = 0) |] 
-  &&  [| (u = t_next) |] 
-  &&  [| (t <> 0) |] 
-  &&  [| (x_pre <> 0) |]
-  &&  (dlistrep_shape retval 0 )
-  **  ((&((t)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> retval)
-  **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
-  **  (dllseg_shape x_pre 0 t_prev t )
-|--
-  (dlistrep_shape x_pre 0 )
-.
-
-Definition multi_merge_return_wit_4_2 := 
+Definition multi_merge_return_wit_5 := 
 forall (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (retval: Z) (x: Z) (y: Z) ,
   [| (retval <> 0) |] 
   &&  [| (u = 0) |] 
@@ -1199,6 +1183,22 @@ forall (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (retval: Z) (x: Z
   **  (dlistrep_shape y retval )
   **  ((&((retval)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  ((&((retval)  # "list" ->ₛ "data")) # Int  |-> x)
+  **  ((&((t)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> retval)
+  **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
+  **  (dllseg_shape x_pre 0 t_prev t )
+|--
+  (dlistrep_shape x_pre 0 )
+.
+
+Definition multi_merge_return_wit_6 := 
+forall (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (retval: Z) ,
+  [| (retval = 0) |] 
+  &&  [| (u = 0) |] 
+  &&  [| (u = t_next) |] 
+  &&  [| (t <> 0) |] 
+  &&  [| (x_pre <> 0) |]
+  &&  (dlistrep_shape retval 0 )
   **  ((&((t)  # "list" ->ₛ "data")) # Int  |-> v)
   **  ((&((t)  # "list" ->ₛ "next")) # Ptr  |-> retval)
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
@@ -1937,8 +1937,8 @@ Axiom proof_of_append_safety_wit_1 : append_safety_wit_1.
 Axiom proof_of_append_entail_wit_1 : append_entail_wit_1.
 Axiom proof_of_append_entail_wit_2 : append_entail_wit_2.
 Axiom proof_of_append_return_wit_1 : append_return_wit_1.
-Axiom proof_of_append_return_wit_2_1 : append_return_wit_2_1.
-Axiom proof_of_append_return_wit_2_2 : append_return_wit_2_2.
+Axiom proof_of_append_return_wit_2 : append_return_wit_2.
+Axiom proof_of_append_return_wit_3 : append_return_wit_3.
 Axiom proof_of_append_partial_solve_wit_1 : append_partial_solve_wit_1.
 Axiom proof_of_append_partial_solve_wit_2 : append_partial_solve_wit_2.
 Axiom proof_of_append_partial_solve_wit_3 : append_partial_solve_wit_3.
@@ -1965,11 +1965,11 @@ Axiom proof_of_multi_merge_entail_wit_2_2 : multi_merge_entail_wit_2_2.
 Axiom proof_of_multi_merge_entail_wit_2_3 : multi_merge_entail_wit_2_3.
 Axiom proof_of_multi_merge_entail_wit_2_4 : multi_merge_entail_wit_2_4.
 Axiom proof_of_multi_merge_return_wit_1 : multi_merge_return_wit_1.
-Axiom proof_of_multi_merge_return_wit_2_1 : multi_merge_return_wit_2_1.
-Axiom proof_of_multi_merge_return_wit_2_2 : multi_merge_return_wit_2_2.
+Axiom proof_of_multi_merge_return_wit_2 : multi_merge_return_wit_2.
 Axiom proof_of_multi_merge_return_wit_3 : multi_merge_return_wit_3.
-Axiom proof_of_multi_merge_return_wit_4_1 : multi_merge_return_wit_4_1.
-Axiom proof_of_multi_merge_return_wit_4_2 : multi_merge_return_wit_4_2.
+Axiom proof_of_multi_merge_return_wit_4 : multi_merge_return_wit_4.
+Axiom proof_of_multi_merge_return_wit_5 : multi_merge_return_wit_5.
+Axiom proof_of_multi_merge_return_wit_6 : multi_merge_return_wit_6.
 Axiom proof_of_multi_merge_partial_solve_wit_1 : multi_merge_partial_solve_wit_1.
 Axiom proof_of_multi_merge_partial_solve_wit_2 : multi_merge_partial_solve_wit_2.
 Axiom proof_of_multi_merge_partial_solve_wit_3 : multi_merge_partial_solve_wit_3.

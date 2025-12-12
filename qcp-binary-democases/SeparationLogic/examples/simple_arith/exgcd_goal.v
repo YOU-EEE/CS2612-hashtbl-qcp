@@ -21,7 +21,7 @@ From SimpleC.EE Require Import common_strategy_proof.
 
 (*----- Function exgcd -----*)
 
-Definition exgcd_safety_wit_1 := 
+Definition exgcd_safety_wit_1_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (INT_MIN < a_pre) |] 
   &&  [| (a_pre <= INT_MAX) |] 
@@ -38,7 +38,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition exgcd_safety_wit_2 := 
+Definition exgcd_safety_wit_2_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (b_pre = 0) |] 
   &&  [| (INT_MIN < a_pre) |] 
@@ -56,7 +56,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition exgcd_safety_wit_3 := 
+Definition exgcd_safety_wit_3_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre < 0) |] 
   &&  [| (b_pre = 0) |] 
@@ -74,7 +74,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (1 <> (INT_MIN)) |]
 .
 
-Definition exgcd_safety_wit_4 := 
+Definition exgcd_safety_wit_4_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre < 0) |] 
   &&  [| (b_pre = 0) |] 
@@ -93,7 +93,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 1) |]
 .
 
-Definition exgcd_safety_wit_5 := 
+Definition exgcd_safety_wit_5_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre >= 0) |] 
   &&  [| (b_pre = 0) |] 
@@ -112,7 +112,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition exgcd_safety_wit_6 := 
+Definition exgcd_safety_wit_6_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre = 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -132,7 +132,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition exgcd_safety_wit_7 := 
+Definition exgcd_safety_wit_7_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre <> 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -152,7 +152,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 1) |]
 .
 
-Definition exgcd_safety_wit_8 := 
+Definition exgcd_safety_wit_8_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre < 0) |] 
   &&  [| (b_pre = 0) |] 
@@ -171,7 +171,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition exgcd_safety_wit_9 := 
+Definition exgcd_safety_wit_9_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre = 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -191,7 +191,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition exgcd_safety_wit_10 := 
+Definition exgcd_safety_wit_10_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre <> 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -211,7 +211,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition exgcd_safety_wit_11 := 
+Definition exgcd_safety_wit_11_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (b_pre <> 0) |] 
   &&  [| (INT_MIN < a_pre) |] 
@@ -230,7 +230,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| (b_pre <> 0) |]
 .
 
-Definition exgcd_safety_wit_12 := 
+Definition exgcd_safety_wit_12_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -255,7 +255,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| ((INT_MIN) <= (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) )) |]
 .
 
-Definition exgcd_safety_wit_13 := 
+Definition exgcd_safety_wit_13_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -280,7 +280,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| ((INT_MIN) <= ((a_pre ÷ b_pre ) * y_callee_v )) |]
 .
 
-Definition exgcd_safety_wit_14 := 
+Definition exgcd_safety_wit_14_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -305,7 +305,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| (b_pre <> 0) |]
 .
 
-Definition exgcd_safety_wit_15 := 
+Definition exgcd_safety_wit_15_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -330,7 +330,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| ((INT_MIN) <= (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) )) |]
 .
 
-Definition exgcd_safety_wit_16 := 
+Definition exgcd_safety_wit_16_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -355,7 +355,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| ((INT_MIN) <= ((a_pre ÷ b_pre ) * y_callee_v )) |]
 .
 
-Definition exgcd_safety_wit_17 := 
+Definition exgcd_safety_wit_17_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -380,7 +380,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| (b_pre <> 0) |]
 .
 
-Definition exgcd_safety_wit_18 := 
+Definition exgcd_safety_wit_18_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -404,7 +404,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| ((INT_MIN) <= (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) )) |]
 .
 
-Definition exgcd_safety_wit_19 := 
+Definition exgcd_safety_wit_19_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -428,7 +428,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| ((INT_MIN) <= ((a_pre ÷ b_pre ) * y_callee_v )) |]
 .
 
-Definition exgcd_safety_wit_20 := 
+Definition exgcd_safety_wit_20_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -452,92 +452,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  [| (b_pre <> 0) |]
 .
 
-Definition exgcd_return_wit_1_1 := 
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) ,
-  [| (retval = (Zabs (a_pre))) |] 
-  &&  [| (a_pre < 0) |] 
-  &&  [| (b_pre = 0) |] 
-  &&  [| (INT_MIN < a_pre) |] 
-  &&  [| (a_pre <= INT_MAX) |] 
-  &&  [| (INT_MIN < b_pre) |] 
-  &&  [| (b_pre <= INT_MAX) |]
-  &&  ((x_pre) # Int  |-> (-1))
-  **  ((y_pre) # Int  |-> 0)
-|--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
-  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (b_pre = 0) |] 
-  &&  [| ((Zabs (x_pre_v)) <= 1) |] 
-  &&  [| (y_pre_v = 0) |]
-  &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
-  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (b_pre <> 0) |] 
-  &&  [| ((a_pre % ( b_pre ) ) = 0) |] 
-  &&  [| (x_pre_v_2 = 0) |] 
-  &&  [| ((Zabs (y_pre_v_2)) <= 1) |]
-  &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
-  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (b_pre <> 0) |] 
-  &&  [| ((a_pre % ( b_pre ) ) <> 0) |] 
-  &&  [| ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |] 
-  &&  [| ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |]
-  &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
-.
-
-Definition exgcd_return_wit_1_2 := 
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) ,
-  [| (retval = (Zabs (a_pre))) |] 
-  &&  [| (a_pre = 0) |] 
-  &&  [| (a_pre >= 0) |] 
-  &&  [| (b_pre = 0) |] 
-  &&  [| (INT_MIN < a_pre) |] 
-  &&  [| (a_pre <= INT_MAX) |] 
-  &&  [| (INT_MIN < b_pre) |] 
-  &&  [| (b_pre <= INT_MAX) |]
-  &&  ((x_pre) # Int  |-> 0)
-  **  ((y_pre) # Int  |-> 0)
-|--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
-  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (b_pre = 0) |] 
-  &&  [| ((Zabs (x_pre_v)) <= 1) |] 
-  &&  [| (y_pre_v = 0) |]
-  &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
-  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (b_pre <> 0) |] 
-  &&  [| ((a_pre % ( b_pre ) ) = 0) |] 
-  &&  [| (x_pre_v_2 = 0) |] 
-  &&  [| ((Zabs (y_pre_v_2)) <= 1) |]
-  &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
-  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) |] 
-  &&  [| (b_pre <> 0) |] 
-  &&  [| ((a_pre % ( b_pre ) ) <> 0) |] 
-  &&  [| ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |] 
-  &&  [| ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |]
-  &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
-.
-
-Definition exgcd_return_wit_1_3 := 
+Definition exgcd_return_wit_1_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) ,
   [| (retval = (Zabs (a_pre))) |] 
   &&  [| (a_pre <> 0) |] 
@@ -580,14 +495,98 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) ,
   **  ((y_pre) # Int  |-> y_pre_v_3))
 .
 
-Definition exgcd_return_wit_2_1 := 
+Definition exgcd_return_wit_2_Proof := 
+forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) ,
+  [| (retval = (Zabs (a_pre))) |] 
+  &&  [| (a_pre = 0) |] 
+  &&  [| (a_pre >= 0) |] 
+  &&  [| (b_pre = 0) |] 
+  &&  [| (INT_MIN < a_pre) |] 
+  &&  [| (a_pre <= INT_MAX) |] 
+  &&  [| (INT_MIN < b_pre) |] 
+  &&  [| (b_pre <= INT_MAX) |]
+  &&  ((x_pre) # Int  |-> 0)
+  **  ((y_pre) # Int  |-> 0)
+|--
+  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
+  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (b_pre = 0) |] 
+  &&  [| ((Zabs (x_pre_v)) <= 1) |] 
+  &&  [| (y_pre_v = 0) |]
+  &&  ((x_pre) # Int  |-> x_pre_v)
+  **  ((y_pre) # Int  |-> y_pre_v))
+  ||
+  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
+  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (b_pre <> 0) |] 
+  &&  [| ((a_pre % ( b_pre ) ) = 0) |] 
+  &&  [| (x_pre_v_2 = 0) |] 
+  &&  [| ((Zabs (y_pre_v_2)) <= 1) |]
+  &&  ((x_pre) # Int  |-> x_pre_v_2)
+  **  ((y_pre) # Int  |-> y_pre_v_2))
+  ||
+  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
+  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (b_pre <> 0) |] 
+  &&  [| ((a_pre % ( b_pre ) ) <> 0) |] 
+  &&  [| ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |] 
+  &&  [| ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |]
+  &&  ((x_pre) # Int  |-> x_pre_v_3)
+  **  ((y_pre) # Int  |-> y_pre_v_3))
+.
+
+Definition exgcd_return_wit_3_Proof := 
+forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) ,
+  [| (retval = (Zabs (a_pre))) |] 
+  &&  [| (a_pre < 0) |] 
+  &&  [| (b_pre = 0) |] 
+  &&  [| (INT_MIN < a_pre) |] 
+  &&  [| (a_pre <= INT_MAX) |] 
+  &&  [| (INT_MIN < b_pre) |] 
+  &&  [| (b_pre <= INT_MAX) |]
+  &&  ((x_pre) # Int  |-> (-1))
+  **  ((y_pre) # Int  |-> 0)
+|--
+  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
+  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (b_pre = 0) |] 
+  &&  [| ((Zabs (x_pre_v)) <= 1) |] 
+  &&  [| (y_pre_v = 0) |]
+  &&  ((x_pre) # Int  |-> x_pre_v)
+  **  ((y_pre) # Int  |-> y_pre_v))
+  ||
+  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
+  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (b_pre <> 0) |] 
+  &&  [| ((a_pre % ( b_pre ) ) = 0) |] 
+  &&  [| (x_pre_v_2 = 0) |] 
+  &&  [| ((Zabs (y_pre_v_2)) <= 1) |]
+  &&  ((x_pre) # Int  |-> x_pre_v_2)
+  **  ((y_pre) # Int  |-> y_pre_v_2))
+  ||
+  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
+  [| (retval = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) |] 
+  &&  [| (b_pre <> 0) |] 
+  &&  [| ((a_pre % ( b_pre ) ) <> 0) |] 
+  &&  [| ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |] 
+  &&  [| ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) |]
+  &&  ((x_pre) # Int  |-> x_pre_v_3)
+  **  ((y_pre) # Int  |-> y_pre_v_3))
+.
+
+Definition exgcd_return_wit_4_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
-  &&  [| ((a_pre % ( b_pre ) ) <> 0) |] 
-  &&  [| ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0) |] 
-  &&  [| ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) )) |] 
-  &&  [| ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) )) |] 
+  &&  [| ((a_pre % ( b_pre ) ) = 0) |] 
+  &&  [| ((Zabs (x_callee_v)) <= 1) |] 
+  &&  [| (y_callee_v = 0) |] 
   &&  [| (b_pre <> 0) |] 
   &&  [| (INT_MIN < a_pre) |] 
   &&  [| (a_pre <= INT_MAX) |] 
@@ -626,7 +625,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   **  ((y_pre) # Int  |-> y_pre_v_3))
 .
 
-Definition exgcd_return_wit_2_2 := 
+Definition exgcd_return_wit_5_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
@@ -672,13 +671,14 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   **  ((y_pre) # Int  |-> y_pre_v_3))
 .
 
-Definition exgcd_return_wit_2_3 := 
+Definition exgcd_return_wit_6_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) ,
   [| (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
   &&  [| (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) )))) |] 
-  &&  [| ((a_pre % ( b_pre ) ) = 0) |] 
-  &&  [| ((Zabs (x_callee_v)) <= 1) |] 
-  &&  [| (y_callee_v = 0) |] 
+  &&  [| ((a_pre % ( b_pre ) ) <> 0) |] 
+  &&  [| ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0) |] 
+  &&  [| ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) )) |] 
+  &&  [| ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) )) |] 
   &&  [| (b_pre <> 0) |] 
   &&  [| (INT_MIN < a_pre) |] 
   &&  [| (a_pre <= INT_MAX) |] 
@@ -717,7 +717,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   **  ((y_pre) # Int  |-> y_pre_v_3))
 .
 
-Definition exgcd_partial_solve_wit_1_pure := 
+Definition exgcd_partial_solve_wit_1_Proof_pure := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre <> 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -737,7 +737,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| (a_pre <= INT_MAX) |]
 .
 
-Definition exgcd_partial_solve_wit_1_aux := 
+Definition exgcd_partial_solve_wit_1_Proof_aux := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre <> 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -762,9 +762,9 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   **  ((y_pre) # Int  |-> 0)
 .
 
-Definition exgcd_partial_solve_wit_1 := exgcd_partial_solve_wit_1_pure -> exgcd_partial_solve_wit_1_aux.
+Definition exgcd_partial_solve_wit_1_Proof := exgcd_partial_solve_wit_1_Proof_pure -> exgcd_partial_solve_wit_1_Proof_aux.
 
-Definition exgcd_partial_solve_wit_2_pure := 
+Definition exgcd_partial_solve_wit_2_Proof_pure := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre = 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -784,7 +784,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| (a_pre <= INT_MAX) |]
 .
 
-Definition exgcd_partial_solve_wit_2_aux := 
+Definition exgcd_partial_solve_wit_2_Proof_aux := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre = 0) |] 
   &&  [| (a_pre >= 0) |] 
@@ -809,9 +809,9 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   **  ((y_pre) # Int  |-> 0)
 .
 
-Definition exgcd_partial_solve_wit_2 := exgcd_partial_solve_wit_2_pure -> exgcd_partial_solve_wit_2_aux.
+Definition exgcd_partial_solve_wit_2_Proof := exgcd_partial_solve_wit_2_Proof_pure -> exgcd_partial_solve_wit_2_Proof_aux.
 
-Definition exgcd_partial_solve_wit_3_pure := 
+Definition exgcd_partial_solve_wit_3_Proof_pure := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre < 0) |] 
   &&  [| (b_pre = 0) |] 
@@ -830,7 +830,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| (a_pre <= INT_MAX) |]
 .
 
-Definition exgcd_partial_solve_wit_3_aux := 
+Definition exgcd_partial_solve_wit_3_Proof_aux := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (a_pre < 0) |] 
   &&  [| (b_pre = 0) |] 
@@ -853,9 +853,9 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   **  ((y_pre) # Int  |-> 0)
 .
 
-Definition exgcd_partial_solve_wit_3 := exgcd_partial_solve_wit_3_pure -> exgcd_partial_solve_wit_3_aux.
+Definition exgcd_partial_solve_wit_3_Proof := exgcd_partial_solve_wit_3_Proof_pure -> exgcd_partial_solve_wit_3_Proof_aux.
 
-Definition exgcd_partial_solve_wit_4_pure := 
+Definition exgcd_partial_solve_wit_4_Proof_pure := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (b_pre <> 0) |] 
   &&  [| (INT_MIN < a_pre) |] 
@@ -876,7 +876,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   &&  [| (INT_MIN < (a_pre % ( b_pre ) )) |]
 .
 
-Definition exgcd_partial_solve_wit_4_aux := 
+Definition exgcd_partial_solve_wit_4_Proof_aux := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   [| (b_pre <> 0) |] 
   &&  [| (INT_MIN < a_pre) |] 
@@ -899,7 +899,7 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
   **  ((x_pre) # Int  |->_)
 .
 
-Definition exgcd_partial_solve_wit_4 := exgcd_partial_solve_wit_4_pure -> exgcd_partial_solve_wit_4_aux.
+Definition exgcd_partial_solve_wit_4_Proof := exgcd_partial_solve_wit_4_Proof_pure -> exgcd_partial_solve_wit_4_Proof_aux.
 
 Definition exgcd_derive_Inter_by_Proof := 
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) ,
@@ -957,40 +957,40 @@ Module Type VC_Correct.
 
 Include common_Strategy_Correct.
 
-Axiom proof_of_exgcd_safety_wit_1 : exgcd_safety_wit_1.
-Axiom proof_of_exgcd_safety_wit_2 : exgcd_safety_wit_2.
-Axiom proof_of_exgcd_safety_wit_3 : exgcd_safety_wit_3.
-Axiom proof_of_exgcd_safety_wit_4 : exgcd_safety_wit_4.
-Axiom proof_of_exgcd_safety_wit_5 : exgcd_safety_wit_5.
-Axiom proof_of_exgcd_safety_wit_6 : exgcd_safety_wit_6.
-Axiom proof_of_exgcd_safety_wit_7 : exgcd_safety_wit_7.
-Axiom proof_of_exgcd_safety_wit_8 : exgcd_safety_wit_8.
-Axiom proof_of_exgcd_safety_wit_9 : exgcd_safety_wit_9.
-Axiom proof_of_exgcd_safety_wit_10 : exgcd_safety_wit_10.
-Axiom proof_of_exgcd_safety_wit_11 : exgcd_safety_wit_11.
-Axiom proof_of_exgcd_safety_wit_12 : exgcd_safety_wit_12.
-Axiom proof_of_exgcd_safety_wit_13 : exgcd_safety_wit_13.
-Axiom proof_of_exgcd_safety_wit_14 : exgcd_safety_wit_14.
-Axiom proof_of_exgcd_safety_wit_15 : exgcd_safety_wit_15.
-Axiom proof_of_exgcd_safety_wit_16 : exgcd_safety_wit_16.
-Axiom proof_of_exgcd_safety_wit_17 : exgcd_safety_wit_17.
-Axiom proof_of_exgcd_safety_wit_18 : exgcd_safety_wit_18.
-Axiom proof_of_exgcd_safety_wit_19 : exgcd_safety_wit_19.
-Axiom proof_of_exgcd_safety_wit_20 : exgcd_safety_wit_20.
-Axiom proof_of_exgcd_return_wit_1_1 : exgcd_return_wit_1_1.
-Axiom proof_of_exgcd_return_wit_1_2 : exgcd_return_wit_1_2.
-Axiom proof_of_exgcd_return_wit_1_3 : exgcd_return_wit_1_3.
-Axiom proof_of_exgcd_return_wit_2_1 : exgcd_return_wit_2_1.
-Axiom proof_of_exgcd_return_wit_2_2 : exgcd_return_wit_2_2.
-Axiom proof_of_exgcd_return_wit_2_3 : exgcd_return_wit_2_3.
-Axiom proof_of_exgcd_partial_solve_wit_1_pure : exgcd_partial_solve_wit_1_pure.
-Axiom proof_of_exgcd_partial_solve_wit_1 : exgcd_partial_solve_wit_1.
-Axiom proof_of_exgcd_partial_solve_wit_2_pure : exgcd_partial_solve_wit_2_pure.
-Axiom proof_of_exgcd_partial_solve_wit_2 : exgcd_partial_solve_wit_2.
-Axiom proof_of_exgcd_partial_solve_wit_3_pure : exgcd_partial_solve_wit_3_pure.
-Axiom proof_of_exgcd_partial_solve_wit_3 : exgcd_partial_solve_wit_3.
-Axiom proof_of_exgcd_partial_solve_wit_4_pure : exgcd_partial_solve_wit_4_pure.
-Axiom proof_of_exgcd_partial_solve_wit_4 : exgcd_partial_solve_wit_4.
+Axiom proof_of_exgcd_safety_wit_1_Proof : exgcd_safety_wit_1_Proof.
+Axiom proof_of_exgcd_safety_wit_2_Proof : exgcd_safety_wit_2_Proof.
+Axiom proof_of_exgcd_safety_wit_3_Proof : exgcd_safety_wit_3_Proof.
+Axiom proof_of_exgcd_safety_wit_4_Proof : exgcd_safety_wit_4_Proof.
+Axiom proof_of_exgcd_safety_wit_5_Proof : exgcd_safety_wit_5_Proof.
+Axiom proof_of_exgcd_safety_wit_6_Proof : exgcd_safety_wit_6_Proof.
+Axiom proof_of_exgcd_safety_wit_7_Proof : exgcd_safety_wit_7_Proof.
+Axiom proof_of_exgcd_safety_wit_8_Proof : exgcd_safety_wit_8_Proof.
+Axiom proof_of_exgcd_safety_wit_9_Proof : exgcd_safety_wit_9_Proof.
+Axiom proof_of_exgcd_safety_wit_10_Proof : exgcd_safety_wit_10_Proof.
+Axiom proof_of_exgcd_safety_wit_11_Proof : exgcd_safety_wit_11_Proof.
+Axiom proof_of_exgcd_safety_wit_12_Proof : exgcd_safety_wit_12_Proof.
+Axiom proof_of_exgcd_safety_wit_13_Proof : exgcd_safety_wit_13_Proof.
+Axiom proof_of_exgcd_safety_wit_14_Proof : exgcd_safety_wit_14_Proof.
+Axiom proof_of_exgcd_safety_wit_15_Proof : exgcd_safety_wit_15_Proof.
+Axiom proof_of_exgcd_safety_wit_16_Proof : exgcd_safety_wit_16_Proof.
+Axiom proof_of_exgcd_safety_wit_17_Proof : exgcd_safety_wit_17_Proof.
+Axiom proof_of_exgcd_safety_wit_18_Proof : exgcd_safety_wit_18_Proof.
+Axiom proof_of_exgcd_safety_wit_19_Proof : exgcd_safety_wit_19_Proof.
+Axiom proof_of_exgcd_safety_wit_20_Proof : exgcd_safety_wit_20_Proof.
+Axiom proof_of_exgcd_return_wit_1_Proof : exgcd_return_wit_1_Proof.
+Axiom proof_of_exgcd_return_wit_2_Proof : exgcd_return_wit_2_Proof.
+Axiom proof_of_exgcd_return_wit_3_Proof : exgcd_return_wit_3_Proof.
+Axiom proof_of_exgcd_return_wit_4_Proof : exgcd_return_wit_4_Proof.
+Axiom proof_of_exgcd_return_wit_5_Proof : exgcd_return_wit_5_Proof.
+Axiom proof_of_exgcd_return_wit_6_Proof : exgcd_return_wit_6_Proof.
+Axiom proof_of_exgcd_partial_solve_wit_1_Proof_pure : exgcd_partial_solve_wit_1_Proof_pure.
+Axiom proof_of_exgcd_partial_solve_wit_1_Proof : exgcd_partial_solve_wit_1_Proof.
+Axiom proof_of_exgcd_partial_solve_wit_2_Proof_pure : exgcd_partial_solve_wit_2_Proof_pure.
+Axiom proof_of_exgcd_partial_solve_wit_2_Proof : exgcd_partial_solve_wit_2_Proof.
+Axiom proof_of_exgcd_partial_solve_wit_3_Proof_pure : exgcd_partial_solve_wit_3_Proof_pure.
+Axiom proof_of_exgcd_partial_solve_wit_3_Proof : exgcd_partial_solve_wit_3_Proof.
+Axiom proof_of_exgcd_partial_solve_wit_4_Proof_pure : exgcd_partial_solve_wit_4_Proof_pure.
+Axiom proof_of_exgcd_partial_solve_wit_4_Proof : exgcd_partial_solve_wit_4_Proof.
 Axiom proof_of_exgcd_derive_Inter_by_Proof : exgcd_derive_Inter_by_Proof.
 
 End VC_Correct.

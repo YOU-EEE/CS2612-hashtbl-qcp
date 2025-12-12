@@ -35,42 +35,42 @@ Proof. Admitted.
 Lemma proof_of_get_pre_partial_solve_wit_2 : get_pre_partial_solve_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_delete_safety_wit_1 : delete_safety_wit_1.
+Lemma proof_of_delete_safety_wit_1_low_level_spec : delete_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_safety_wit_2 : delete_safety_wit_2.
+Lemma proof_of_delete_safety_wit_2_low_level_spec : delete_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_safety_wit_3 : delete_safety_wit_3.
+Lemma proof_of_delete_safety_wit_3_low_level_spec : delete_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_1_pure : delete_partial_solve_wit_1_pure.
+Lemma proof_of_delete_partial_solve_wit_1_low_level_spec_pure : delete_partial_solve_wit_1_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_1 : delete_partial_solve_wit_1.
+Lemma proof_of_delete_partial_solve_wit_1_low_level_spec : delete_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_2_pure : delete_partial_solve_wit_2_pure.
+Lemma proof_of_delete_partial_solve_wit_2_low_level_spec_pure : delete_partial_solve_wit_2_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_2 : delete_partial_solve_wit_2.
+Lemma proof_of_delete_partial_solve_wit_2_low_level_spec : delete_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_3_pure : delete_partial_solve_wit_3_pure.
+Lemma proof_of_delete_partial_solve_wit_3_low_level_spec_pure : delete_partial_solve_wit_3_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_3 : delete_partial_solve_wit_3.
+Lemma proof_of_delete_partial_solve_wit_3_low_level_spec : delete_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_4 : delete_partial_solve_wit_4.
+Lemma proof_of_delete_partial_solve_wit_4_low_level_spec : delete_partial_solve_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_5_pure : delete_partial_solve_wit_5_pure.
+Lemma proof_of_delete_partial_solve_wit_5_low_level_spec_pure : delete_partial_solve_wit_5_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_5 : delete_partial_solve_wit_5.
+Lemma proof_of_delete_partial_solve_wit_5_low_level_spec : delete_partial_solve_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_delete_partial_solve_wit_6 : delete_partial_solve_wit_6.
+Lemma proof_of_delete_partial_solve_wit_6_low_level_spec : delete_partial_solve_wit_6_low_level_spec.
 Proof. Admitted. 
 

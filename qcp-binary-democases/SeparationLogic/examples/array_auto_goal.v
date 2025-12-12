@@ -119,7 +119,7 @@ forall (a_pre: Z) (n_pre: Z) (i: Z) ,
 .
 
 Definition arr_sum_partial_solve_wit_1 := 
-forall (a_pre: Z) (n_pre: Z) (i: Z) (x: Z) ,
+forall (a_pre: Z) (n_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -127,6 +127,7 @@ forall (a_pre: Z) (n_pre: Z) (i: Z) (x: Z) ,
   &&  [| (n_pre < INT_MAX) |]
   &&  (UIntArray.full_shape a_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -224,7 +225,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) ,
 .
 
 Definition array_copy1_partial_solve_wit_1 := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -234,6 +235,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) (x: Z) ,
   **  (IntArray.undef_ceil dest_pre i n_pre )
   **  (IntArray.full_shape src_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -509,7 +511,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (i_2: Z) 
 .
 
 Definition array_concat_partial_solve_wit_1 := 
-forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (x: Z) ,
+forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -521,6 +523,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (x: Z) ,
   **  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre m_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -561,7 +564,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) ,
 .
 
 Definition array_concat_partial_solve_wit_3 := 
-forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (i_2: Z) (x: Z) ,
+forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (i_2: Z) ,
   [| (i_2 < m_pre) |] 
   &&  [| (0 <= i_2) |] 
   &&  [| (i_2 <= m_pre) |] 
@@ -576,6 +579,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (i_2: Z) 
   **  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre m_pre )
 |--
+  EX (x: Z) ,
   [| (i_2 < m_pre) |] 
   &&  [| (0 <= i_2) |] 
   &&  [| (i_2 <= m_pre) |] 
@@ -707,7 +711,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) ,
 .
 
 Definition array_swap_partial_solve_wit_1 := 
-forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -716,6 +720,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
   &&  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -727,7 +732,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
 .
 
 Definition array_swap_partial_solve_wit_2 := 
-forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -736,6 +741,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
   &&  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -884,7 +890,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) ,
 .
 
 Definition array_vector_sum_partial_solve_wit_1 := 
-forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -895,6 +901,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (x: Z) ,
   **  (UIntArray.full_shape a_pre n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -908,7 +915,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (x: Z) ,
 .
 
 Definition array_vector_sum_partial_solve_wit_2 := 
-forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -919,6 +926,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (x: Z) ,
   **  (UIntArray.undef_ceil ret_pre i n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1053,7 +1061,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) ,
 .
 
 Definition pointwise_mul_partial_solve_wit_1 := 
-forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1064,6 +1072,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
   **  (UIntArray.full_shape a_pre n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1077,7 +1086,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
 .
 
 Definition pointwise_mul_partial_solve_wit_2 := 
-forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1088,6 +1097,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
   **  (UIntArray.undef_ceil c_pre i n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1263,7 +1273,7 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) ,
 .
 
 Definition array_max_partial_solve_wit_1 := 
-forall (n_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (a_pre: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1271,6 +1281,7 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
   &&  [| (n_pre < INT_MAX) |]
   &&  (IntArray.full_shape a_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1281,7 +1292,7 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (x: Z) ,
 .
 
 Definition array_max_partial_solve_wit_2 := 
-forall (n_pre: Z) (a_pre: Z) (i: Z) (v: Z) (x: Z) (x_2: Z) ,
+forall (n_pre: Z) (a_pre: Z) (i: Z) (v: Z) (x: Z) ,
   [| (x > v) |] 
   &&  [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
@@ -1290,6 +1301,7 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (v: Z) (x: Z) (x_2: Z) ,
   &&  [| (n_pre < INT_MAX) |]
   &&  (IntArray.full_shape a_pre n_pre )
 |--
+  EX (x_2: Z) ,
   [| (x > v) |] 
   &&  [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
@@ -1574,7 +1586,7 @@ forall (n_pre: Z) (a_pre: Z) ,
 Definition array_to_list_partial_solve_wit_1 := array_to_list_partial_solve_wit_1_pure -> array_to_list_partial_solve_wit_1_aux.
 
 Definition array_to_list_partial_solve_wit_2 := 
-forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (tail_next: Z) (v: Z) (tail: Z) (head: Z) (i: Z) (x: Z) ,
+forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (tail_next: Z) (v: Z) (tail: Z) (head: Z) (i: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 
@@ -1590,6 +1602,7 @@ forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (tail_next: Z) (v: Z) 
   **  (lseg head tail )
   **  (IntArray.full_shape a_pre n_pre )
 |--
+  EX (x: Z) ,
   [| (i < n_pre) |] 
   &&  [| (0 <= i) |] 
   &&  [| (i <= n_pre) |] 

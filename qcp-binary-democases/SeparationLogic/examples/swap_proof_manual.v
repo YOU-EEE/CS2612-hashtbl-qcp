@@ -19,10 +19,10 @@ Import naive_C_Rules.
 Require Import swap_lib.
 Local Open Scope sac.
 
-Lemma proof_of_swap_entail_wit_1 : swap_entail_wit_1.
+Lemma proof_of_swap_entail_wit_1_all : swap_entail_wit_1_all.
 Proof.
   pre_process.
-  destruct para; simpl; entailer!.
+  destruct para_all; simpl; entailer!.
   + rewrite <- derivable1_orp_intros1.
     Exists z.
     entailer!.
@@ -31,7 +31,7 @@ Proof.
     entailer!.
 Qed.
 
-Lemma proof_of_swap_return_wit_1_1 : swap_return_wit_1_1.
+Lemma proof_of_swap_return_wit_1 : swap_return_wit_1.
 Proof.
   pre_process.
   subst.
@@ -39,7 +39,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_swap_return_wit_1_2 : swap_return_wit_1_2.
+Lemma proof_of_swap_return_wit_2 : swap_return_wit_2.
 Proof.
   pre_process.
   subst.
@@ -51,7 +51,7 @@ Lemma proof_of_swap_derive_eq_by_all : swap_derive_eq_by_all.
 Proof.
   pre_process.
   subst py_pre.
-  Exists (swap_eq_para x).
+  Exists (swap_eq_para x_eq).
   simpl.
   entailer!.
   apply derivable1_wand_sepcon_adjoint.
@@ -61,7 +61,7 @@ Qed.
 Lemma proof_of_swap_derive_neq_by_all : swap_derive_neq_by_all.
 Proof.
   pre_process.
-  Exists (swap_neq_para x y).
+  Exists (swap_neq_para x_neq y_neq).
   simpl.
   entailer!.
   apply derivable1_wand_sepcon_adjoint.

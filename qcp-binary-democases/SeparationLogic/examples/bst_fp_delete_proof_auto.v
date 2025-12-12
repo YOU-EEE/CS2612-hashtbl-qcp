@@ -46,66 +46,66 @@ Proof. Admitted.
 Lemma proof_of_replace_min_partial_solve_wit_4 : replace_min_partial_solve_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_1 : Delete_safety_wit_1.
+Lemma proof_of_Delete_safety_wit_1_low_level_spec : Delete_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_2 : Delete_safety_wit_2.
+Lemma proof_of_Delete_safety_wit_2_low_level_spec : Delete_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_3 : Delete_safety_wit_3.
+Lemma proof_of_Delete_safety_wit_3_low_level_spec : Delete_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_4 : Delete_safety_wit_4.
+Lemma proof_of_Delete_safety_wit_4_low_level_spec : Delete_safety_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_5 : Delete_safety_wit_5.
+Lemma proof_of_Delete_safety_wit_5_low_level_spec : Delete_safety_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_6 : Delete_safety_wit_6.
+Lemma proof_of_Delete_safety_wit_6_low_level_spec : Delete_safety_wit_6_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_7 : Delete_safety_wit_7.
+Lemma proof_of_Delete_safety_wit_7_low_level_spec : Delete_safety_wit_7_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_safety_wit_8 : Delete_safety_wit_8.
+Lemma proof_of_Delete_safety_wit_8_low_level_spec : Delete_safety_wit_8_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_1_pure : Delete_partial_solve_wit_1_pure.
+Lemma proof_of_Delete_partial_solve_wit_1_low_level_spec_pure : Delete_partial_solve_wit_1_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_1 : Delete_partial_solve_wit_1.
+Lemma proof_of_Delete_partial_solve_wit_1_low_level_spec : Delete_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_2_pure : Delete_partial_solve_wit_2_pure.
+Lemma proof_of_Delete_partial_solve_wit_2_low_level_spec_pure : Delete_partial_solve_wit_2_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_2 : Delete_partial_solve_wit_2.
+Lemma proof_of_Delete_partial_solve_wit_2_low_level_spec : Delete_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_3 : Delete_partial_solve_wit_3.
+Lemma proof_of_Delete_partial_solve_wit_3_low_level_spec : Delete_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_4 : Delete_partial_solve_wit_4.
+Lemma proof_of_Delete_partial_solve_wit_4_low_level_spec : Delete_partial_solve_wit_4_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_5_pure : Delete_partial_solve_wit_5_pure.
+Lemma proof_of_Delete_partial_solve_wit_5_low_level_spec_pure : Delete_partial_solve_wit_5_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_5 : Delete_partial_solve_wit_5.
+Lemma proof_of_Delete_partial_solve_wit_5_low_level_spec : Delete_partial_solve_wit_5_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_6 : Delete_partial_solve_wit_6.
+Lemma proof_of_Delete_partial_solve_wit_6_low_level_spec : Delete_partial_solve_wit_6_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_7_pure : Delete_partial_solve_wit_7_pure.
+Lemma proof_of_Delete_partial_solve_wit_7_low_level_spec_pure : Delete_partial_solve_wit_7_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_7 : Delete_partial_solve_wit_7.
+Lemma proof_of_Delete_partial_solve_wit_7_low_level_spec : Delete_partial_solve_wit_7_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_8_pure : Delete_partial_solve_wit_8_pure.
+Lemma proof_of_Delete_partial_solve_wit_8_low_level_spec_pure : Delete_partial_solve_wit_8_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_Delete_partial_solve_wit_8 : Delete_partial_solve_wit_8.
+Lemma proof_of_Delete_partial_solve_wit_8_low_level_spec : Delete_partial_solve_wit_8_low_level_spec.
 Proof. Admitted. 
 

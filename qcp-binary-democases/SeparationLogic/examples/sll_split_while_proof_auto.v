@@ -23,34 +23,34 @@ From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Local Open Scope sac.
 
-Lemma proof_of_split_while_safety_wit_1 : split_while_safety_wit_1.
+Lemma proof_of_split_while_safety_wit_1_low_level_spec : split_while_safety_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_safety_wit_2 : split_while_safety_wit_2.
+Lemma proof_of_split_while_safety_wit_2_low_level_spec : split_while_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_entail_wit_1 : split_while_entail_wit_1.
+Lemma proof_of_split_while_entail_wit_1_low_level_spec : split_while_entail_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_entail_wit_2_1 : split_while_entail_wit_2_1.
+Lemma proof_of_split_while_entail_wit_2_1_low_level_spec : split_while_entail_wit_2_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_partial_solve_wit_1_pure : split_while_partial_solve_wit_1_pure.
+Lemma proof_of_split_while_partial_solve_wit_1_low_level_spec_pure : split_while_partial_solve_wit_1_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_partial_solve_wit_1 : split_while_partial_solve_wit_1.
+Lemma proof_of_split_while_partial_solve_wit_1_low_level_spec : split_while_partial_solve_wit_1_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_partial_solve_wit_2 : split_while_partial_solve_wit_2.
+Lemma proof_of_split_while_partial_solve_wit_2_low_level_spec : split_while_partial_solve_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_partial_solve_wit_3_pure : split_while_partial_solve_wit_3_pure.
+Lemma proof_of_split_while_partial_solve_wit_3_low_level_spec_pure : split_while_partial_solve_wit_3_low_level_spec_pure.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_partial_solve_wit_3 : split_while_partial_solve_wit_3.
+Lemma proof_of_split_while_partial_solve_wit_3_low_level_spec : split_while_partial_solve_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_split_while_partial_solve_wit_4 : split_while_partial_solve_wit_4.
+Lemma proof_of_split_while_partial_solve_wit_4_low_level_spec : split_while_partial_solve_wit_4_low_level_spec.
 Proof. Admitted. 
 
 Lemma proof_of_split_while_which_implies_wit_1 : split_while_which_implies_wit_1.

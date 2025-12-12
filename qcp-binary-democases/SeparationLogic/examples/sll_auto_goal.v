@@ -154,7 +154,7 @@ forall (x_pre: Z) ,
 Definition sll_copy_partial_solve_wit_1 := sll_copy_partial_solve_wit_1_pure -> sll_copy_partial_solve_wit_1_aux.
 
 Definition sll_copy_partial_solve_wit_2 := 
-forall (x_pre: Z) (retval_next: Z) (retval: Z) (y: Z) (p: Z) (t_data: Z) (t_next: Z) (t: Z) (x: Z) ,
+forall (x_pre: Z) (retval_next: Z) (retval: Z) (y: Z) (p: Z) (t_data: Z) (t_next: Z) (t: Z) ,
   [| (p <> 0) |] 
   &&  [| (t <> 0) |] 
   &&  [| (t_next = 0) |] 
@@ -167,7 +167,7 @@ forall (x_pre: Z) (retval_next: Z) (retval: Z) (y: Z) (p: Z) (t_data: Z) (t_next
   **  (listrep p )
   **  (lseg y t )
 |--
-  EX (y_2: Z) ,
+  EX (x: Z)  (y_2: Z) ,
   [| (p <> 0) |] 
   &&  [| (t <> 0) |] 
   &&  [| (t_next = 0) |] 

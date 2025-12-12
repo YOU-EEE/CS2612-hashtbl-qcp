@@ -116,13 +116,13 @@ Proof. Admitted.
 Lemma proof_of_merge_partial_solve_wit_10 : merge_partial_solve_wit_10.
 Proof. Admitted. 
 
-Lemma proof_of_mergeSort_safety_wit_2 : mergeSort_safety_wit_2.
+Lemma proof_of_mergeSort_safety_wit_2_low_level_spec : mergeSort_safety_wit_2_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_mergeSort_safety_wit_3 : mergeSort_safety_wit_3.
+Lemma proof_of_mergeSort_safety_wit_3_low_level_spec : mergeSort_safety_wit_3_low_level_spec.
 Proof. Admitted. 
 
-Lemma proof_of_mergeSort_safety_wit_4 : mergeSort_safety_wit_4.
+Lemma proof_of_mergeSort_safety_wit_4_low_level_spec : mergeSort_safety_wit_4_low_level_spec.
 Proof. Admitted. 
 
 Lemma proof_of_mergeSort_safety_wit_5 : mergeSort_safety_wit_5.
@@ -131,7 +131,7 @@ Proof. Admitted.
 Lemma proof_of_mergeSort_safety_wit_6 : mergeSort_safety_wit_6.
 Proof. Admitted. 
 
-Lemma proof_of_mergeSort_return_wit_1_2 : mergeSort_return_wit_1_2.
+Lemma proof_of_mergeSort_return_wit_1 : mergeSort_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_mergeSort_partial_solve_wit_1 : mergeSort_partial_solve_wit_1.

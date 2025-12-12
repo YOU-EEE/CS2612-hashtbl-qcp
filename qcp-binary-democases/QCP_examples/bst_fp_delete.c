@@ -91,6 +91,7 @@ void Delete(struct tree **b, int x)
 {
   struct tree * fa = (void *) 0;
   /*@ Inv
+    low_level_spec :
         exists pt0 tr0,
           combine_tree(pt0, tree_delete(x@pre, tr0)) ==
             tree_delete(x@pre, tr) &&

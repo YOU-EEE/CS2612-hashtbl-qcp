@@ -32,6 +32,7 @@ void insert(struct tree **b, int x, int value)
    */
 {
   /*@ Inv
+    low_level_spec :
         exists pt0 tr0,
           combine_tree(pt0, tree_insert(x@pre, value@pre, tr0)) ==
             tree_insert(x@pre, value@pre, tr) &&

@@ -1436,10 +1436,10 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
 
 (*----- Function mergeSort -----*)
 
-Definition mergeSort_safety_wit_1 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s1: (@list Z)) ,
+Definition mergeSort_safety_wit_1_low_level_spec := 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) ,
   [| (l_pre < r_pre) |] 
-  &&  [| (safeExec ATrue (gmergesortrec (s1)) X ) |] 
+  &&  [| (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
@@ -1448,17 +1448,17 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  ((( &( "r" ) )) # Int  |-> r_pre)
   **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1 )
+  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
   [| ((l_pre + ((r_pre - l_pre ) ÷ 2 ) ) <= INT_MAX) |] 
   &&  [| ((INT_MIN) <= (l_pre + ((r_pre - l_pre ) ÷ 2 ) )) |]
 .
 
-Definition mergeSort_safety_wit_2 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s1: (@list Z)) ,
+Definition mergeSort_safety_wit_2_low_level_spec := 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) ,
   [| (l_pre < r_pre) |] 
-  &&  [| (safeExec ATrue (gmergesortrec (s1)) X ) |] 
+  &&  [| (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
@@ -1467,17 +1467,17 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  ((( &( "r" ) )) # Int  |-> r_pre)
   **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1 )
+  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
   [| (((r_pre - l_pre ) <> (INT_MIN)) \/ (2 <> (-1))) |] 
   &&  [| (2 <> 0) |]
 .
 
-Definition mergeSort_safety_wit_3 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s1: (@list Z)) ,
+Definition mergeSort_safety_wit_3_low_level_spec := 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) ,
   [| (l_pre < r_pre) |] 
-  &&  [| (safeExec ATrue (gmergesortrec (s1)) X ) |] 
+  &&  [| (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
@@ -1486,17 +1486,17 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  ((( &( "r" ) )) # Int  |-> r_pre)
   **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1 )
+  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
   [| ((r_pre - l_pre ) <= INT_MAX) |] 
   &&  [| ((INT_MIN) <= (r_pre - l_pre )) |]
 .
 
-Definition mergeSort_safety_wit_4 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s1: (@list Z)) ,
+Definition mergeSort_safety_wit_4_low_level_spec := 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) ,
   [| (l_pre < r_pre) |] 
-  &&  [| (safeExec ATrue (gmergesortrec (s1)) X ) |] 
+  &&  [| (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
@@ -1505,16 +1505,16 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  ((( &( "r" ) )) # Int  |-> r_pre)
   **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1 )
+  **  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
   [| (2 <= INT_MAX) |] 
   &&  [| ((INT_MIN) <= 2) |]
 .
 
 Definition mergeSort_safety_wit_5 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
+  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1536,8 +1536,8 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
 .
 
 Definition mergeSort_safety_wit_6 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
+  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1558,18 +1558,18 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   &&  [| ((INT_MIN) <= 1) |]
 .
 
-Definition mergeSort_entail_wit_1 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s1: (@list Z)) ,
+Definition mergeSort_entail_wit_1_low_level_spec := 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) ,
   [| (l_pre < r_pre) |] 
-  &&  [| (safeExec ATrue (gmergesortrec (s1)) X ) |] 
+  &&  [| (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
-  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1 )
+  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
   EX (l1: (@list Z))  (l2: (@list Z)) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X ) |] 
+  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1583,8 +1583,8 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
 .
 
 Definition mergeSort_entail_wit_2 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (l2_2: (@list Z)) (m: Z) (l2_3: (@list Z)) (l1_2: (@list Z)) ,
-  [| (safeExec ATrue (applyf ((gmergesortrec_loc1 (l2_2))) (l1_2)) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l2_2: (@list Z)) (m: Z) (l2_3: (@list Z)) (l1_2: (@list Z)) ,
+  [| (safeExec ATrue (applyf ((gmergesortrec_loc1 (l2_2))) (l1_2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1597,7 +1597,7 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre (m + 1 ) (r_pre + 1 ) l2_2 )
 |--
   EX (l3: (@list Z))  (l2: (@list Z))  (l1: (@list Z)) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X ) |] 
+  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1611,8 +1611,8 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
 .
 
 Definition mergeSort_entail_wit_3 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (l1_2: (@list Z)) ,
-  [| (safeExec ATrue (applyf ((mergesortrec_loc2 (l1))) (l1_2)) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (l1_2: (@list Z)) ,
+  [| (safeExec ATrue (applyf ((mergesortrec_loc2 (l1))) (l1_2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1625,7 +1625,7 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre l_pre (m + 1 ) l3 )
 |--
   EX (l0: (@list Z))  (s1: (@list Z))  (s2: (@list Z)) ,
-  [| (safeExec ATrue (merge_rel (s1) (s2)) X ) |] 
+  [| (safeExec ATrue (merge_rel (s1) (s2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1637,25 +1637,9 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) l0 )
 .
 
-Definition mergeSort_return_wit_1_1 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s1: (@list Z)) ,
-  [| (l_pre >= r_pre) |] 
-  &&  [| (safeExec ATrue (gmergesortrec (s1)) X ) |] 
-  &&  [| (0 <= l_pre) |] 
-  &&  [| (l_pre <= r_pre) |] 
-  &&  [| ((r_pre + 1 ) <= INT_MAX) |]
-  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1 )
-|--
-  EX (s3: (@list Z))  (s2: (@list Z)) ,
-  [| (safeExec ATrue (return (s2)) X ) |]
-  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s3 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s2 )
-.
-
-Definition mergeSort_return_wit_1_2 := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l1: (@list Z)) (s3_2: (@list Z)) ,
-  [| (safeExec ATrue (return (s3_2)) X ) |] 
+Definition mergeSort_return_wit_1 := 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l1: (@list Z)) (s3_2: (@list Z)) ,
+  [| (safeExec ATrue (return (s3_2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1666,14 +1650,30 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s3_2 )
 |--
   EX (s3: (@list Z))  (s2: (@list Z)) ,
-  [| (safeExec ATrue (return (s2)) X ) |]
+  [| (safeExec ATrue (return (s2)) X_low_level_spec ) |]
+  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s3 )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s2 )
+.
+
+Definition mergeSort_return_wit_2_low_level_spec := 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) ,
+  [| (l_pre >= r_pre) |] 
+  &&  [| (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec ) |] 
+  &&  [| (0 <= l_pre) |] 
+  &&  [| (l_pre <= r_pre) |] 
+  &&  [| ((r_pre + 1 ) <= INT_MAX) |]
+  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+|--
+  EX (s3: (@list Z))  (s2: (@list Z)) ,
+  [| (safeExec ATrue (return (s2)) X_low_level_spec ) |]
   &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s3 )
   **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s2 )
 .
 
 Definition mergeSort_partial_solve_wit_1_pure := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (l1: (@list Z)) (l2: (@list Z)) (m: Z) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l1: (@list Z)) (l2: (@list Z)) (m: Z) ,
+  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1690,7 +1690,7 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre l_pre (m + 1 ) l1 )
   **  (IntArray.ceil ret_pre (m + 1 ) (r_pre + 1 ) l2 )
 |--
-  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X ) |] 
+  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= m) |] 
   &&  [| ((m + 1 ) <= INT_MAX) |] 
@@ -1698,8 +1698,8 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
 .
 
 Definition mergeSort_partial_solve_wit_1_aux := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (l1: (@list Z)) (l2: (@list Z)) (m: Z) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l1: (@list Z)) (l2: (@list Z)) (m: Z) ,
+  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1711,7 +1711,7 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre l_pre (m + 1 ) l1 )
   **  (IntArray.ceil ret_pre (m + 1 ) (r_pre + 1 ) l2 )
 |--
-  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X ) |] 
+  [| (safeExec ATrue (bind ((gmergesortrec (l1))) ((gmergesortrec_loc1 (l2)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= m) |] 
   &&  [| ((m + 1 ) <= INT_MAX) |] 
@@ -1731,8 +1731,8 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
 Definition mergeSort_partial_solve_wit_1 := mergeSort_partial_solve_wit_1_pure -> mergeSort_partial_solve_wit_1_aux.
 
 Definition mergeSort_partial_solve_wit_2_pure := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
+  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1749,15 +1749,15 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre l_pre (m + 1 ) l3 )
   **  (IntArray.ceil ret_pre (m + 1 ) (r_pre + 1 ) l2 )
 |--
-  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X ) |] 
+  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X_low_level_spec ) |] 
   &&  [| (0 <= (m + 1 )) |] 
   &&  [| ((m + 1 ) <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
 .
 
 Definition mergeSort_partial_solve_wit_2_aux := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l3: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) ,
+  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1769,7 +1769,7 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil ret_pre l_pre (m + 1 ) l3 )
   **  (IntArray.ceil ret_pre (m + 1 ) (r_pre + 1 ) l2 )
 |--
-  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X ) |] 
+  [| (safeExec ATrue (bind ((gmergesortrec (l2))) ((mergesortrec_loc2 (l1)))) X_low_level_spec ) |] 
   &&  [| (0 <= (m + 1 )) |] 
   &&  [| ((m + 1 ) <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1788,8 +1788,8 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
 Definition mergeSort_partial_solve_wit_2 := mergeSort_partial_solve_wit_2_pure -> mergeSort_partial_solve_wit_2_aux.
 
 Definition mergeSort_partial_solve_wit_3_pure := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l0: (@list Z)) (s1: (@list Z)) (s2: (@list Z)) ,
-  [| (safeExec ATrue (merge_rel (s1) (s2)) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l0: (@list Z)) (s1: (@list Z)) (s2: (@list Z)) ,
+  [| (safeExec ATrue (merge_rel (s1) (s2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1805,7 +1805,7 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) l0 )
 |--
-  [| (safeExec ATrue (merge_rel (s1) (s2)) X ) |] 
+  [| (safeExec ATrue (merge_rel (s1) (s2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= m) |] 
   &&  [| (m < r_pre) |] 
@@ -1813,8 +1813,8 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
 .
 
 Definition mergeSort_partial_solve_wit_3_aux := 
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (m: Z) (l0: (@list Z)) (s1: (@list Z)) (s2: (@list Z)) ,
-  [| (safeExec ATrue (merge_rel (s1) (s2)) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l0: (@list Z)) (s1: (@list Z)) (s2: (@list Z)) ,
+  [| (safeExec ATrue (merge_rel (s1) (s2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |] 
@@ -1825,7 +1825,7 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -
   **  (IntArray.ceil arr_pre (m + 1 ) (r_pre + 1 ) s2 )
   **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) l0 )
 |--
-  [| (safeExec ATrue (merge_rel (s1) (s2)) X ) |] 
+  [| (safeExec ATrue (merge_rel (s1) (s2)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= m) |] 
   &&  [| (m < r_pre) |] 
@@ -1845,29 +1845,29 @@ Definition mergeSort_partial_solve_wit_3 := mergeSort_partial_solve_wit_3_pure -
 
 Definition mergeSort_derive_low_level_spec_aux_by_low_level_spec := 
 forall (B: Type) ,
-forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X: (B -> (unit -> Prop))) (c: ((@list Z) -> (@program unit B))) (l0: (@list Z)) ,
-  [| (safeExec ATrue (bind ((gmergesortrec (l0))) (c)) X ) |] 
+forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec_aux: (B -> (unit -> Prop))) (c_low_level_spec_aux: ((@list Z) -> (@program unit B))) (l0_low_level_spec_aux: (@list Z)) ,
+  [| (safeExec ATrue (bind ((gmergesortrec (l0_low_level_spec_aux))) (c_low_level_spec_aux)) X_low_level_spec_aux ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
-  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) l0 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) l0 )
+  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) l0_low_level_spec_aux )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) l0_low_level_spec_aux )
 |--
-EX (s1: (@list Z)) (X_2: ((@list Z) -> (unit -> Prop))) ,
-  ([| (safeExec ATrue (gmergesortrec (s1)) X_2 ) |] 
+EX (s1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) ,
+  ([| (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec ) |] 
   &&  [| (0 <= l_pre) |] 
   &&  [| (l_pre <= r_pre) |] 
   &&  [| ((r_pre + 1 ) <= INT_MAX) |]
-  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1 )
-  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1 ))
+  &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
+  **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s1_low_level_spec ))
   **
   ((EX s3 s2,
-  [| (safeExec ATrue (return (s2)) X_2 ) |]
+  [| (safeExec ATrue (return (s2)) X_low_level_spec ) |]
   &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) s3 )
   **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) s2 ))
   -*
   (EX l2 l1,
-  [| (safeExec ATrue (applyf (c) (l1)) X ) |]
+  [| (safeExec ATrue (applyf (c_low_level_spec_aux) (l1)) X_low_level_spec_aux ) |]
   &&  (IntArray.ceil arr_pre l_pre (r_pre + 1 ) l2 )
   **  (IntArray.ceil ret_pre l_pre (r_pre + 1 ) l1 )))
 .
@@ -1922,17 +1922,17 @@ Axiom proof_of_merge_partial_solve_wit_7 : merge_partial_solve_wit_7.
 Axiom proof_of_merge_partial_solve_wit_8 : merge_partial_solve_wit_8.
 Axiom proof_of_merge_partial_solve_wit_9 : merge_partial_solve_wit_9.
 Axiom proof_of_merge_partial_solve_wit_10 : merge_partial_solve_wit_10.
-Axiom proof_of_mergeSort_safety_wit_1 : mergeSort_safety_wit_1.
-Axiom proof_of_mergeSort_safety_wit_2 : mergeSort_safety_wit_2.
-Axiom proof_of_mergeSort_safety_wit_3 : mergeSort_safety_wit_3.
-Axiom proof_of_mergeSort_safety_wit_4 : mergeSort_safety_wit_4.
+Axiom proof_of_mergeSort_safety_wit_1_low_level_spec : mergeSort_safety_wit_1_low_level_spec.
+Axiom proof_of_mergeSort_safety_wit_2_low_level_spec : mergeSort_safety_wit_2_low_level_spec.
+Axiom proof_of_mergeSort_safety_wit_3_low_level_spec : mergeSort_safety_wit_3_low_level_spec.
+Axiom proof_of_mergeSort_safety_wit_4_low_level_spec : mergeSort_safety_wit_4_low_level_spec.
 Axiom proof_of_mergeSort_safety_wit_5 : mergeSort_safety_wit_5.
 Axiom proof_of_mergeSort_safety_wit_6 : mergeSort_safety_wit_6.
-Axiom proof_of_mergeSort_entail_wit_1 : mergeSort_entail_wit_1.
+Axiom proof_of_mergeSort_entail_wit_1_low_level_spec : mergeSort_entail_wit_1_low_level_spec.
 Axiom proof_of_mergeSort_entail_wit_2 : mergeSort_entail_wit_2.
 Axiom proof_of_mergeSort_entail_wit_3 : mergeSort_entail_wit_3.
-Axiom proof_of_mergeSort_return_wit_1_1 : mergeSort_return_wit_1_1.
-Axiom proof_of_mergeSort_return_wit_1_2 : mergeSort_return_wit_1_2.
+Axiom proof_of_mergeSort_return_wit_1 : mergeSort_return_wit_1.
+Axiom proof_of_mergeSort_return_wit_2_low_level_spec : mergeSort_return_wit_2_low_level_spec.
 Axiom proof_of_mergeSort_partial_solve_wit_1_pure : mergeSort_partial_solve_wit_1_pure.
 Axiom proof_of_mergeSort_partial_solve_wit_1 : mergeSort_partial_solve_wit_1.
 Axiom proof_of_mergeSort_partial_solve_wit_2_pure : mergeSort_partial_solve_wit_2_pure.

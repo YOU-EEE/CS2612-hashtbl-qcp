@@ -20,79 +20,125 @@ Local Open Scope sac.
 From SimpleC.EE Require Import common_strategy_goal.
 From SimpleC.EE Require Import common_strategy_proof.
 
+(*----- Function swap0 -----*)
+
+Definition swap0_return_wit_1_neq := 
+forall (py_pre: Z) (px_pre: Z) (y_neq: Z) (x_neq: Z) ,
+  ((px_pre) # Int  |-> y_neq)
+  **  ((py_pre) # Int  |-> x_neq)
+|--
+  ((px_pre) # Int  |-> y_neq)
+  **  ((py_pre) # Int  |-> x_neq)
+.
+
+Definition swap0_return_wit_2_eq := 
+forall (py_pre: Z) (px_pre: Z) (x_eq: Z) ,
+  [| (px_pre = py_pre) |]
+  &&  ((py_pre) # Int  |-> x_eq)
+|--
+  ((px_pre) # Int  |-> x_eq)
+.
+
+Definition swap0_partial_solve_wit_1_eq := 
+forall (py_pre: Z) (px_pre: Z) (x_eq: Z) ,
+  [| (px_pre = py_pre) |]
+  &&  ((px_pre) # Int  |-> x_eq)
+|--
+  [| (px_pre = py_pre) |]
+  &&  ((py_pre) # Int  |-> x_eq)
+.
+
+Definition swap0_partial_solve_wit_2_eq := 
+forall (py_pre: Z) (px_pre: Z) (x_eq: Z) ,
+  [| (px_pre = py_pre) |]
+  &&  ((py_pre) # Int  |-> x_eq)
+|--
+  [| (px_pre = py_pre) |]
+  &&  ((px_pre) # Int  |->_)
+.
+
+Definition swap0_partial_solve_wit_3_eq := 
+forall (py_pre: Z) (px_pre: Z) (x_eq: Z) ,
+  [| (px_pre = py_pre) |]
+  &&  ((px_pre) # Int  |-> x_eq)
+|--
+  [| (px_pre = py_pre) |]
+  &&  ((py_pre) # Int  |->_)
+.
+
 (*----- Function swap -----*)
 
-Definition swap_entail_wit_1 := 
-forall (py_pre: Z) (px_pre: Z) (para: swap_para) ,
-  (swap_pre px_pre py_pre para )
+Definition swap_entail_wit_1_all := 
+forall (py_pre: Z) (px_pre: Z) (para_all: swap_para) ,
+  (swap_pre px_pre py_pre para_all )
 |--
   (EX (x: Z) ,
   [| (px_pre = py_pre) |] 
   &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
+  &&  [| (para_all = (swap_eq_para (x))) |]
   &&  ((px_pre) # Int  |-> x))
   ||
   (EX (y: Z)  (x_2: Z) ,
-  [| (para = (swap_neq_para (x_2) (y))) |]
+  [| (para_all = (swap_neq_para (x_2) (y))) |]
   &&  ((px_pre) # Int  |-> x_2)
   **  ((py_pre) # Int  |-> y))
 .
 
-Definition swap_return_wit_1_1 := 
-forall (py_pre: Z) (px_pre: Z) (para: swap_para) (x: Z) (py: Z) ,
-  [| (px_pre = py) |] 
-  &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
-  &&  ((py) # Int  |-> x)
-|--
-  (swap_post px_pre py_pre para )
-.
-
-Definition swap_return_wit_1_2 := 
-forall (py_pre: Z) (px_pre: Z) (para: swap_para) (x: Z) (y: Z) ,
-  [| (para = (swap_neq_para (x) (y))) |]
+Definition swap_return_wit_1 := 
+forall (py_pre: Z) (px_pre: Z) (para_all: swap_para) (x: Z) (y: Z) ,
+  [| (para_all = (swap_neq_para (x) (y))) |]
   &&  ((px_pre) # Int  |-> y)
   **  ((py_pre) # Int  |-> x)
 |--
-  (swap_post px_pre py_pre para )
+  (swap_post px_pre py_pre para_all )
+.
+
+Definition swap_return_wit_2 := 
+forall (py_pre: Z) (px_pre: Z) (para_all: swap_para) (x: Z) (py: Z) ,
+  [| (px_pre = py) |] 
+  &&  [| (px_pre = py_pre) |] 
+  &&  [| (para_all = (swap_eq_para (x))) |]
+  &&  ((py) # Int  |-> x)
+|--
+  (swap_post px_pre py_pre para_all )
 .
 
 Definition swap_partial_solve_wit_1 := 
-forall (py_pre: Z) (px_pre: Z) (para: swap_para) (x: Z) (py: Z) ,
+forall (py_pre: Z) (px_pre: Z) (para_all: swap_para) (x: Z) (py: Z) ,
   [| (px_pre = py) |] 
   &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
+  &&  [| (para_all = (swap_eq_para (x))) |]
   &&  ((px_pre) # Int  |-> x)
 |--
   [| (px_pre = py) |] 
   &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
+  &&  [| (para_all = (swap_eq_para (x))) |]
   &&  ((py) # Int  |-> x)
 .
 
 Definition swap_partial_solve_wit_2 := 
-forall (py_pre: Z) (px_pre: Z) (para: swap_para) (x: Z) (py: Z) ,
+forall (py_pre: Z) (px_pre: Z) (para_all: swap_para) (x: Z) (py: Z) ,
   [| (px_pre = py) |] 
   &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
+  &&  [| (para_all = (swap_eq_para (x))) |]
   &&  ((py) # Int  |-> x)
 |--
   [| (px_pre = py) |] 
   &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
+  &&  [| (para_all = (swap_eq_para (x))) |]
   &&  ((px_pre) # Int  |->_)
 .
 
 Definition swap_partial_solve_wit_3 := 
-forall (py_pre: Z) (px_pre: Z) (para: swap_para) (x: Z) (py: Z) ,
+forall (py_pre: Z) (px_pre: Z) (para_all: swap_para) (x: Z) (py: Z) ,
   [| (px_pre = py) |] 
   &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
+  &&  [| (para_all = (swap_eq_para (x))) |]
   &&  ((px_pre) # Int  |-> x)
 |--
   [| (px_pre = py) |] 
   &&  [| (px_pre = py_pre) |] 
-  &&  [| (para = (swap_eq_para (x))) |]
+  &&  [| (para_all = (swap_eq_para (x))) |]
   &&  ((py) # Int  |->_)
 .
 
@@ -167,39 +213,44 @@ forall (y_pre: Z) (x_pre: Z) (x_pre_v: Z) ,
 Definition swap_test2_partial_solve_wit_1 := swap_test2_partial_solve_wit_1_pure -> swap_test2_partial_solve_wit_1_aux.
 
 Definition swap_derive_eq_by_all := 
-forall (py_pre: Z) (px_pre: Z) (x: Z) ,
+forall (py_pre: Z) (px_pre: Z) (x_eq: Z) ,
   [| (px_pre = py_pre) |]
-  &&  ((px_pre) # Int  |-> x)
+  &&  ((px_pre) # Int  |-> x_eq)
 |--
-EX (para: swap_para) ,
-  ((swap_pre px_pre py_pre para ))
+EX (para_all: swap_para) ,
+  ((swap_pre px_pre py_pre para_all ))
   **
-  (((swap_post px_pre py_pre para ))
+  (((swap_post px_pre py_pre para_all ))
   -*
-  (((py_pre) # Int  |-> x)))
+  (((py_pre) # Int  |-> x_eq)))
 .
 
 Definition swap_derive_neq_by_all := 
-forall (py_pre: Z) (px_pre: Z) (y: Z) (x: Z) ,
-  ((px_pre) # Int  |-> x)
-  **  ((py_pre) # Int  |-> y)
+forall (py_pre: Z) (px_pre: Z) (y_neq: Z) (x_neq: Z) ,
+  ((px_pre) # Int  |-> x_neq)
+  **  ((py_pre) # Int  |-> y_neq)
 |--
-EX (para: swap_para) ,
-  ((swap_pre px_pre py_pre para ))
+EX (para_all: swap_para) ,
+  ((swap_pre px_pre py_pre para_all ))
   **
-  (((swap_post px_pre py_pre para ))
+  (((swap_post px_pre py_pre para_all ))
   -*
-  (((px_pre) # Int  |-> y)
-  **  ((py_pre) # Int  |-> x)))
+  (((px_pre) # Int  |-> y_neq)
+  **  ((py_pre) # Int  |-> x_neq)))
 .
 
 Module Type VC_Correct.
 
 Include common_Strategy_Correct.
 
-Axiom proof_of_swap_entail_wit_1 : swap_entail_wit_1.
-Axiom proof_of_swap_return_wit_1_1 : swap_return_wit_1_1.
-Axiom proof_of_swap_return_wit_1_2 : swap_return_wit_1_2.
+Axiom proof_of_swap0_return_wit_1_neq : swap0_return_wit_1_neq.
+Axiom proof_of_swap0_return_wit_2_eq : swap0_return_wit_2_eq.
+Axiom proof_of_swap0_partial_solve_wit_1_eq : swap0_partial_solve_wit_1_eq.
+Axiom proof_of_swap0_partial_solve_wit_2_eq : swap0_partial_solve_wit_2_eq.
+Axiom proof_of_swap0_partial_solve_wit_3_eq : swap0_partial_solve_wit_3_eq.
+Axiom proof_of_swap_entail_wit_1_all : swap_entail_wit_1_all.
+Axiom proof_of_swap_return_wit_1 : swap_return_wit_1.
+Axiom proof_of_swap_return_wit_2 : swap_return_wit_2.
 Axiom proof_of_swap_partial_solve_wit_1 : swap_partial_solve_wit_1.
 Axiom proof_of_swap_partial_solve_wit_2 : swap_partial_solve_wit_2.
 Axiom proof_of_swap_partial_solve_wit_3 : swap_partial_solve_wit_3.

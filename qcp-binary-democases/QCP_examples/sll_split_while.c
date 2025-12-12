@@ -26,6 +26,7 @@ void split_while(struct list * x, struct list * * p, struct list * * q)
 
 
   /*@ Inv
+  low_level_spec :
     exists l l1 l2,
       p == p@pre && q == q@pre &&
       safeExec(ATrue, split_rec_rel(l, l1, l2), X) && 

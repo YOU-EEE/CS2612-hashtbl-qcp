@@ -46,7 +46,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_replace_min_return_wit_1_1 : replace_min_return_wit_1_1.
+Lemma proof_of_replace_min_return_wit_2 : replace_min_return_wit_2.
 Proof.
   pre_process.
   sep_apply store_tree_zero; [ | try tauto].
@@ -64,7 +64,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_replace_min_return_wit_1_2 : replace_min_return_wit_1_2.
+Lemma proof_of_replace_min_return_wit_1 : replace_min_return_wit_1.
 Proof.
   pre_process.
   sep_apply store_tree_make_tree; [ | try tauto | try tauto].
@@ -101,15 +101,15 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_Delete_entail_wit_1 : Delete_entail_wit_1.
+Lemma proof_of_Delete_entail_wit_1_low_level_spec : Delete_entail_wit_1_low_level_spec.
 Proof.
   pre_process.
-  Exists b_pre_v nil tr.
+  Exists b_pre_v nil tr_low_level_spec.
   unfold store_ptb.
   entailer!.
 Qed.
 
-Lemma proof_of_Delete_entail_wit_2_1 : Delete_entail_wit_2_1.
+Lemma proof_of_Delete_entail_wit_2_1_low_level_spec : Delete_entail_wit_2_1_low_level_spec.
 Proof.
   pre_process.
   Exists
@@ -127,7 +127,7 @@ Proof.
     first [reflexivity | Key.order].
 Qed.
 
-Lemma proof_of_Delete_entail_wit_2_2 : Delete_entail_wit_2_2.
+Lemma proof_of_Delete_entail_wit_2_2_low_level_spec : Delete_entail_wit_2_2_low_level_spec.
 Proof.
   pre_process.
   Exists
@@ -145,7 +145,7 @@ Proof.
     first [reflexivity | Key.order].
 Qed.
 
-Lemma proof_of_Delete_return_wit_1_1 : Delete_return_wit_1_1.
+Lemma proof_of_Delete_return_wit_2_low_level_spec : Delete_return_wit_2_low_level_spec.
 Proof.
   pre_process.
   sep_apply (store_tree_zero b_v_right b_v r0); [ | try tauto].
@@ -167,7 +167,7 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma proof_of_Delete_return_wit_1_2 : Delete_return_wit_1_2.
+Lemma proof_of_Delete_return_wit_1_low_level_spec : Delete_return_wit_1_low_level_spec.
 Proof.
   pre_process.
   sep_apply store_tree_make_tree; [ | try tauto | try tauto].
@@ -185,7 +185,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_Delete_return_wit_2 : Delete_return_wit_2.
+Lemma proof_of_Delete_return_wit_3_low_level_spec : Delete_return_wit_3_low_level_spec.
 Proof.
   pre_process.
   sep_apply store_tree_make_tree; [ | try tauto | try tauto].
@@ -203,7 +203,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_Delete_return_wit_3 : Delete_return_wit_3.
+Lemma proof_of_Delete_return_wit_4_low_level_spec : Delete_return_wit_4_low_level_spec.
 Proof.
   pre_process.
   sep_apply (store_tree_not_zero b_v_left b_v l0); [ | try tauto].
@@ -225,7 +225,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_Delete_return_wit_4 : Delete_return_wit_4.
+Lemma proof_of_Delete_return_wit_5_low_level_spec : Delete_return_wit_5_low_level_spec.
 Proof.
   pre_process.
   sep_apply store_tree_zero; [ | try tauto].

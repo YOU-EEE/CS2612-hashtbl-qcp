@@ -249,7 +249,7 @@ Proof.
   abs_ret_step.
 Qed.
 
-Lemma proof_of_mergeSort_safety_wit_1 : mergeSort_safety_wit_1.
+Lemma proof_of_mergeSort_safety_wit_1_low_level_spec : mergeSort_safety_wit_1_low_level_spec.
 Proof. 
   pre_process.
   assert (0 <= (r_pre - l_pre) ÷ 2 < r_pre - l_pre ).
@@ -259,9 +259,11 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_mergeSort_entail_wit_1 : mergeSort_entail_wit_1.
+Lemma proof_of_mergeSort_entail_wit_1_low_level_spec : mergeSort_entail_wit_1_low_level_spec.
 Proof. 
   pre_process.
+  rename s1_low_level_spec into s1.
+  rename X_low_level_spec into X.
   assert (0 <= (r_pre - l_pre) ÷ 2 < r_pre - l_pre ).
   { split.
     apply Z.quot_pos; lia.
@@ -314,9 +316,11 @@ Proof.
   apply (IntArray.ceil_merge_to_ceil); try lia.
 Qed.
 
-Lemma proof_of_mergeSort_return_wit_1_1 : mergeSort_return_wit_1_1.
+Lemma proof_of_mergeSort_return_wit_2_low_level_spec : mergeSort_return_wit_2_low_level_spec.
 Proof. 
   pre_process.
+  rename X_low_level_spec into X.
+  rename s1_low_level_spec into s1.
   prop_apply (IntArray.ceil_length arr_pre l_pre).
   Intros.
   replace (r_pre + 1 - l_pre) with 1 in * by lia.
@@ -342,7 +346,7 @@ Qed.
 Lemma proof_of_mergeSort_derive_low_level_spec_aux_by_low_level_spec : mergeSort_derive_low_level_spec_aux_by_low_level_spec.
 Proof. 
   pre_process.
-  Exists l0.
+  Exists l0_low_level_spec_aux.
   eapply safeExec_bind in H as (X' & ? & ?).
   Exists X'.
   entailer!.

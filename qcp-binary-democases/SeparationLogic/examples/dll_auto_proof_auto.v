@@ -91,10 +91,10 @@ Proof. Admitted.
 Lemma proof_of_append_return_wit_1 : append_return_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_append_return_wit_2_1 : append_return_wit_2_1.
+Lemma proof_of_append_return_wit_2 : append_return_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_append_return_wit_2_2 : append_return_wit_2_2.
+Lemma proof_of_append_return_wit_3 : append_return_wit_3.
 Proof. Admitted. 
 
 Lemma proof_of_append_partial_solve_wit_1 : append_partial_solve_wit_1.
@@ -175,19 +175,19 @@ Proof. Admitted.
 Lemma proof_of_multi_merge_return_wit_1 : multi_merge_return_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_multi_merge_return_wit_2_1 : multi_merge_return_wit_2_1.
-Proof. Admitted. 
-
-Lemma proof_of_multi_merge_return_wit_2_2 : multi_merge_return_wit_2_2.
+Lemma proof_of_multi_merge_return_wit_2 : multi_merge_return_wit_2.
 Proof. Admitted. 
 
 Lemma proof_of_multi_merge_return_wit_3 : multi_merge_return_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_multi_merge_return_wit_4_1 : multi_merge_return_wit_4_1.
+Lemma proof_of_multi_merge_return_wit_4 : multi_merge_return_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_multi_merge_return_wit_4_2 : multi_merge_return_wit_4_2.
+Lemma proof_of_multi_merge_return_wit_5 : multi_merge_return_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_multi_merge_return_wit_6 : multi_merge_return_wit_6.
 Proof. Admitted. 
 
 Lemma proof_of_multi_merge_partial_solve_wit_1 : multi_merge_partial_solve_wit_1.

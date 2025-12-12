@@ -188,41 +188,7 @@ forall (ptr_pre: Z) (b_pre: Z) (v: Z) (k: Z) (tr: tree) (b_pre_v: Z) (fa: Z) (b_
   **  ((&((ptr_pre)  # "tree" ->ₛ "value")) # Int  |-> v)
 .
 
-Definition replace_min_return_wit_1_1 := 
-forall (ptr_pre: Z) (b_pre: Z) (v: Z) (k: Z) (tr: tree) (b_pre_v_2: Z) (fa: Z) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
-  [| (b_v_right = 0) |] 
-  &&  [| (b_v_left = 0) |] 
-  &&  [| (INT_MIN <= b_v_key) |] 
-  &&  [| (b_v_key <= INT_MAX) |] 
-  &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
-  &&  [| (tr = (combine_tree (pt0) (tr0))) |] 
-  &&  [| ((min_key (k) (tr)) = (min_key (k) (tr0))) |] 
-  &&  [| ((min_value (v) (tr)) = (min_value (v) (tr0))) |] 
-  &&  [| (b_v <> 0) |] 
-  &&  [| ((delete_min (tr)) = (combine_tree (pt0) ((delete_min (tr0))))) |] 
-  &&  [| (ptr_pre <> 0) |] 
-  &&  [| (INT_MIN <= k) |] 
-  &&  [| (k <= INT_MAX) |] 
-  &&  [| (b_pre_v_2 <> 0) |]
-  &&  ((b) # Ptr  |-> b_v_right)
-  **  (store_tree b_v_left b_v l0 )
-  **  (store_tree b_v_right b_v r0 )
-  **  (store_ptb b b_pre fa ptr_pre pt0 )
-  **  ((&((ptr_pre)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
-  **  ((&((ptr_pre)  # "tree" ->ₛ "value")) # Int  |-> b_v_value)
-|--
-  EX (b_pre_v: Z)  (ptr_pre_value: Z)  (ptr_pre_key: Z) ,
-  [| (ptr_pre_key = (min_key (k) (tr))) |] 
-  &&  [| (ptr_pre_value = (min_value (v) (tr))) |] 
-  &&  [| (INT_MIN <= ptr_pre_key) |] 
-  &&  [| (ptr_pre_key <= INT_MAX) |]
-  &&  ((&((ptr_pre)  # "tree" ->ₛ "key")) # Int  |-> ptr_pre_key)
-  **  ((&((ptr_pre)  # "tree" ->ₛ "value")) # Int  |-> ptr_pre_value)
-  **  ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v ptr_pre (delete_min (tr)) )
-.
-
-Definition replace_min_return_wit_1_2 := 
+Definition replace_min_return_wit_1 := 
 forall (ptr_pre: Z) (b_pre: Z) (v: Z) (k: Z) (tr: tree) (b_pre_v_2: Z) (fa: Z) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
   [| (INT_MIN <= b_v_right_key) |] 
   &&  [| (b_v_right_key <= INT_MAX) |] 
@@ -250,6 +216,40 @@ forall (ptr_pre: Z) (b_pre: Z) (v: Z) (k: Z) (tr: tree) (b_pre_v_2: Z) (fa: Z) (
   **  ((&((b_v_right)  # "tree" ->ₛ "right")) # Ptr  |-> b_v_right_right)
   **  (store_tree b_v_right_right b_v_right r0_2 )
   **  (store_tree b_v_left b_v l0 )
+  **  (store_ptb b b_pre fa ptr_pre pt0 )
+  **  ((&((ptr_pre)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
+  **  ((&((ptr_pre)  # "tree" ->ₛ "value")) # Int  |-> b_v_value)
+|--
+  EX (b_pre_v: Z)  (ptr_pre_value: Z)  (ptr_pre_key: Z) ,
+  [| (ptr_pre_key = (min_key (k) (tr))) |] 
+  &&  [| (ptr_pre_value = (min_value (v) (tr))) |] 
+  &&  [| (INT_MIN <= ptr_pre_key) |] 
+  &&  [| (ptr_pre_key <= INT_MAX) |]
+  &&  ((&((ptr_pre)  # "tree" ->ₛ "key")) # Int  |-> ptr_pre_key)
+  **  ((&((ptr_pre)  # "tree" ->ₛ "value")) # Int  |-> ptr_pre_value)
+  **  ((b_pre) # Ptr  |-> b_pre_v)
+  **  (store_tree b_pre_v ptr_pre (delete_min (tr)) )
+.
+
+Definition replace_min_return_wit_2 := 
+forall (ptr_pre: Z) (b_pre: Z) (v: Z) (k: Z) (tr: tree) (b_pre_v_2: Z) (fa: Z) (b_v: Z) (b: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+  [| (b_v_right = 0) |] 
+  &&  [| (b_v_left = 0) |] 
+  &&  [| (INT_MIN <= b_v_key) |] 
+  &&  [| (b_v_key <= INT_MAX) |] 
+  &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
+  &&  [| (tr = (combine_tree (pt0) (tr0))) |] 
+  &&  [| ((min_key (k) (tr)) = (min_key (k) (tr0))) |] 
+  &&  [| ((min_value (v) (tr)) = (min_value (v) (tr0))) |] 
+  &&  [| (b_v <> 0) |] 
+  &&  [| ((delete_min (tr)) = (combine_tree (pt0) ((delete_min (tr0))))) |] 
+  &&  [| (ptr_pre <> 0) |] 
+  &&  [| (INT_MIN <= k) |] 
+  &&  [| (k <= INT_MAX) |] 
+  &&  [| (b_pre_v_2 <> 0) |]
+  &&  ((b) # Ptr  |-> b_v_right)
+  **  (store_tree b_v_left b_v l0 )
+  **  (store_tree b_v_right b_v r0 )
   **  (store_ptb b b_pre fa ptr_pre pt0 )
   **  ((&((ptr_pre)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
   **  ((&((ptr_pre)  # "tree" ->ₛ "value")) # Int  |-> b_v_value)
@@ -589,23 +589,23 @@ forall (tr0: tree) (b: Z) (b_v: Z) (b_v_right: Z) ,
 
 (*----- Function Delete -----*)
 
-Definition Delete_safety_wit_1 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_pre_v: Z) ,
+Definition Delete_safety_wit_1_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) ,
   [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "fa" ) )) # Ptr  |->_)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v 0 tr )
+  **  (store_tree b_pre_v 0 tr_low_level_spec )
 |--
   [| (0 <= INT_MAX) |] 
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition Delete_safety_wit_2 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+Definition Delete_safety_wit_2_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
+  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "fa" ) )) # Ptr  |-> fa)
@@ -619,9 +619,9 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| ((INT_MIN) <= 1) |]
 .
 
-Definition Delete_safety_wit_3 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+Definition Delete_safety_wit_3_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
+  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "fa" ) )) # Ptr  |-> fa)
@@ -635,15 +635,15 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition Delete_safety_wit_4 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_safety_wit_4_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_key >= x_pre) |] 
   &&  [| (x_pre >= b_v_key) |] 
   &&  [| (INT_MIN <= b_v_key) |] 
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "b" ) )) # Ptr  |-> b)
@@ -663,8 +663,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition Delete_safety_wit_5 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_safety_wit_5_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_right = 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
   &&  [| (x_pre >= b_v_key) |] 
@@ -672,7 +672,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "to_free" ) )) # Ptr  |-> b_v)
@@ -693,8 +693,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition Delete_safety_wit_6 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_safety_wit_6_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_right <> 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
   &&  [| (x_pre >= b_v_key) |] 
@@ -702,7 +702,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "b" ) )) # Ptr  |-> b)
@@ -722,8 +722,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition Delete_safety_wit_7 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_safety_wit_7_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_left = 0) |] 
   &&  [| (b_v_right <> 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
@@ -732,7 +732,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "to_free" ) )) # Ptr  |-> b_v)
@@ -753,8 +753,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition Delete_safety_wit_8 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_safety_wit_8_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_right = 0) |] 
   &&  [| (b_v_left = 0) |] 
   &&  [| (b_v_right <> 0) |] 
@@ -764,7 +764,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "to_free" ) )) # Ptr  |-> b_v)
@@ -784,15 +784,15 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   [| False |]
 .
 
-Definition Delete_entail_wit_1 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_pre_v: Z) ,
+Definition Delete_entail_wit_1_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) ,
   [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v 0 tr )
+  **  (store_tree b_pre_v 0 tr_low_level_spec )
 |--
   EX (b_v: Z)  (pt0: partial_tree)  (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb b_pre b_pre 0 0 pt0 )
@@ -800,14 +800,14 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_pre_v: Z) ,
   **  (store_tree b_v 0 tr0 )
 .
 
-Definition Delete_entail_wit_2_1 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partial_tree) (tr0_2: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_entail_wit_2_1_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partial_tree) (tr0_2: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (x_pre < b_v_key) |] 
   &&  [| (INT_MIN <= b_v_key) |] 
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0_2 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v_2 <> 0) |] 
-  &&  [| ((combine_tree (pt0_2) ((tree_delete (x_pre) (tr0_2)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0_2) ((tree_delete (x_pre) (tr0_2)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v_2)
@@ -821,7 +821,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partia
   **  (store_ptb b b_pre fa 0 pt0_2 )
 |--
   EX (b_v: Z)  (pt0: partial_tree)  (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb &((b_v_2)  # "tree" ->ₛ "left") b_pre b_v_2 0 pt0 )
@@ -829,15 +829,15 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partia
   **  (store_tree b_v b_v_2 tr0 )
 .
 
-Definition Delete_entail_wit_2_2 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partial_tree) (tr0_2: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_entail_wit_2_2_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partial_tree) (tr0_2: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_key < x_pre) |] 
   &&  [| (x_pre >= b_v_key) |] 
   &&  [| (INT_MIN <= b_v_key) |] 
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0_2 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v_2 <> 0) |] 
-  &&  [| ((combine_tree (pt0_2) ((tree_delete (x_pre) (tr0_2)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0_2) ((tree_delete (x_pre) (tr0_2)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v_2)
@@ -851,7 +851,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partia
   **  (store_ptb b b_pre fa 0 pt0_2 )
 |--
   EX (b_v: Z)  (pt0: partial_tree)  (tr0: tree) ,
-  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb &((b_v_2)  # "tree" ->ₛ "right") b_pre b_v_2 0 pt0 )
@@ -859,31 +859,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v_2: Z) (b: Z) (fa: Z) (pt0_2: partia
   **  (store_tree b_v b_v_2 tr0 )
 .
 
-Definition Delete_return_wit_1_1 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
-  [| (b_v_left = 0) |] 
-  &&  [| (b_v_right = 0) |] 
-  &&  [| (b_v_key >= x_pre) |] 
-  &&  [| (x_pre >= b_v_key) |] 
-  &&  [| (INT_MIN <= b_v_key) |] 
-  &&  [| (b_v_key <= INT_MAX) |] 
-  &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
-  &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
-  &&  [| (INT_MIN <= x_pre) |] 
-  &&  [| (x_pre <= INT_MAX) |]
-  &&  ((b) # Ptr  |-> b_v_left)
-  **  (store_tree b_v_left b_v l0 )
-  **  (store_tree b_v_right b_v r0 )
-  **  (store_ptb b b_pre fa 0 pt0 )
-|--
-  EX (b_pre_v: Z) ,
-  ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr)) )
-.
-
-Definition Delete_return_wit_1_2 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_left_right: Z) (b_v_left_left: Z) (l0_2: tree) (b_v_left_value: Z) (r0_2: tree) (b_v_left_key: Z) ,
+Definition Delete_return_wit_1_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_left_right: Z) (b_v_left_left: Z) (l0_2: tree) (b_v_left_value: Z) (r0_2: tree) (b_v_left_key: Z) ,
   [| (INT_MIN <= b_v_left_key) |] 
   &&  [| (b_v_left_key <= INT_MAX) |] 
   &&  [| (l0 = (make_tree (l0_2) (b_v_left_key) (b_v_left_value) (r0_2))) |] 
@@ -895,7 +872,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v_left)
@@ -911,11 +888,34 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
 |--
   EX (b_pre_v: Z) ,
   ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr)) )
+  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr_low_level_spec)) )
 .
 
-Definition Delete_return_wit_2 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
+Definition Delete_return_wit_2_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+  [| (b_v_left = 0) |] 
+  &&  [| (b_v_right = 0) |] 
+  &&  [| (b_v_key >= x_pre) |] 
+  &&  [| (x_pre >= b_v_key) |] 
+  &&  [| (INT_MIN <= b_v_key) |] 
+  &&  [| (b_v_key <= INT_MAX) |] 
+  &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
+  &&  [| (b_v <> 0) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
+  &&  [| (INT_MIN <= x_pre) |] 
+  &&  [| (x_pre <= INT_MAX) |]
+  &&  ((b) # Ptr  |-> b_v_left)
+  **  (store_tree b_v_left b_v l0 )
+  **  (store_tree b_v_right b_v r0 )
+  **  (store_ptb b b_pre fa 0 pt0 )
+|--
+  EX (b_pre_v: Z) ,
+  ((b_pre) # Ptr  |-> b_pre_v)
+  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr_low_level_spec)) )
+.
+
+Definition Delete_return_wit_3_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
   [| (INT_MIN <= b_v_right_key) |] 
   &&  [| (b_v_right_key <= INT_MAX) |] 
   &&  [| (r0 = (make_tree (l0_2) (b_v_right_key) (b_v_right_value) (r0_2))) |] 
@@ -928,7 +928,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v_right)
@@ -944,11 +944,11 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
 |--
   EX (b_pre_v: Z) ,
   ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr)) )
+  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr_low_level_spec)) )
 .
 
-Definition Delete_return_wit_3 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) (b_callee_v: Z) (ptr_callee_value: Z) (ptr_callee_key: Z) ,
+Definition Delete_return_wit_4_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) (b_callee_v: Z) (ptr_callee_value: Z) (ptr_callee_key: Z) ,
   [| (ptr_callee_key = (min_key (b_v_key) ((make_tree (l0_2) (b_v_right_key) (b_v_right_value) (r0_2))))) |] 
   &&  [| (ptr_callee_value = (min_value (b_v_value) ((make_tree (l0_2) (b_v_right_key) (b_v_right_value) (r0_2))))) |] 
   &&  [| (INT_MIN <= ptr_callee_key) |] 
@@ -964,7 +964,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v)  # "tree" ->ₛ "key")) # Int  |-> ptr_callee_key)
@@ -979,13 +979,13 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
 |--
   EX (b_pre_v: Z) ,
   ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr)) )
+  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr_low_level_spec)) )
 .
 
-Definition Delete_return_wit_4 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
+Definition Delete_return_wit_5_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
   [| (b_v = 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb b b_pre fa 0 pt0 )
@@ -994,13 +994,13 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
 |--
   EX (b_pre_v: Z) ,
   ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr)) )
+  **  (store_tree b_pre_v 0 (tree_delete (x_pre) (tr_low_level_spec)) )
 .
 
-Definition Delete_partial_solve_wit_1_pure := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
+Definition Delete_partial_solve_wit_1_low_level_spec_pure := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
   [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "fa" ) )) # Ptr  |-> fa)
@@ -1013,10 +1013,10 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   [| (b_v <> 0) |]
 .
 
-Definition Delete_partial_solve_wit_1_aux := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
+Definition Delete_partial_solve_wit_1_low_level_spec_aux := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) ,
   [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  (store_ptb b b_pre fa 0 pt0 )
@@ -1025,7 +1025,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
 |--
   [| (b_v <> 0) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1033,10 +1033,10 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_1 := Delete_partial_solve_wit_1_pure -> Delete_partial_solve_wit_1_aux.
+Definition Delete_partial_solve_wit_1_low_level_spec := Delete_partial_solve_wit_1_low_level_spec_pure -> Delete_partial_solve_wit_1_low_level_spec_aux.
 
-Definition Delete_partial_solve_wit_2_pure := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_partial_solve_wit_2_low_level_spec_pure := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_left <> 0) |] 
   &&  [| (b_v_right = 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
@@ -1045,7 +1045,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "to_free" ) )) # Ptr  |-> b_v)
@@ -1065,8 +1065,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   [| (b_v_left <> 0) |]
 .
 
-Definition Delete_partial_solve_wit_2_aux := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_partial_solve_wit_2_low_level_spec_aux := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_left <> 0) |] 
   &&  [| (b_v_right = 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
@@ -1075,7 +1075,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1097,7 +1097,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1111,10 +1111,10 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_2 := Delete_partial_solve_wit_2_pure -> Delete_partial_solve_wit_2_aux.
+Definition Delete_partial_solve_wit_2_low_level_spec := Delete_partial_solve_wit_2_low_level_spec_pure -> Delete_partial_solve_wit_2_low_level_spec_aux.
 
-Definition Delete_partial_solve_wit_3 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_partial_solve_wit_3_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_left = 0) |] 
   &&  [| (b_v_right = 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
@@ -1123,7 +1123,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v_left)
@@ -1144,7 +1144,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
@@ -1158,8 +1158,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_4 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_left_right: Z) (b_v_left_left: Z) (l0_2: tree) (b_v_left_value: Z) (r0_2: tree) (b_v_left_key: Z) ,
+Definition Delete_partial_solve_wit_4_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_left_right: Z) (b_v_left_left: Z) (l0_2: tree) (b_v_left_value: Z) (r0_2: tree) (b_v_left_key: Z) ,
   [| (INT_MIN <= b_v_left_key) |] 
   &&  [| (b_v_left_key <= INT_MAX) |] 
   &&  [| (l0 = (make_tree (l0_2) (b_v_left_key) (b_v_left_value) (r0_2))) |] 
@@ -1171,7 +1171,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v_left)
@@ -1201,7 +1201,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
@@ -1221,8 +1221,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_5_pure := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_partial_solve_wit_5_low_level_spec_pure := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_right <> 0) |] 
   &&  [| (b_v_left = 0) |] 
   &&  [| (b_v_right <> 0) |] 
@@ -1232,7 +1232,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "to_free" ) )) # Ptr  |-> b_v)
@@ -1252,8 +1252,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   [| (b_v_right <> 0) |]
 .
 
-Definition Delete_partial_solve_wit_5_aux := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_partial_solve_wit_5_low_level_spec_aux := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_right <> 0) |] 
   &&  [| (b_v_left = 0) |] 
   &&  [| (b_v_right <> 0) |] 
@@ -1263,7 +1263,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1286,7 +1286,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1300,10 +1300,10 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_5 := Delete_partial_solve_wit_5_pure -> Delete_partial_solve_wit_5_aux.
+Definition Delete_partial_solve_wit_5_low_level_spec := Delete_partial_solve_wit_5_low_level_spec_pure -> Delete_partial_solve_wit_5_low_level_spec_aux.
 
-Definition Delete_partial_solve_wit_6 := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
+Definition Delete_partial_solve_wit_6_low_level_spec := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
   [| (INT_MIN <= b_v_right_key) |] 
   &&  [| (b_v_right_key <= INT_MAX) |] 
   &&  [| (r0 = (make_tree (l0_2) (b_v_right_key) (b_v_right_value) (r0_2))) |] 
@@ -1316,7 +1316,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v_right)
@@ -1347,7 +1347,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
@@ -1367,8 +1367,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_7_pure := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_partial_solve_wit_7_low_level_spec_pure := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_left <> 0) |] 
   &&  [| (b_v_right <> 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
@@ -1377,7 +1377,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "b" ) )) # Ptr  |-> b)
@@ -1396,8 +1396,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   [| (b_v_right <> 0) |]
 .
 
-Definition Delete_partial_solve_wit_7_aux := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
+Definition Delete_partial_solve_wit_7_low_level_spec_aux := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) ,
   [| (b_v_left <> 0) |] 
   &&  [| (b_v_right <> 0) |] 
   &&  [| (b_v_key >= x_pre) |] 
@@ -1406,7 +1406,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1428,7 +1428,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1442,10 +1442,10 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_7 := Delete_partial_solve_wit_7_pure -> Delete_partial_solve_wit_7_aux.
+Definition Delete_partial_solve_wit_7_low_level_spec := Delete_partial_solve_wit_7_low_level_spec_pure -> Delete_partial_solve_wit_7_low_level_spec_aux.
 
-Definition Delete_partial_solve_wit_8_pure := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
+Definition Delete_partial_solve_wit_8_low_level_spec_pure := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
   [| (INT_MIN <= b_v_right_key) |] 
   &&  [| (b_v_right_key <= INT_MAX) |] 
   &&  [| (r0 = (make_tree (l0_2) (b_v_right_key) (b_v_right_value) (r0_2))) |] 
@@ -1457,7 +1457,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((( &( "b" ) )) # Ptr  |-> b)
@@ -1485,8 +1485,8 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_right <> 0) |]
 .
 
-Definition Delete_partial_solve_wit_8_aux := 
-forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
+Definition Delete_partial_solve_wit_8_low_level_spec_aux := 
+forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tree) (tr0: tree) (b_v_right: Z) (b_v_left: Z) (l0: tree) (b_v_value: Z) (r0: tree) (b_v_key: Z) (b_v_right_right: Z) (b_v_right_left: Z) (l0_2: tree) (b_v_right_value: Z) (r0_2: tree) (b_v_right_key: Z) ,
   [| (INT_MIN <= b_v_right_key) |] 
   &&  [| (b_v_right_key <= INT_MAX) |] 
   &&  [| (r0 = (make_tree (l0_2) (b_v_right_key) (b_v_right_value) (r0_2))) |] 
@@ -1498,7 +1498,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b) # Ptr  |-> b_v)
@@ -1532,7 +1532,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   &&  [| (b_v_key <= INT_MAX) |] 
   &&  [| (tr0 = (make_tree (l0) (b_v_key) (b_v_value) (r0))) |] 
   &&  [| (b_v <> 0) |] 
-  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr))) |] 
+  &&  [| ((combine_tree (pt0) ((tree_delete (x_pre) (tr0)))) = (tree_delete (x_pre) (tr_low_level_spec))) |] 
   &&  [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((&((b_v)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
@@ -1546,7 +1546,7 @@ forall (x_pre: Z) (b_pre: Z) (tr: tree) (b_v: Z) (b: Z) (fa: Z) (pt0: partial_tr
   **  (store_ptb b b_pre fa 0 pt0 )
 .
 
-Definition Delete_partial_solve_wit_8 := Delete_partial_solve_wit_8_pure -> Delete_partial_solve_wit_8_aux.
+Definition Delete_partial_solve_wit_8_low_level_spec := Delete_partial_solve_wit_8_low_level_spec_pure -> Delete_partial_solve_wit_8_low_level_spec_aux.
 
 Definition Delete_which_implies_wit_1 := 
 forall (tr0: tree) (b: Z) (b_v: Z) (fa: Z) ,
@@ -1635,27 +1635,27 @@ forall (tr0: tree) (b: Z) (b_v: Z) (b_v_right: Z) ,
 .
 
 Definition Delete_derive_high_level_spec_by_low_level_spec := 
-forall (x_pre: Z) (b_pre: Z) (m: mapping) ,
+forall (x_pre: Z) (b_pre: Z) (m_high_level_spec: mapping) ,
   EX b_pre_v,
   [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b_pre) # Ptr  |-> b_pre_v)
-  **  (store_map b_pre_v m )
+  **  (store_map b_pre_v m_high_level_spec )
 |--
-EX (tr: tree) ,
+EX (tr_low_level_spec: tree) ,
   (EX b_callee_v,
   [| (INT_MIN <= x_pre) |] 
   &&  [| (x_pre <= INT_MAX) |]
   &&  ((b_pre) # Ptr  |-> b_callee_v)
-  **  (store_tree b_callee_v 0 tr ))
+  **  (store_tree b_callee_v 0 tr_low_level_spec ))
   **
   ((EX b_callee_v_2,
   ((b_pre) # Ptr  |-> b_callee_v_2)
-  **  (store_tree b_callee_v_2 0 (tree_delete (x_pre) (tr)) ))
+  **  (store_tree b_callee_v_2 0 (tree_delete (x_pre) (tr_low_level_spec)) ))
   -*
   (EX b_pre_v_2,
   ((b_pre) # Ptr  |-> b_pre_v_2)
-  **  (store_map b_pre_v_2 (map_delete (x_pre) (m)) )))
+  **  (store_map b_pre_v_2 (map_delete (x_pre) (m_high_level_spec)) )))
 .
 
 Module Type VC_Correct.
@@ -1668,8 +1668,8 @@ Axiom proof_of_replace_min_safety_wit_2 : replace_min_safety_wit_2.
 Axiom proof_of_replace_min_safety_wit_3 : replace_min_safety_wit_3.
 Axiom proof_of_replace_min_entail_wit_1 : replace_min_entail_wit_1.
 Axiom proof_of_replace_min_entail_wit_2 : replace_min_entail_wit_2.
-Axiom proof_of_replace_min_return_wit_1_1 : replace_min_return_wit_1_1.
-Axiom proof_of_replace_min_return_wit_1_2 : replace_min_return_wit_1_2.
+Axiom proof_of_replace_min_return_wit_1 : replace_min_return_wit_1.
+Axiom proof_of_replace_min_return_wit_2 : replace_min_return_wit_2.
 Axiom proof_of_replace_min_partial_solve_wit_1_pure : replace_min_partial_solve_wit_1_pure.
 Axiom proof_of_replace_min_partial_solve_wit_1 : replace_min_partial_solve_wit_1.
 Axiom proof_of_replace_min_partial_solve_wit_2_pure : replace_min_partial_solve_wit_2_pure.
@@ -1678,35 +1678,35 @@ Axiom proof_of_replace_min_partial_solve_wit_3 : replace_min_partial_solve_wit_3
 Axiom proof_of_replace_min_partial_solve_wit_4 : replace_min_partial_solve_wit_4.
 Axiom proof_of_replace_min_which_implies_wit_1 : replace_min_which_implies_wit_1.
 Axiom proof_of_replace_min_which_implies_wit_2 : replace_min_which_implies_wit_2.
-Axiom proof_of_Delete_safety_wit_1 : Delete_safety_wit_1.
-Axiom proof_of_Delete_safety_wit_2 : Delete_safety_wit_2.
-Axiom proof_of_Delete_safety_wit_3 : Delete_safety_wit_3.
-Axiom proof_of_Delete_safety_wit_4 : Delete_safety_wit_4.
-Axiom proof_of_Delete_safety_wit_5 : Delete_safety_wit_5.
-Axiom proof_of_Delete_safety_wit_6 : Delete_safety_wit_6.
-Axiom proof_of_Delete_safety_wit_7 : Delete_safety_wit_7.
-Axiom proof_of_Delete_safety_wit_8 : Delete_safety_wit_8.
-Axiom proof_of_Delete_entail_wit_1 : Delete_entail_wit_1.
-Axiom proof_of_Delete_entail_wit_2_1 : Delete_entail_wit_2_1.
-Axiom proof_of_Delete_entail_wit_2_2 : Delete_entail_wit_2_2.
-Axiom proof_of_Delete_return_wit_1_1 : Delete_return_wit_1_1.
-Axiom proof_of_Delete_return_wit_1_2 : Delete_return_wit_1_2.
-Axiom proof_of_Delete_return_wit_2 : Delete_return_wit_2.
-Axiom proof_of_Delete_return_wit_3 : Delete_return_wit_3.
-Axiom proof_of_Delete_return_wit_4 : Delete_return_wit_4.
-Axiom proof_of_Delete_partial_solve_wit_1_pure : Delete_partial_solve_wit_1_pure.
-Axiom proof_of_Delete_partial_solve_wit_1 : Delete_partial_solve_wit_1.
-Axiom proof_of_Delete_partial_solve_wit_2_pure : Delete_partial_solve_wit_2_pure.
-Axiom proof_of_Delete_partial_solve_wit_2 : Delete_partial_solve_wit_2.
-Axiom proof_of_Delete_partial_solve_wit_3 : Delete_partial_solve_wit_3.
-Axiom proof_of_Delete_partial_solve_wit_4 : Delete_partial_solve_wit_4.
-Axiom proof_of_Delete_partial_solve_wit_5_pure : Delete_partial_solve_wit_5_pure.
-Axiom proof_of_Delete_partial_solve_wit_5 : Delete_partial_solve_wit_5.
-Axiom proof_of_Delete_partial_solve_wit_6 : Delete_partial_solve_wit_6.
-Axiom proof_of_Delete_partial_solve_wit_7_pure : Delete_partial_solve_wit_7_pure.
-Axiom proof_of_Delete_partial_solve_wit_7 : Delete_partial_solve_wit_7.
-Axiom proof_of_Delete_partial_solve_wit_8_pure : Delete_partial_solve_wit_8_pure.
-Axiom proof_of_Delete_partial_solve_wit_8 : Delete_partial_solve_wit_8.
+Axiom proof_of_Delete_safety_wit_1_low_level_spec : Delete_safety_wit_1_low_level_spec.
+Axiom proof_of_Delete_safety_wit_2_low_level_spec : Delete_safety_wit_2_low_level_spec.
+Axiom proof_of_Delete_safety_wit_3_low_level_spec : Delete_safety_wit_3_low_level_spec.
+Axiom proof_of_Delete_safety_wit_4_low_level_spec : Delete_safety_wit_4_low_level_spec.
+Axiom proof_of_Delete_safety_wit_5_low_level_spec : Delete_safety_wit_5_low_level_spec.
+Axiom proof_of_Delete_safety_wit_6_low_level_spec : Delete_safety_wit_6_low_level_spec.
+Axiom proof_of_Delete_safety_wit_7_low_level_spec : Delete_safety_wit_7_low_level_spec.
+Axiom proof_of_Delete_safety_wit_8_low_level_spec : Delete_safety_wit_8_low_level_spec.
+Axiom proof_of_Delete_entail_wit_1_low_level_spec : Delete_entail_wit_1_low_level_spec.
+Axiom proof_of_Delete_entail_wit_2_1_low_level_spec : Delete_entail_wit_2_1_low_level_spec.
+Axiom proof_of_Delete_entail_wit_2_2_low_level_spec : Delete_entail_wit_2_2_low_level_spec.
+Axiom proof_of_Delete_return_wit_1_low_level_spec : Delete_return_wit_1_low_level_spec.
+Axiom proof_of_Delete_return_wit_2_low_level_spec : Delete_return_wit_2_low_level_spec.
+Axiom proof_of_Delete_return_wit_3_low_level_spec : Delete_return_wit_3_low_level_spec.
+Axiom proof_of_Delete_return_wit_4_low_level_spec : Delete_return_wit_4_low_level_spec.
+Axiom proof_of_Delete_return_wit_5_low_level_spec : Delete_return_wit_5_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_1_low_level_spec_pure : Delete_partial_solve_wit_1_low_level_spec_pure.
+Axiom proof_of_Delete_partial_solve_wit_1_low_level_spec : Delete_partial_solve_wit_1_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_2_low_level_spec_pure : Delete_partial_solve_wit_2_low_level_spec_pure.
+Axiom proof_of_Delete_partial_solve_wit_2_low_level_spec : Delete_partial_solve_wit_2_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_3_low_level_spec : Delete_partial_solve_wit_3_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_4_low_level_spec : Delete_partial_solve_wit_4_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_5_low_level_spec_pure : Delete_partial_solve_wit_5_low_level_spec_pure.
+Axiom proof_of_Delete_partial_solve_wit_5_low_level_spec : Delete_partial_solve_wit_5_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_6_low_level_spec : Delete_partial_solve_wit_6_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_7_low_level_spec_pure : Delete_partial_solve_wit_7_low_level_spec_pure.
+Axiom proof_of_Delete_partial_solve_wit_7_low_level_spec : Delete_partial_solve_wit_7_low_level_spec.
+Axiom proof_of_Delete_partial_solve_wit_8_low_level_spec_pure : Delete_partial_solve_wit_8_low_level_spec_pure.
+Axiom proof_of_Delete_partial_solve_wit_8_low_level_spec : Delete_partial_solve_wit_8_low_level_spec.
 Axiom proof_of_Delete_which_implies_wit_1 : Delete_which_implies_wit_1.
 Axiom proof_of_Delete_which_implies_wit_2 : Delete_which_implies_wit_2.
 Axiom proof_of_Delete_which_implies_wit_3 : Delete_which_implies_wit_3.

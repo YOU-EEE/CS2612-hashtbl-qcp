@@ -21,7 +21,7 @@ Require Import sll_merge_rel_lib.
 Local Open Scope monad.
 Local Open Scope sac.
 
-Lemma proof_of_split_while_entail_wit_2_2 : split_while_entail_wit_2_2.
+Lemma proof_of_split_while_entail_wit_2_2_low_level_spec : split_while_entail_wit_2_2_low_level_spec.
 Proof. 
   pre_process.
   sepcon_lift  (sll x_next l1_new ).
@@ -40,19 +40,19 @@ Proof.
   exact H0.
 Qed.
 
-Lemma proof_of_split_while_partial_solve_wit_2_pure : split_while_partial_solve_wit_2_pure.
+Lemma proof_of_split_while_partial_solve_wit_2_low_level_spec_pure : split_while_partial_solve_wit_2_low_level_spec_pure.
 Proof. 
   pre_process.
   subst; entailer!.
 Qed. 
 
-Lemma proof_of_split_while_partial_solve_wit_4_pure : split_while_partial_solve_wit_4_pure.
+Lemma proof_of_split_while_partial_solve_wit_4_low_level_spec_pure : split_while_partial_solve_wit_4_low_level_spec_pure.
 Proof. 
   pre_process.
   subst; entailer!.
 Qed. 
 
-Lemma proof_of_split_while_return_wit_1 : split_while_return_wit_1.
+Lemma proof_of_split_while_return_wit_1_low_level_spec : split_while_return_wit_1_low_level_spec.
 Proof.
   pre_process.
   Exists q_v p_v l1 l2.

@@ -20,15 +20,15 @@ Import get_right_most.
 Import naive_C_Rules.
 Local Open Scope sac.
 
-Lemma proof_of_insert_entail_wit_1 : insert_entail_wit_1.
+Lemma proof_of_insert_entail_wit_1_low_level_spec : insert_entail_wit_1_low_level_spec.
 Proof.
   pre_process.
-  Exists b_pre_v nil tr.
+  Exists b_pre_v nil tr_low_level_spec.
   simpl.
   entailer!.
 Qed.
 
-Lemma proof_of_insert_entail_wit_2_1 : insert_entail_wit_2_1.
+Lemma proof_of_insert_entail_wit_2_1_low_level_spec : insert_entail_wit_2_1_low_level_spec.
 Proof.
   pre_process.
   sep_apply (store_ptb_LH b b_v_2); [ | try tauto .. ].
@@ -46,7 +46,7 @@ Proof.
     first [reflexivity | Key.order].
 Qed.
 
-Lemma proof_of_insert_entail_wit_2_2 : insert_entail_wit_2_2.
+Lemma proof_of_insert_entail_wit_2_2_low_level_spec : insert_entail_wit_2_2_low_level_spec.
 Proof.
   pre_process.
   sep_apply (store_ptb_RH b b_v_2); [ | try tauto .. ].
@@ -64,7 +64,7 @@ Proof.
     first [reflexivity | Key.order].
 Qed.
 
-Lemma proof_of_insert_return_wit_1 : insert_return_wit_1.
+Lemma proof_of_insert_return_wit_1_low_level_spec : insert_return_wit_1_low_level_spec.
 Proof.
   pre_process.
   sep_apply store_tree_zero; [ | tauto].
@@ -79,7 +79,7 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_insert_return_wit_2 : insert_return_wit_2.
+Lemma proof_of_insert_return_wit_2_low_level_spec : insert_return_wit_2_low_level_spec.
 Proof.
   pre_process.
   sep_apply store_tree_make_tree; [ | tauto ..].
