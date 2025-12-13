@@ -33,7 +33,7 @@ COMPCERT_FILE_NAMES = \
 COMPCERT_FILES=$(COMPCERT_FILE_NAMES:%.v=$(COMPCERT_DIR)/%.v)
 
 PL_FILE_NAMES = \
-	MonadHoare.v FixedPoint.v Monad.v  Kleene.v Syntax.v SimpleProofsAndDefs.v HighOrder.v SimpleInductiveType.v AlgebraicStructure.v Rewrite.v DenotationsOfExpr.v DenotationsAsRels.v Sets.v logic.v MoreInductiveType.v Sets2.v BuiltInNat.v 
+	MonadHoare.v FixedPoint.v Monad.v  Kleene.v Syntax.v SimpleProofsAndDefs.v HighOrder.v SimpleInductiveType.v AlgebraicStructure.v Rewrite.v DenotationsOfExpr.v DenotationsAsRels.v Sets.v Logic.v MoreInductiveType.v Sets2.v BuiltInNat.v 
 PL_FILES=$(PL_FILE_NAMES:%.v=$(PL_DIR)/%.v)
 
 ASSIGNMENT_FILE_NAMES = \
