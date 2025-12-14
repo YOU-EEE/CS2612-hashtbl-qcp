@@ -1457,6 +1457,43 @@ End StoreUCharAsElement.
 
 Module UCharArray := ArrayLib (StoreUCharAsElement).
 
+Module StorePtrAsElement <: ELEMENT_STORE.
+  Definition A := Z.
+  Definition storeA (x: addr) (lo: Z) (a: Z): Assertion :=
+    (x + lo * sizeof(PTR)) # Ptr |-> a.
+  Definition undefstoreA (x: addr) (lo: Z): Assertion :=
+    (x + lo * sizeof(PTR)) # Ptr |->_ .
+  Definition sizeA := sizeof(PTR).
+
+  Lemma store_to_undefstore : forall x lo a,
+    storeA x lo a |-- undefstoreA x lo.
+  Proof.
+    intros.
+    apply store_ptr_undef_store_ptr.
+  Qed.
+
+  Lemma storeA_shift : forall x n lo a,
+    storeA (x + n * sizeA) lo a --||-- storeA x (lo + n) a.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    replace (x + n * sizeof(PTR) + lo * sizeof(PTR)) with (x + (lo + n) * sizeof(PTR)) by lia.
+    entailer!.
+  Qed.
+
+  Lemma undefstoreA_shift : forall x n lo,
+    undefstoreA (x + n * sizeA) lo --||-- undefstoreA x (lo + n).
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA.
+    replace (x + n * sizeof(PTR) + lo * sizeof(PTR)) with (x + (lo + n) * sizeof(PTR)) by lia.
+    entailer!.
+  Qed.
+
+End StorePtrAsElement.
+
+Module PtrArray := ArrayLib (StorePtrAsElement).
+
 Definition repeat_Z {A: Type} (a: A) (n: Z): list A :=
   repeat a (Z.to_nat n).
 

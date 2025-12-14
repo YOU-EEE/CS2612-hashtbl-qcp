@@ -1160,14 +1160,36 @@ Proof.
   entailer!.
 Qed.
 
+Lemma undef_store_int_align4 :
+  forall x, x # Int |->_ |-- store_align4_n 1.
+Proof.
+  intros.
+  unfold undef_store_int, store_align4_n. simpl.
+  Intros. Exists [x]. 
+  simpl. 
+  entailer!.
+  unfold isvalidptr_int , aligned_4 in H.
+  constructor ; auto ; try lia.
+  constructor.
+Qed.
+
 Lemma store_int_align4 : forall x v, x # Int |-> v |-- store_align4_n 1.
 Proof.
   intros.
-  unfold store_int , store_align4_n.
+  sep_apply store_int_undef_store_int.
+  sep_apply undef_store_int_align4.
+  entailer!.
+Qed.
+
+Lemma undef_store_uint_align4 :
+  forall x, x # UInt |->_ |-- store_align4_n 1.
+Proof.
+  intros.
+  unfold undef_store_uint, store_align4_n. simpl.
   Intros. Exists [x]. 
-  sep_apply store_4byte_store_4byte_noinit.
-  simpl.
-  entailer!. unfold isvalidptr_int , aligned_4 in H.
+  simpl. 
+  entailer!.
+  unfold isvalidptr_int , aligned_4 in H.
   constructor ; auto ; try lia.
   constructor.
 Qed.
@@ -1175,22 +1197,16 @@ Qed.
 Lemma store_uint_align4 : forall x v, x # UInt |-> v |-- store_align4_n 1.
 Proof.
   intros.
-  unfold store_uint, store_align4_n. simpl.
-  Intros. Exists [x]. 
-  sep_apply store_4byte_store_4byte_noinit.
-  simpl.
+  sep_apply store_uint_undef_store_uint.
+  sep_apply undef_store_uint_align4.
   entailer!.
-  unfold isvalidptr_int , aligned_4 in H.
-  constructor ; auto ; try lia.
-  constructor.
 Qed.
 
-Lemma store_int64_align1 : forall x v, x # Int64 |-> v |-- store_align4_n 2.
+Lemma undef_store_int64_align4 : forall x, x # Int64 |->_ |-- store_align4_n 2.
 Proof.
   intros.
-  unfold store_int64, store_align4_n. simpl.
+  unfold undef_store_int64, store_align4_n. simpl.
   Intros. Exists (x :: [x + 4]). 
-  sep_apply store_8byte_store_8byte_noinit.
   simpl.
   entailer!.
   - unfold store_8byte_noninit.
@@ -1203,7 +1219,7 @@ Proof.
     unfold aligned_4 in *. 
     repeat split ; try lia. 
     rewrite <- Zplus_mod_idemp_l.
-    destruct H as [[? [? ?]] [? ?]].
+    destruct H as [? [? ?]].
     rewrite H1. reflexivity.
   - unfold isvalidptr_int64 in H. unfold isvalidptr. 
     unfold aligned_4 in *. 
@@ -1212,12 +1228,19 @@ Proof.
     repeat constructor ; try lia. 
 Qed.
 
-Lemma store_uint64_align1 : forall x v, x # UInt64 |-> v |-- store_align4_n 2.
+Lemma store_int64_align4 : forall x v, x # Int64 |-> v |-- store_align4_n 2.
 Proof.
   intros.
-  unfold store_uint64, store_align4_n. simpl.
+  sep_apply store_int64_undef_store_int64.
+  sep_apply undef_store_int64_align4.
+  entailer!.
+Qed.
+
+Lemma undef_store_uint64_align4 : forall x, x # UInt64 |->_ |-- store_align4_n 2.
+Proof.
+  intros.
+  unfold undef_store_uint64, store_align4_n. simpl.
   Intros. Exists (x :: [x + 4]). 
-  sep_apply store_8byte_store_8byte_noinit.
   simpl.
   entailer!.
   - unfold store_8byte_noninit.
@@ -1230,7 +1253,7 @@ Proof.
     unfold aligned_4 in *. 
     repeat split ; try lia. 
     rewrite <- Zplus_mod_idemp_l.
-    destruct H as [[? [? ?]] [? ?]].
+    destruct H as [? [? ?]].
     rewrite H1. reflexivity.
   - unfold isvalidptr_int64 in H. unfold isvalidptr. 
     unfold aligned_4 in *. 
@@ -1239,17 +1262,32 @@ Proof.
     repeat constructor ; try lia. 
 Qed.
 
-Lemma store_ptr_align4 : forall x v, x # Ptr |-> v |-- store_align4_n 1.
+Lemma store_uint64_align4 : forall x v, x # UInt64 |-> v |-- store_align4_n 2.
 Proof.
   intros.
-  unfold store_ptr, store_align4_n. simpl.
+  sep_apply store_uint64_undef_store_uint64.
+  sep_apply undef_store_uint64_align4.
+  entailer!.
+Qed.
+
+Lemma undef_store_ptr_align4 : forall x, x # Ptr |->_ |-- store_align4_n 1.
+Proof.
+  intros.
+  unfold undef_store_ptr, store_align4_n. simpl.
   Intros. Exists [x]. 
-  sep_apply store_4byte_store_4byte_noinit.
   simpl. 
   entailer!.
   unfold isvalidptr , aligned_4 in H.
   constructor ; auto ; try lia.
   constructor.
+Qed.
+
+Lemma store_ptr_align4 : forall x v, x # Ptr |-> v |-- store_align4_n 1.
+Proof.
+  intros.
+  sep_apply store_ptr_undef_store_ptr.
+  sep_apply undef_store_ptr_align4.
+  entailer!.
 Qed.
 
 Lemma store_4byte_valid : forall x y, store_4byte_noninit x ** store_4byte_noninit y |-- [| x + 3 < y \/ y + 3 < x |].
