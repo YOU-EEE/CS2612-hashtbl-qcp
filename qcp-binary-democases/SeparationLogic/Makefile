@@ -73,7 +73,7 @@ MONAD_FILES = \
 SL_FILES = \
   CommonAssertion.v Assertion.v Mem.v ConAssertion.v \
   NestedCriticalSTS.v CriticalSTS.v \
-  IntLib.v ArrayLib.v StoreAux.v pocv02.v SeparationLogic.v CNotation.v
+  IntLib.v ArrayLib.v StoreAux.v pocv02.v SeparationLogic.v CNotation.v MapLib.v 
 
 StrategyLib_FILES = \
   DepList.v Mapping.v
