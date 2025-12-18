@@ -119,6 +119,7 @@ void hashtbl_add(struct hashtbl *h, char *key, unsigned int val)
   buc->down = h->top;
 
   /*@ exists top_ph l, 
+        data_at(&(h->top), top_ph) * 
         dll(top_ph, 0, l)
         which implies
         exists top_down top_up l_tail,
