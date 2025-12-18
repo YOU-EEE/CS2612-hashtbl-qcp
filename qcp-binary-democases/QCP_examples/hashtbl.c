@@ -136,150 +136,136 @@ void hashtbl_add(struct hashtbl *h, char *key, unsigned int val)
   h->bucks[ind] = buc;
 }
 
-unsigned int hashtbl_find(struct hashtbl *h, char *key, int *valid) 
-/*@
-  With m1 m2 k
-  Require map_composable(m1, m2) &&
-          store_hash_skeleton(h, m1) *
-          store_map(store_uint, m2) *
-          store_string(key, k) *
-          has_int_permission(valid)
-  Ensure store_hash_skeleton(h, m1) *
-         store_map(store_uint, m2) *
-         store_string(key, k) *
-         ((exists p v, store_int(valid, 1) && m1(k) == Some(p) &&
-                       m2(p) == Some(v) && __return == v) ||
-          (store_int(valid, 0) && m1(k) == None && __return == 0))
-*/
-{
-  unsigned int ind;
-  struct blist **i;
+// unsigned int hashtbl_find(struct hashtbl *h, char *key, int *valid) 
+// {
+//   unsigned int ind;
+//   struct blist **i;
 
-  ind = hash_string(key) % 211;
-  for (i = &h->bucks[ind]; *i != 0; i = &(*i)->next)
-    if (string_equal(key, (*i)->key)) {
-      struct blist *b = *i;
+//   ind = hash_string(key) % 211;
+//   for (i = &h->bucks[ind]; *i != 0; i = &(*i)->next)
+//     if (string_equal(key, (*i)->key)) {
+//       struct blist *b = *i;
 
-      *i = b->next;
-      b->next = h->bucks[ind];
-      h->bucks[ind] = b;
+//       *i = b->next;
+//       b->next = h->bucks[ind];
+//       h->bucks[ind] = b;
 
-      *valid = 1;
-      return b->val;
-    }
-  *valid = 0;
-  return 0;
-}
+//       *valid = 1;
+//       return b->val;
+//     }
+//   *valid = 0;
+//   return 0;
+// }
 
-unsigned int *hashtbl_findref(struct hashtbl *h, char *key) 
-/*@
-  With m k
-  Require store_hash_skeleton(h, m) *
-          store_string(key, k)
-  Ensure store_hash_skeleton(h, m) *
-         store_string(key, k) *
-         ((exists p, m(k) == Some(p) && __return == p) ||
-          (m(k) == None && __return == 0))
-*/
-{
-  unsigned int ind;
-  struct blist **i;
+// unsigned int *hashtbl_findref(struct hashtbl *h, char *key) 
+// /*@
+//   With m k
+//   Require store_hash_skeleton(h, m) *
+//           store_string(key, k)
+//   Ensure store_hash_skeleton(h, m) *
+//          store_string(key, k) *
+//          ((exists p, m(k) == Some(p) && __return == p) ||
+//           (m(k) == None && __return == 0))
+// */
+// {
+//   unsigned int ind;
+//   struct blist **i;
 
-  ind = hash_string(key) % 211;
-  for (i = &h->bucks[ind]; *i != 0; i = &(*i)->next)
-    if (string_equal(key, (*i)->key)) {
-      struct blist *b = *i;
-      // LRU
-      *i = b->next;
-      b->next = h->bucks[ind];
-      h->bucks[ind] = b;
+//   ind = hash_string(key) % 211;
+//   for (i = &h->bucks[ind]; *i != 0; i = &(*i)->next)
+//     if (string_equal(key, (*i)->key)) {
+//       struct blist *b = *i;
+//       // LRU
+//       *i = b->next;
+//       b->next = h->bucks[ind];
+//       h->bucks[ind] = b;
 
-      return &b->val;
-    }
-  return 0;
-}
+//       return &b->val;
+//     }
+//   return 0;
+// }
 
 
-unsigned int hashtbl_remove(struct hashtbl *h, char *key, int *removed) 
-/*@
-  With m1 m2 k
-  Require map_composable(m1, m2) &&
-          store_hash_skeleton(h, m1) *
-          store_map(store_uint, m2) *
-          store_string(key, k) *
-          has_int_permission(removed)
-  Ensure store_hash_skeleton(h, KP::remove_map(m1, k)) *
-         store_string(key, k) *
-         ((exists p v key0,
-             m1(k) == Some(&(p -> val)) &&
-             m2(&(p -> val)) == Some(v) && __return == v &&
-             store_int(removed, 1) *
-             store_map(store_uint, PV::remove_map(m2, p)) *
-             store_ptr(&(p -> key), key0) * store_string(key0, k) *
-             has_ptr_permission(&(p -> up)) *
-             has_ptr_permission(&(p -> down)) *
-             has_ptr_permission(&(p -> next)) *
-             store_uint(&(p -> val), v)) ||
-          (m1(k) == None && __return == 0 &&
-           store_int(removed, 0) * store_map(store_uint, m2)))
-*/
-{
-  unsigned int ind;
-  struct blist **it;
+// unsigned int hashtbl_remove(struct hashtbl *h, char *key, int *removed) 
+// /*@
+//   With m1 m2 k
+//   Require map_composable(m1, m2) &&
+//           store_hash_skeleton(h, m1) *
+//           store_map(store_uint, m2) *
+//           store_string(key, k) *
+//           has_int_permission(removed)
+//   Ensure store_hash_skeleton(h, KP::remove_map(m1, k)) *
+//          store_string(key, k) *
+//          ((exists p v key0,
+//              m1(k) == Some(&(p -> val)) &&
+//              m2(&(p -> val)) == Some(v) && __return == v &&
+//              store_int(removed, 1) *
+//              store_map(store_uint, PV::remove_map(m2, p)) *
+//              store_ptr(&(p -> key), key0) * store_string(key0, k) *
+//              has_ptr_permission(&(p -> up)) *
+//              has_ptr_permission(&(p -> down)) *
+//              has_ptr_permission(&(p -> next)) *
+//              store_uint(&(p -> val), v)) ||
+//           (m1(k) == None && __return == 0 &&
+//            store_int(removed, 0) * store_map(store_uint, m2)))
+// */
+// {
+//   unsigned int ind;
+//   struct blist **it;
 
-  ind = hash_string(key) % 211;
-  for (it = &h->bucks[ind]; *it != 0; it = &(*it)->next) {
-    struct blist *b = *it;
-    if (string_equal(key, b->key)) {
-      if (h->top == b)
-        h->top = b->down;
+//   ind = hash_string(key) % 211;
+//   for (it = &h->bucks[ind]; *it != 0; it = &(*it)->next) {
+//     struct blist *b = *it;
+//     if (string_equal(key, b->key)) {
+//       if (h->top == b)
+//         h->top = b->down;
 
-      if (b->up != 0)
-        b->up->down = b->down;
-      if (b->down != 0)
-        b->down->up = b->up;
+//       if (b->up != 0)
+//         b->up->down = b->down;
+//       if (b->down != 0)
+//         b->down->up = b->up;
 
-      *it = b->next;
-      unsigned int res = b->val;
-      free_blist(b);
-      *removed = 1;
-      return res;
-    }
-  }
-  *removed = 0;
-  return 0;
-}
+//       *it = b->next;
+//       unsigned int res = b->val;
+//       free_blist(b);
+//       *removed = 1;
+//       return res;
+//     }
+//   }
+//   *removed = 0;
+//   return 0;
+// }
 
-void hashtbl_free_blist(struct blist *bl) {
-  if (bl != 0) {
-    hashtbl_free_blist(bl->next);
-    free_string(bl -> key);
-    free_blist(bl);
-  }
-}
+// void hashtbl_free_blist(struct blist *bl) {
+//   if (bl != 0) {
+//     hashtbl_free_blist(bl->next);
+//     free_string(bl -> key);
+//     free_blist(bl);
+//   }
+// }
 
-void hashtbl_clear(struct hashtbl *h) {
-  int i;
+// void hashtbl_clear(struct hashtbl *h) {
+//   int i;
 
-  for (i = 0; i < 211; i++) {
-    hashtbl_free_blist(h->bucks[i]);
-    h->bucks[i] = 0;
-  }
+//   for (i = 0; i < 211; i++) {
+//     hashtbl_free_blist(h->bucks[i]);
+//     h->bucks[i] = 0;
+//   }
 
-  free_blist_array(h->bucks);
-  h->bucks = 0;
-  h->top = 0;
-}
+//   free_blist_array(h->bucks);
+//   h->bucks = 0;
+//   h->top = 0;
+// }
 
-void free_hashtbl(struct hashtbl *h) 
-/*@
-  With m1 m2
-  Require map_composable(m1, m2) &&
-          store_hash_skeleton(h, m1) *
-          store_map(store_uint, m2)
-  Ensure emp
-*/
-{
-  hashtbl_clear(h);
-  free_hashtbl(h);
-}
+// void free_hashtbl(struct hashtbl *h) 
+// /*@
+//   With m1 m2
+//   Require map_composable(m1, m2) &&
+//           store_hash_skeleton(h, m1) *
+//           store_map(store_uint, m2)
+//   Ensure emp
+// */
+// {
+//   hashtbl_clear(h);
+//   free_hashtbl(h);
+// }

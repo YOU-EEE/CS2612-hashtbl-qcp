@@ -47,17 +47,8 @@ struct hashtbl {
 struct hashtbl *create_hashtbl();
 void hashtbl_add(struct hashtbl *h, char * key, unsigned int val);
 unsigned int hashtbl_find(struct hashtbl *h, char * key, int *valid);
-unsigned int *hashtbl_findref(struct hashtbl *h, char * key);
 
 /* do not free anything */
-unsigned int hashtbl_remove(struct hashtbl *h, char * key, int *removed);
-void free_hashtbl(struct hashtbl *h);
-
-
-void free_string(char *);
-void free_blist_array(struct blist **);
-void free_blist(struct blist *);
-void free_hashtbl(struct hashtbl *);
 int string_equal(char *, char *);
 
 // #endif
