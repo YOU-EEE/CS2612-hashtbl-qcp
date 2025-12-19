@@ -39,7 +39,10 @@ struct hashtbl {
                (PV::insert_map: (Z -> option Z) -> Z -> Z -> (Z -> option Z))
                (PV::remove_map: (Z -> option Z) -> Z -> (Z -> option Z))
                (store_map: {A} {B} -> (A -> B -> Assertion) -> (A -> option B) -> Assertion)
+               (store_map_missing_i: {A} {B} -> (A -> B -> Assertion) -> (A -> option B) -> A -> Assertion)
                (store_hashtbl: Z -> (list Z -> option Z) -> Assertion)
+               (fst: {A} {B} -> A * B -> A)
+               (snd: {A} {B} -> A * B -> B)
  */
 
 /*@ Import Coq Require Import hashtbl_lib */
@@ -49,6 +52,5 @@ void hashtbl_add(struct hashtbl *h, char * key, unsigned int val);
 unsigned int hashtbl_find(struct hashtbl *h, char * key, int *valid);
 
 /* do not free anything */
-int string_equal(char *, char *);
 
 // #endif
