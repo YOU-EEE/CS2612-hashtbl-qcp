@@ -166,32 +166,23 @@ unsigned int hashtbl_find(struct hashtbl *h, char *key, int *valid)
   unsigned int ind;
   struct blist **i;
 
-  /*@ store_hash_skeleton(h, m1)
-      which implies
-        exists top_ph bucks_ph l lh b,
-        contain_all_addrs(m1, l) &&
-        repr_all_heads(lh, b) &&
-        contain_all_correct_addrs(m1, b) &&
-        data_at(&(h->top), top_ph) *
-        data_at(&(h->bucks), bucks_ph) *
-        dll(top_ph, 0, l) *
-        PtrArray::full(bucks_ph, 211, lh) *
-        store_map(store_sll, b)
-  */
   ind = hash_string(key) % 211;
-  /*@ Inv
-      exists head l_visited l_remaining lh b l top_ph bucks_ph,
+    /*@ Inv
+      exists top_ph bucks_ph l lh b l_visited l_remaining head,
       0 <= ind && ind < 211 &&
-      head == Znth(ind, lh, 0) &&
-      (exists content, b(ind) == Some(head, content) && content == l_visited ++ l_remaining) &&
-      data_at(&(h->top), top_ph) *
-      data_at(&(h->bucks), bucks_ph) *
-      dll(top_ph, 0, l) *
-      PtrArray::missing_i(bucks_ph, 211, ind, head, lh) *
-      sllbseg(&h->bucks[ind], i, l_visited) *
-      sll(*i, l_remaining) *
-      store_map_missing_i(store_sll, b, ind) *
-      store_map(store_name, m1) *
+      b(ind)== Some(pair(head, l_visited ++ l_remaining)) &&
+      head == Znth(ind, lh, 0)&&
+      contain_all_addrs(m1, l)&&
+      repr_all_heads(lh, b)&&
+      contain_all_correct_addrs(m1, b)&&
+      data_at(&(h->top), top_ph)*
+      data_at(&(h->bucks), bucks_ph)*
+      dll(top_ph, 0, l)*
+      PtrArray::missing_i(bucks_ph, 211, ind, head, lh)*
+      sllbseg(&h->bucks[ind],i,l_visited)*
+      sll(*i, l_remaining)*
+      store_map_missing_i(store_sll, b, ind)*
+      store_map(store_name, m1)*
       store_map(store_uint, m2)
   */
   for (i = &h->bucks[ind]; *i != 0; i = &(*i)->next)

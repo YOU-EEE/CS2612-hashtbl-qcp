@@ -43,6 +43,7 @@ struct hashtbl {
                (store_hashtbl: Z -> (list Z -> option Z) -> Assertion)
                (fst: {A} {B} -> A * B -> A)
                (snd: {A} {B} -> A * B -> B)
+               (pair: {A} {B} -> A -> B -> A * B)
  */
 
 /*@ Import Coq Require Import hashtbl_lib */

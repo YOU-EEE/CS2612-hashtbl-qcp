@@ -90,7 +90,7 @@ Examples_FILE_NAME = \
 	simple_arith/add  simple_arith/gcd simple_arith/Always_pos simple_arith/div_test \
 	simple_arith/exgcd sum bst_insert bst_insert_rec bst_fp_delete swap eval bst_delete_rec \
 	bst_delete_rec2  avl_insert sll_auto dll_auto array_auto chars \
-	kmp_rel int_array_merge_rel sll_merge_rel sll_split_while 
+	kmp_rel int_array_merge_rel sll_merge_rel sll_split_while hashtbl
 
 Examples_FILES = \
 	$(addsuffix _goal.v, $(Examples_FILE_NAME)) \
