@@ -134,12 +134,12 @@ Definition contain_all_correct_addrs
     (exists ph l, b (hash_string_k key) = Some (ph, l) /\ In p l).
 
 Definition store_hash_skeleton (x: addr) (m: list Z -> option addr): Assertion :=
-  EX (l lh: list addr) (b: Z -> option (addr * list addr)),
+  EX (l lh: list addr) (b: Z -> option (addr * list addr)) (top bucks: addr),
     [| contain_all_addrs m l |] &&
     [| repr_all_heads lh b |] &&
     [| contain_all_correct_addrs m b |] &&
-    dll (&(x # "hashtbl" ->ₛ "top")) NULL l **
-    PtrArray.full (&(x # "hashtbl" ->ₛ "bucks")) NBUCK lh **
+    &(x # "hashtbl" ->ₛ "top") # Ptr |-> top ** dll top NULL l **
+    &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks ** PtrArray.full bucks NBUCK lh **
     store_map store_sll b **
     store_map store_name m.
 

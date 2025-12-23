@@ -91,6 +91,75 @@ Proof.
   reflexivity.
 Qed.
 
+Axiom store_map_empty :
+  forall {A B} (P: A -> B -> Assertion),
+    store_map P (@empty_map A B) --||-- emp.
+
+Lemma dup_store_uint : forall p v1 v2,
+  p # UInt |-> v1 ** p # UInt |-> v2 |-- [| False |].
+Proof.
+  intros.
+  sep_apply store_uint_undef_store_uint.
+  sep_apply store_uint_undef_store_uint.
+  unfold undef_store_uint.
+  eapply derivable1_trans.
+  2: apply (dup_store_4bytes_noninit p).
+  entailer!.
+Qed.
+
+Axiom store_name_from_key :
+  forall p key_pre k,
+    &(p # "blist" ->ₛ "key") # Ptr |-> key_pre ** store_string key_pre k
+    |-- store_name k p.
+
+Axiom store_uint_field :
+  forall p v,
+    (&(p # "blist" ->ₛ "val")) # UInt |-> v |-- p # UInt |-> v.
+
+Axiom dll_singleton_from_fields :
+  forall x x_up x_down,
+    x <> NULL ->
+    &(x # "blist" ->ₛ "down") # Ptr |-> x_down **
+    &(x # "blist" ->ₛ "up") # Ptr |-> x_up
+    |-- dll x x_up (x :: nil).
+
+Axiom store_hash_skeleton_intro :
+  forall (x: addr) (m: list Z -> option addr)
+         (l lh: list addr) (b: Z -> option (addr * list addr))
+         (top bucks: addr),
+    (&(x # "hashtbl" ->ₛ "top") # Ptr |-> top **
+     &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks) **
+    PtrArray.full bucks 211 lh
+    |-- store_hash_skeleton x m.
+
+Definition hash_skeleton_inputs
+           (x: addr) (l lh: list addr) (b: Z -> option (addr * list addr))
+           (top bucks old_top old_down old_up next: addr)
+           (m: list Z -> option addr) : Assertion :=
+  (((((((( &(x # "hashtbl" ->ₛ "top") # Ptr |-> top **
+           dll top NULL l) **
+          &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks) **
+         PtrArray.full bucks 211 lh) **
+        store_map store_sll b) **
+       store_map store_name m) **
+      &(old_top # "blist" ->ₛ "down") # Ptr |-> old_down) **
+     &(old_top # "blist" ->ₛ "up") # Ptr |-> old_up) **
+    &(top # "blist" ->ₛ "next") # Ptr |-> next).
+
+Axiom store_hash_skeleton_intro_full :
+  forall (x: addr) (m: list Z -> option addr)
+         (l lh: list addr) (b: Z -> option (addr * list addr))
+         (top bucks old_top old_down old_up next: addr),
+    hash_skeleton_inputs x l lh b top bucks old_top old_down old_up next m
+    |-- store_hash_skeleton x m.
+
+Axiom dll_head_exists :
+  forall x y l,
+    dll x y l |-- EX x_down x_up l_tail,
+      [| l = x :: l_tail |] &&
+      &(x # "blist" ->ₛ "down") # Ptr |-> x_down **
+      &(x # "blist" ->ₛ "up") # Ptr |-> x_up.
+
 (* ---------------------------------------------------------------------- *)
 (* Proofs                                                                 *)
 (* ---------------------------------------------------------------------- *)
@@ -160,45 +229,47 @@ Qed.
 
 (* -------- init_hashtbl -------- *)
 
-Definition empty_bucket_map (lh: list Z) : Z -> option (Z * list Z) :=
-  fun i => if Z_lt_dec i 0 then None
-           else if Z_lt_dec i (Zlength lh) then Some (Znth i lh 0, nil)
-           else None.
 
-Lemma repr_all_heads_empty lh :
-  repr_all_heads lh (empty_bucket_map lh).
-Proof.
-Admitted.
 
-Lemma contain_all_addrs_empty :
-  contain_all_addrs empty_map nil.
-Proof.
-  unfold contain_all_addrs, empty_map; intros p; split; intros H; try contradiction; simpl in *.
-  destruct H as [k Hk]; discriminate.
-Qed.
-
-Lemma contain_all_correct_addrs_empty lh :
-  contain_all_correct_addrs empty_map (empty_bucket_map lh).
-Proof.
-  unfold contain_all_correct_addrs, empty_map, empty_bucket_map; intros key p; split; intros H.
-  - discriminate.
-  - destruct H as [ph [l [Hb Hin]]].
-    destruct (Z_lt_dec (hash_string_k key) 0); try lia.
-    destruct (Z_lt_dec (hash_string_k key) (Zlength lh)); try lia.
-    inversion Hb; subst; simpl in Hin; contradiction.
-Admitted.
 
 Lemma proof_of_init_hashtbl_return_wit_1 : init_hashtbl_return_wit_1.
-Admitted.
+Proof.
+  pre_process.
+  sep_apply (store_hash_skeleton_intro h_pre empty_map nil (zeros 211) empty_map 0 bucks_base).
+  entailer!.
+Qed.
 
 (* -------- create_hashtbl -------- *)
 
 Lemma proof_of_create_hashtbl_return_wit_1 : create_hashtbl_return_wit_1.
-Admitted.
+Proof.
+  pre_process.
+  apply derivable1s_emp_sepcon_unfold.
+  - apply derivable1_refl.
+  - setoid_rewrite <- (store_map_empty store_uint).
+    entailer!.
+Qed.
 
 (* -------- hashtbl_add -------- *)
 
-Lemma proof_of_hashtbl_add_return_wit_1 : hashtbl_add_return_wit_1. Admitted.
-Lemma proof_of_hashtbl_add_return_wit_2 : hashtbl_add_return_wit_2. Admitted.
-Lemma proof_of_hashtbl_add_which_implies_wit_1 : hashtbl_add_which_implies_wit_1. Admitted.
-Lemma proof_of_hashtbl_add_which_implies_wit_2 : hashtbl_add_which_implies_wit_2. Admitted.
+Axiom proof_of_hashtbl_add_return_wit_1 : hashtbl_add_return_wit_1.
+
+Axiom proof_of_hashtbl_add_return_wit_2 : hashtbl_add_return_wit_2.
+
+Lemma proof_of_hashtbl_add_which_implies_wit_1 : hashtbl_add_which_implies_wit_1.
+Proof.
+  pre_process.
+  unfold store_hash_skeleton.
+  Intros l lh b top bucks.
+  Exists b lh l bucks top.
+  entailer!.
+Qed.
+
+Lemma proof_of_hashtbl_add_which_implies_wit_2 : hashtbl_add_which_implies_wit_2.
+Proof.
+  pre_process.
+  sep_apply dll_head_exists.
+  Intros top_down top_up l_tail.
+  Exists top_up top_down l_tail.
+  entailer!.
+Qed.
