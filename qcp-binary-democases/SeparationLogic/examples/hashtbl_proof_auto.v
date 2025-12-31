@@ -64,6 +64,9 @@ Proof. Admitted.
 Lemma proof_of_hashtbl_add_safety_wit_3 : hashtbl_add_safety_wit_3.
 Proof. Admitted. 
 
+Lemma proof_of_hashtbl_add_safety_wit_4 : hashtbl_add_safety_wit_4.
+Proof. Admitted. 
+
 Lemma proof_of_hashtbl_add_partial_solve_wit_1 : hashtbl_add_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -83,5 +86,8 @@ Lemma proof_of_hashtbl_add_partial_solve_wit_6 : hashtbl_add_partial_solve_wit_6
 Proof. Admitted. 
 
 Lemma proof_of_hashtbl_add_partial_solve_wit_7 : hashtbl_add_partial_solve_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_add_partial_solve_wit_8 : hashtbl_add_partial_solve_wit_8.
 Proof. Admitted. 
 
