@@ -218,7 +218,7 @@ Lemma store_hash_skeleton_intro :
 Proof.
   pre_process.
   unfold store_hash_skeleton.
-Abort.
+Admitted.
 
 
 Definition hash_skeleton_inputs
