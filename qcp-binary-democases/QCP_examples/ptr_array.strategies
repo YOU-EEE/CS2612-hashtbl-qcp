@@ -122,3 +122,13 @@ check : infer(x <= i);
 action : left_erase(1);
          left_erase(0);
          left_add(PtrArray::ceil(p, x, y, replace_Znth{Z}(i - x, v, l)));
+
+id : 31
+priority : core(1)
+left : PtrArray::full(?p, ?n, ?l) at 0
+right : PtrArray::missing_i(p, ?i, 0, n, l) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(data_at(p + i * sizeof(PTR(struct blist)), PTR(struct blist), l[i]));

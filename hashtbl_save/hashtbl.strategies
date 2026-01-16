@@ -1,0 +1,120 @@
+//test curent rules
+//max rule id:60
+#include "verification_stdlib.h"
+#include "verification_list.h"
+#include "hashtbl_def.h"
+
+// Basic sll facts
+id : 31
+priority : core(0)
+right : sll(?p, nil{Z}) at 0
+action : right_erase(0);
+	 right_add(p == NULL);
+
+id : 32
+priority : core(0)
+right : sll(NULL, ?l) at 0
+action : right_erase(0);
+	 right_add(l == nil{Z});
+
+id : 33
+priority : core(0)
+left : sll(?p, cons{Z}(?x0, ?l0)) at 0
+right : sll(p, cons{Z}(?x1, ?l1)) at 1
+action : left_erase(0);
+	 right_erase(1);
+	 right_add(x0 == x1);
+	 right_add(l0 == l1);
+
+id : 34
+priority : core(1)
+left : sll(?p, ?l0) at 0
+right : sll(p, ?l1) at 1
+action : left_erase(0);
+	 right_erase(1);
+	 right_add(l0 == l1);
+
+// Unfold a non-empty sll on the left
+id : 35
+priority : unfold_sll(0)
+left : (?p : Z != NULL || NULL != ?p : Z) at 0
+       sll(p, ?l) at 1
+action : left_erase(1);
+	 left_exist_add(q);
+	 left_exist_add(l0);
+	 left_add(data_at(field_addr(p, blist, next), PTR(struct blist), q));
+	 left_add(sll(q, l0));
+	 left_add(l == cons{Z}(p, l0));
+
+// Unfold a non-empty sll on the right
+id : 36
+priority : core(3)
+right : sll(?p, cons{Z}(?x, ?l)) at 0
+action : right_erase(0);
+	 right_exist_add(q);
+	 right_add(p != 0);
+	 right_add(data_at(field_addr(p, blist, next), PTR(struct blist), q));
+	 right_add(sll(q, l));
+	 right_add(x == p);
+
+// Base case for sllbseg when the hole is reached
+id : 37
+priority : core(0)
+right : sllbseg(?p, p, ?l) at 0
+	data_at(p, PTR(struct blist), ?q) at 1
+action : right_erase(0);
+	 right_add(l == nil{Z});
+
+// Equality of two sllbseg paths ending at the same hole
+id : 38
+priority : core(0)
+left : sllbseg(?p, ?q, ?l1) at 0
+right : sllbseg(p, q, ?l2) at 2
+left : data_at(q, PTR(struct blist), ?v1) at 1
+right : data_at(q, PTR(struct blist), ?v2) at 3
+action : left_erase(0);
+	 right_erase(2);
+	 right_add(l1 == l2);
+
+// Unfold a non-empty sllbseg on the left
+id : 39
+priority : unfold_sll(1)
+left : sllbseg(?p, ?q, cons{Z}(?x0, ?l0)) at 0
+action : left_erase(0);
+		 left_add(x0 != NULL);
+		 left_add(data_at(p, PTR(struct blist), x0));
+		 left_add(sllbseg(field_addr(x0, blist, next), q, l0));
+
+// Fold a non-empty sll on the left
+id : 40
+priority : fold_sll(0)
+left : (?p : Z != NULL || NULL != ?p : Z) at 0
+       data_at(field_addr(p, blist, next), PTR(struct blist), ?q) at 1
+       sll(q, ?l0) at 2
+action : left_erase(1);
+	 left_erase(2);
+	 left_exist_add(l2);
+	 left_add(sll(p, l2));
+	 left_add(l2 == cons{Z}(p, l0));
+
+// Convert sllbseg + pointer cell into a forward sllseg
+id : 41
+priority : core(2)
+left : sllbseg(?x, ?y, ?l1) at 0
+       data_at(y, PTR(struct blist), ?z) at 1
+action : left_erase(0);
+	 left_erase(1);
+	 left_exist_add(hd);
+	 left_add(data_at(x, PTR(struct blist), hd));
+	 left_add(sllseg(hd, z, l1));
+
+// Concatenate sllseg with the rest of the list
+id : 42
+priority : core(2)
+left : sllseg(?x, ?y, ?l1) at 0
+left : sll(y, ?l2) at 1
+action : left_erase(0);
+	 left_erase(1);
+	 left_add(sll(x, app{Z}(l1, l2)));
+
+

@@ -113,11 +113,14 @@ Definition store_sll (n: Z): addr * list addr -> Assertion :=
   fun '(p, l) => sll p l.
 
 Definition store_name (k: list Z) (p: addr): Assertion :=
-  store_string (&(p # "blist" ->ₛ "key")) k.
+  EX key_ptr, &(p # "blist" ->ₛ "key") # Ptr |-> key_ptr ** store_string key_ptr k.
+
+Definition store_val (p: addr) (v: Z): Assertion :=
+  &(p # "blist" ->ₛ "val") # UInt |-> v.
 
 Definition contain_all_addrs (m: list Z -> option addr) (l: list addr) :=
   forall p: addr,
-    (exists key: list Z, m key = Some (&(p # "blist" ->ₛ "val"))) <-> In p l.
+    (exists key: list Z, m key = Some p) <-> In p l.
 
 Definition repr_all_heads
              (lh: list addr)
@@ -129,9 +132,12 @@ Definition repr_all_heads
 Definition contain_all_correct_addrs
              (m: list Z -> option addr)
              (b: Z -> option (addr * list addr)): Prop :=
-  forall key p,
-    (m key = Some (&(p # "blist" ->ₛ "key"))) <->
-    (exists ph l, b (hash_string_k key) = Some (ph, l) /\ In p l).
+  (forall key p,
+    m key = Some p ->
+    exists ph l, b (hash_string_k key mod NBUCK) = Some (ph, l) /\ In p l) /\
+  (forall i ph l p,
+    b i = Some (ph, l) -> In p l ->
+    exists key, m key = Some p /\ hash_string_k key mod NBUCK = i).
 
 Definition store_hash_skeleton (x: addr) (m: list Z -> option addr): Assertion :=
   EX (l lh: list addr) (b: Z -> option (addr * list addr)) (top bucks: addr),
@@ -170,7 +176,7 @@ Definition store_hashtbl (x: addr) (m: list Z -> option Z): Assertion :=
   EX (m1: list Z -> option addr) (m2: addr -> option Z),
     [| map_compose m1 m2 m |] &&
     store_hash_skeleton x m1 **
-    store_map store_uint m2.
+    store_map store_val m2.
 
 Definition empty_map {Key Value: Type}: Key -> option Value := fun _ => None.
 

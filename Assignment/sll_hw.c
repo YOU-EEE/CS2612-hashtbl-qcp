@@ -46,6 +46,7 @@ int no_zero (struct list * p)
 */
 {
   struct list * q = p;
+  /*@ Inv exists l1 l2, l == app(l1,l2) && has_zero(l1) == 0 && sllseg(p@pre, q, l1) * sll(q, l2) */
   while (q) {
     if (q->data == 0) {
       return 1;

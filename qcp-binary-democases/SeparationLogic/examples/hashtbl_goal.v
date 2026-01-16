@@ -227,7 +227,7 @@ forall (retval: Z) ,
   &&  (store_hash_skeleton retval empty_map )
 |--
   (store_hash_skeleton retval empty_map )
-  **  (store_map store_uint empty_map )
+  **  (store_map store_val empty_map )
 .
 
 Definition create_hashtbl_partial_solve_wit_1 := 
@@ -250,9 +250,13 @@ forall (retval: Z) (top_ph: Z) (bucks_ph: Z) ,
 (*----- Function hashtbl_add -----*)
 
 Definition hashtbl_add_safety_wit_1 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) ,
-  [| ((m1 (k)) = None) |]
-  &&  ((( &( "buc" ) )) # Ptr  |->_)
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
+  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (store_string key_pre k )
+  **  ((( &( "buc" ) )) # Ptr  |->_)
   **  ((( &( "ind" ) )) # UInt  |->_)
   **  ((( &( "h" ) )) # Ptr  |-> h_pre)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
@@ -261,26 +265,23 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
+  **  (TT )
   **  ((( &( "val" ) )) # UInt  |-> val_pre)
   **  ((( &( "key" ) )) # Ptr  |-> key_pre)
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (store_map store_val m2 )
 |--
-  [| (0 <= INT_MAX) |] 
-  &&  [| ((INT_MIN) <= 0) |]
+  [| (211 <> 0) |]
 .
 
 Definition hashtbl_add_safety_wit_2 := 
 forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
-  [| (retval <> 0) |] 
+  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
-  **  ((( &( "buc" ) )) # Ptr  |-> retval)
-  **  ((( &( "ind" ) )) # UInt  |-> 0)
+  &&  (store_string key_pre k )
+  **  ((( &( "buc" ) )) # Ptr  |->_)
+  **  ((( &( "ind" ) )) # UInt  |->_)
   **  ((( &( "h" ) )) # Ptr  |-> h_pre)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
@@ -288,106 +289,187 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
+  **  (TT )
   **  ((( &( "val" ) )) # UInt  |-> val_pre)
   **  ((( &( "key" ) )) # Ptr  |-> key_pre)
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (store_map store_val m2 )
 |--
-  [| (0 <= INT_MAX) |] 
-  &&  [| ((INT_MIN) <= 0) |]
+  [| (211 <= INT_MAX) |] 
+  &&  [| ((INT_MIN) <= 211) |]
 .
 
 Definition hashtbl_add_safety_wit_3 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (top_up: Z) (top_down: Z) (l_tail: (@list Z)) ,
-  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  ((( &( "h" ) )) # Ptr  |-> h_pre)
+  &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((( &( "ind" ) )) # UInt  |-> (retval % ( 211 ) ))
+  **  (store_string key_pre k )
+  **  ((( &( "buc" ) )) # Ptr  |-> retval_2)
+  **  ((( &( "h" ) )) # Ptr  |-> h_pre)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> top_up)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
-  **  ((( &( "buc" ) )) # Ptr  |-> retval)
-  **  ((( &( "ind" ) )) # UInt  |-> 0)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
+  **  (TT )
   **  ((( &( "val" ) )) # UInt  |-> val_pre)
   **  ((( &( "key" ) )) # Ptr  |-> key_pre)
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (store_map store_val m2 )
 |--
   [| (0 <= INT_MAX) |] 
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition hashtbl_add_return_wit_1 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (top_up: Z) (top_down: Z) (l_tail: (@list Z)) ,
-  [| (top_ph = 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+Definition hashtbl_add_safety_wit_4 := 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  (PtrArray.full bucks_ph 211 (replace_Znth (0) (retval) (lh)) )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> top_up)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth 0 lh 0))
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((( &( "ind" ) )) # UInt  |-> (retval % ( 211 ) ))
+  **  (store_string key_pre k )
+  **  ((( &( "buc" ) )) # Ptr  |-> retval_2)
+  **  ((( &( "h" ) )) # Ptr  |-> h_pre)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
+  **  (TT )
+  **  ((( &( "val" ) )) # UInt  |-> val_pre)
+  **  ((( &( "key" ) )) # Ptr  |-> key_pre)
+  **  (store_map store_val m2 )
+|--
+  [| (0 <= INT_MAX) |] 
+  &&  [| ((INT_MIN) <= 0) |]
+.
+
+Definition hashtbl_add_entail_wit_1 := 
+forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
+  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (PtrArray.full bucks_ph 211 lh )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
+|--
+  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (PtrArray.full bucks_ph 211 lh )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
+.
+
+Definition hashtbl_add_return_wit_1 := 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+  [| (top_ph = 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (PtrArray.full bucks_ph 211 (replace_Znth ((retval % ( 211 ) )) (retval_2) (lh)) )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
   **  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
 |--
   EX (p: Z) ,
   (store_hash_skeleton h_pre (KP.insert_map (m1) (k) (p)) )
-  **  (store_map store_uint (PV.insert_map (m2) (p) (val_pre)) )
+  **  (store_map store_val (PV.insert_map (m2) (p) (val_pre)) )
 .
 
 Definition hashtbl_add_return_wit_2 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (top_down: Z) (l_tail: (@list Z)) ,
-  [| (top_ph <> 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
+  [| (l = (cons (top_ph) (l_tail))) |] 
+  &&  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  (PtrArray.full bucks_ph 211 (replace_Znth (0) (retval) (lh)) )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
+  &&  (PtrArray.full bucks_ph 211 (replace_Znth ((retval % ( 211 ) )) (retval_2) (lh)) )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth 0 lh 0))
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval_2)
+  **  (TT )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
 |--
   EX (p: Z) ,
   (store_hash_skeleton h_pre (KP.insert_map (m1) (k) (p)) )
-  **  (store_map store_uint (PV.insert_map (m2) (p) (val_pre)) )
+  **  (store_map store_val (PV.insert_map (m2) (p) (val_pre)) )
 .
 
 Definition hashtbl_add_partial_solve_wit_1 := 
 forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) ,
   [| ((m1 (k)) = None) |]
   &&  (store_hash_skeleton h_pre m1 )
-  **  (store_map store_uint m2 )
+  **  (store_map store_val m2 )
   **  (store_string key_pre k )
 |--
   [| ((m1 (k)) = None) |]
   &&  (store_hash_skeleton h_pre m1 )
-  **  (store_map store_uint m2 )
+  **  (store_map store_val m2 )
   **  (store_string key_pre k )
 .
 
@@ -400,221 +482,352 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
+  **  (TT )
+  **  (store_map store_val m2 )
   **  (store_string key_pre k )
 |--
   [| ((m1 (k)) = None) |]
-  &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
-  **  (dll top_ph 0 l )
-  **  (PtrArray.full bucks_ph 211 lh )
-  **  (store_map store_sll b )
-  **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
-.
-
-Definition hashtbl_add_partial_solve_wit_3 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
-  [| (retval <> 0) |] 
-  &&  [| ((m1 (k)) = None) |]
-  &&  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  &&  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
   **  (dll top_ph 0 l )
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
+.
+
+Definition hashtbl_add_partial_solve_wit_3 := 
+forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
+  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (PtrArray.full bucks_ph 211 lh )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
 |--
-  [| (retval <> 0) |] 
+  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (PtrArray.full bucks_ph 211 lh )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
+.
+
+Definition hashtbl_add_partial_solve_wit_4_pure := 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((( &( "ind" ) )) # UInt  |-> (retval % ( 211 ) ))
+  **  (store_string key_pre k )
+  **  ((( &( "buc" ) )) # Ptr  |-> retval_2)
+  **  ((( &( "h" ) )) # Ptr  |-> h_pre)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (PtrArray.full bucks_ph 211 lh )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  ((( &( "val" ) )) # UInt  |-> val_pre)
+  **  ((( &( "key" ) )) # Ptr  |-> key_pre)
+  **  (store_map store_val m2 )
+|--
+  [| (top_ph <> 0) |]
+.
+
+Definition hashtbl_add_partial_solve_wit_4_aux := 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (PtrArray.full bucks_ph 211 lh )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
+|--
+  [| (top_ph <> 0) |] 
+  &&  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  (dll top_ph 0 l )
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
 .
 
-Definition hashtbl_add_partial_solve_wit_4 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (top_up: Z) (top_down: Z) (l_tail: (@list Z)) ,
-  [| (top_ph = 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
-  &&  [| ((m1 (k)) = None) |]
-  &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> top_up)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
-  **  (PtrArray.full bucks_ph 211 lh )
-  **  (store_map store_sll b )
-  **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
-|--
-  [| (top_ph = 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
-  &&  [| ((m1 (k)) = None) |]
-  &&  (((bucks_ph + (0 * sizeof(PTR) ) )) # Ptr  |-> (Znth 0 lh 0))
-  **  (PtrArray.missing_i bucks_ph 0 0 211 lh )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> top_up)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
-  **  (store_map store_sll b )
-  **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
-.
+Definition hashtbl_add_partial_solve_wit_4 := hashtbl_add_partial_solve_wit_4_pure -> hashtbl_add_partial_solve_wit_4_aux.
 
 Definition hashtbl_add_partial_solve_wit_5 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (top_down: Z) (l_tail: (@list Z)) ,
-  [| (top_ph <> 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+  [| (top_ph = 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
 |--
-  [| (top_ph <> 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+  [| (top_ph = 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  (((bucks_ph + (0 * sizeof(PTR) ) )) # Ptr  |-> (Znth 0 lh 0))
-  **  (PtrArray.missing_i bucks_ph 0 0 211 lh )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
 .
 
 Definition hashtbl_add_partial_solve_wit_6 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (top_down: Z) (l_tail: (@list Z)) ,
-  [| (top_ph <> 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
+  [| (l = (cons (top_ph) (l_tail))) |] 
+  &&  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  (PtrArray.full bucks_ph 211 lh )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
+  &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth 0 lh 0))
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval_2)
+  **  (TT )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
 |--
-  [| (top_ph <> 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+  [| (l = (cons (top_ph) (l_tail))) |] 
+  &&  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  (((bucks_ph + (0 * sizeof(PTR) ) )) # Ptr  |->_)
-  **  (PtrArray.missing_i bucks_ph 0 0 211 lh )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
+  &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth 0 lh 0))
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval_2)
+  **  (TT )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
 .
 
 Definition hashtbl_add_partial_solve_wit_7 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (top_up: Z) (top_down: Z) (l_tail: (@list Z)) ,
-  [| (top_ph = 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
+  [| (l = (cons (top_ph) (l_tail))) |] 
+  &&  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (PtrArray.full bucks_ph 211 lh )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> top_up)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth 0 lh 0))
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval_2)
+  **  (TT )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
+  **  (TT )
+  **  (store_map store_val m2 )
+|--
+  [| (l = (cons (top_ph) (l_tail))) |] 
+  &&  [| (top_ph <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |->_)
+  **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
+  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
+  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval_2)
+  **  (TT )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
   **  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
+.
+
+Definition hashtbl_add_partial_solve_wit_8 := 
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+  [| (top_ph = 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| ((m1 (k)) = None) |]
+  &&  (PtrArray.full bucks_ph 211 lh )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
+  **  (store_map store_sll b )
+  **  (store_map store_name m1 )
+  **  (TT )
+  **  (store_map store_val m2 )
 |--
   [| (top_ph = 0) |] 
-  &&  [| (l = (cons (top_ph) (l_tail))) |] 
-  &&  [| (retval <> 0) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (0 <= (retval % ( 211 ) )) |] 
+  &&  [| ((retval % ( 211 ) ) < 211) |] 
+  &&  [| (0 <= retval) |] 
+  &&  [| (retval <= 4294967295) |] 
+  &&  [| (retval = (hash_string_k (k))) |] 
   &&  [| ((m1 (k)) = None) |]
-  &&  (((bucks_ph + (0 * sizeof(PTR) ) )) # Ptr  |->_)
-  **  (PtrArray.missing_i bucks_ph 0 0 211 lh )
-  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> top_up)
-  **  ((&((retval)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
-  **  ((&((retval)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
-  **  ((&((retval)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth 0 lh 0))
-  **  ((&((retval)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
-  **  ((&((retval)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |->_)
+  **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
+  **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
+  **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
+  **  ((&((retval_2)  # "blist" ->ₛ "down")) # Ptr  |-> top_ph)
+  **  ((&((retval_2)  # "blist" ->ₛ "up")) # Ptr  |-> 0)
+  **  (store_string key_pre k )
+  **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
+  **  (dll top_ph 0 l )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
-  **  (store_map store_uint m2 )
-  **  (store_string key_pre k )
+  **  (TT )
+  **  (store_map store_val m2 )
 .
 
 Definition hashtbl_add_which_implies_wit_1 := 
@@ -628,11 +841,13 @@ forall (m1: ((@list Z) -> (@option Z))) (h: Z) ,
   **  (PtrArray.full bucks_ph 211 lh )
   **  (store_map store_sll b )
   **  (store_map store_name m1 )
+  **  (TT )
 .
 
 Definition hashtbl_add_which_implies_wit_2 := 
 forall (l: (@list Z)) (top_ph: Z) (h: Z) ,
-  ((&((h)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  [| (top_ph <> 0) |]
+  &&  ((&((h)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  (dll top_ph 0 l )
 |--
   EX (top_up: Z)  (top_down: Z)  (l_tail: (@list Z)) ,
@@ -640,6 +855,7 @@ forall (l: (@list Z)) (top_ph: Z) (h: Z) ,
   &&  ((&((h)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
   **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> top_up)
+  **  (TT )
 .
 
 Module Type VC_Correct.
@@ -671,15 +887,19 @@ Axiom proof_of_create_hashtbl_partial_solve_wit_2 : create_hashtbl_partial_solve
 Axiom proof_of_hashtbl_add_safety_wit_1 : hashtbl_add_safety_wit_1.
 Axiom proof_of_hashtbl_add_safety_wit_2 : hashtbl_add_safety_wit_2.
 Axiom proof_of_hashtbl_add_safety_wit_3 : hashtbl_add_safety_wit_3.
+Axiom proof_of_hashtbl_add_safety_wit_4 : hashtbl_add_safety_wit_4.
+Axiom proof_of_hashtbl_add_entail_wit_1 : hashtbl_add_entail_wit_1.
 Axiom proof_of_hashtbl_add_return_wit_1 : hashtbl_add_return_wit_1.
 Axiom proof_of_hashtbl_add_return_wit_2 : hashtbl_add_return_wit_2.
 Axiom proof_of_hashtbl_add_partial_solve_wit_1 : hashtbl_add_partial_solve_wit_1.
 Axiom proof_of_hashtbl_add_partial_solve_wit_2 : hashtbl_add_partial_solve_wit_2.
 Axiom proof_of_hashtbl_add_partial_solve_wit_3 : hashtbl_add_partial_solve_wit_3.
+Axiom proof_of_hashtbl_add_partial_solve_wit_4_pure : hashtbl_add_partial_solve_wit_4_pure.
 Axiom proof_of_hashtbl_add_partial_solve_wit_4 : hashtbl_add_partial_solve_wit_4.
 Axiom proof_of_hashtbl_add_partial_solve_wit_5 : hashtbl_add_partial_solve_wit_5.
 Axiom proof_of_hashtbl_add_partial_solve_wit_6 : hashtbl_add_partial_solve_wit_6.
 Axiom proof_of_hashtbl_add_partial_solve_wit_7 : hashtbl_add_partial_solve_wit_7.
+Axiom proof_of_hashtbl_add_partial_solve_wit_8 : hashtbl_add_partial_solve_wit_8.
 Axiom proof_of_hashtbl_add_which_implies_wit_1 : hashtbl_add_which_implies_wit_1.
 Axiom proof_of_hashtbl_add_which_implies_wit_2 : hashtbl_add_which_implies_wit_2.
 
