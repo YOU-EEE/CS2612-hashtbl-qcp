@@ -94,3 +94,75 @@ Proof. Admitted.
 Lemma proof_of_hashtbl_add_partial_solve_wit_8 : hashtbl_add_partial_solve_wit_8.
 Proof. Admitted. 
 
+Lemma proof_of_hashtbl_find_safety_wit_1 : hashtbl_find_safety_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_2 : hashtbl_find_safety_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_3 : hashtbl_find_safety_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_4 : hashtbl_find_safety_wit_4.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_5 : hashtbl_find_safety_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_6 : hashtbl_find_safety_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_7 : hashtbl_find_safety_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_8 : hashtbl_find_safety_wit_8.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_9 : hashtbl_find_safety_wit_9.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_10 : hashtbl_find_safety_wit_10.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_safety_wit_11 : hashtbl_find_safety_wit_11.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_4_1 : hashtbl_find_entail_wit_4_1.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_4_2 : hashtbl_find_entail_wit_4_2.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_4_3 : hashtbl_find_entail_wit_4_3.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_4_4 : hashtbl_find_entail_wit_4_4.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_5_1 : hashtbl_find_entail_wit_5_1.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_5_2 : hashtbl_find_entail_wit_5_2.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_5_3 : hashtbl_find_entail_wit_5_3.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_entail_wit_5_4 : hashtbl_find_entail_wit_5_4.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_partial_solve_wit_1 : hashtbl_find_partial_solve_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_partial_solve_wit_2 : hashtbl_find_partial_solve_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_partial_solve_wit_3 : hashtbl_find_partial_solve_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_partial_solve_wit_4 : hashtbl_find_partial_solve_wit_4.
+Proof. Admitted. 
+
+Lemma proof_of_hashtbl_find_partial_solve_wit_5 : hashtbl_find_partial_solve_wit_5.
+Proof. Admitted. 
+

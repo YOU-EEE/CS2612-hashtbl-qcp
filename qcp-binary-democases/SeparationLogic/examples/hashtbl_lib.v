@@ -139,11 +139,18 @@ Definition contain_all_correct_addrs
     b i = Some (ph, l) -> In p l ->
     exists key, m key = Some p /\ hash_string_k key mod NBUCK = i).
 
-Definition store_hash_skeleton (x: addr) (m: list Z -> option addr): Assertion :=
+(* Definition store_hash_skeleton (x: addr) (m: list Z -> option addr): Assertion :=
   EX (l lh: list addr) (b: Z -> option (addr * list addr)) (top bucks: addr),
     [| contain_all_addrs m l |] &&
     [| repr_all_heads lh b |] &&
     [| contain_all_correct_addrs m b |] &&
+    &(x # "hashtbl" ->ₛ "top") # Ptr |-> top ** dll top NULL l **
+    &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks ** PtrArray.full bucks NBUCK lh **
+    store_map store_sll b **
+    store_map store_name m. *)
+
+Definition store_hash_skeleton (x: addr) (m: list Z -> option addr): Assertion :=
+  EX (l lh: list addr) (b: Z -> option (addr * list addr)) (top bucks: addr),
     &(x # "hashtbl" ->ₛ "top") # Ptr |-> top ** dll top NULL l **
     &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks ** PtrArray.full bucks NBUCK lh **
     store_map store_sll b **
