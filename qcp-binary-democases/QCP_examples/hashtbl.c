@@ -111,6 +111,9 @@ void hashtbl_add(struct hashtbl *h, char *key, unsigned int val)
   /*@ store_hash_skeleton(h, m1)
         which implies
         exists top_ph bucks_ph l lh b,
+          contain_all_addrs(m1, l) *
+          repr_all_heads(lh, b) *
+          contain_all_correct_addrs(m1, b) *
           data_at(&(h->top), top_ph) *
           data_at(&(h->bucks), bucks_ph) *
           dll(top_ph, 0, l) *

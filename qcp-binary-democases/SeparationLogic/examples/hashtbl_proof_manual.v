@@ -8,7 +8,8 @@ Require Import Coq.micromega.Psatz.
 Require Import Coq.Sorting.Permutation.
 From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
-From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.SL Require Import Mem SeparationLogic MapLib CommonAssertion.
+Require Import Logic.SeparationLogic.ProofTheory.SeparationLogic.
 Require Import hashtbl_goal.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
@@ -19,60 +20,686 @@ Import naive_C_Rules.
 Require Import hashtbl_lib.
 Local Open Scope sac.
 
+Module BV.
+  Definition insert_map {A} (m: Z -> option A) (k: Z) (v: A) : Z -> option A :=
+    fun x => if Z.eq_dec x k then Some v else m x.
+
+  Lemma insert_map_same {A} : forall (m: Z -> option A) k v,
+    insert_map m k v k = Some v.
+  Proof.
+    intros. unfold insert_map. destruct (Z.eq_dec k k); congruence.
+  Qed.
+
+  Lemma insert_map_diff {A} : forall (m: Z -> option A) k1 k2 v,
+    k1 <> k2 -> insert_map m k1 v k2 = m k2.
+  Proof.
+    intros. unfold insert_map. destruct (Z.eq_dec k2 k1); congruence.
+  Qed.
+
+  Lemma insert_map_iff {A} : forall (m: Z -> option A) k v p,
+    insert_map m k v p <> None <-> (p = k \/ m p <> None).
+  Proof.
+    intros. unfold insert_map. destruct (Z.eq_dec p k).
+    - subst. split; intros.
+      + left; auto.
+      + congruence.
+    - split; intros.
+      + right. auto.
+      + destruct H; try congruence.
+  Qed.
+End BV.
+
+
+
+
+
+(* ---------------------------------------------------------------------- *)
+(* Helper lemmas about lists                                               *)
+(* ---------------------------------------------------------------------- *)
+
+Lemma firstn_replace_nth_nat {A} (n: nat) (v: A) (l: list A) :
+  firstn n (replace_nth n v l) = firstn n l.
+Proof.
+  revert l v.
+  induction n; intros; destruct l; simpl; auto; f_equal; apply IHn.
+Qed.
+
+Lemma length_replace_nth {A} (n: nat) (v: A) (l: list A) :
+  length (replace_nth n v l) = length l.
+Proof.
+  revert v l.
+  induction n; intros v l.
+  - destruct l; simpl; auto.
+  - destruct l; simpl.
+    + reflexivity.
+    + f_equal. apply IHn.
+Qed.
+
+Lemma nth_replace_nth {A} (n: nat) (v d: A) (l: list A) :
+  (n < length l)%nat ->
+  nth n (replace_nth n v l) d = v.
+Proof.
+  revert l.
+  induction n; intros l Hlen; destruct l; simpl in *; try lia; auto.
+  apply IHn; lia.
+Qed.
+
+
+Lemma sublist_replace_prefix {A} (l: list A) (i: Z) (v: A) :
+  0 <= i ->
+  sublist 0 i (replace_Znth i v l) = sublist 0 i l.
+Proof.
+  intros.
+  unfold sublist, replace_Znth.
+  rewrite firstn_replace_nth_nat.
+  reflexivity.
+Qed.
+
+Lemma Zlength_replace_Znth {A} (l: list A) (i: Z) (v: A) :
+  Zlength (replace_Znth i v l) = Zlength l.
+Proof.
+  unfold replace_Znth.
+  rewrite !Zlength_correct, length_replace_nth.
+  reflexivity.
+Qed.
+
+Lemma Znth_replace_eq {A} (l: list A) (i: Z) (v d: A) :
+  0 <= i < Zlength l ->
+  Znth i (replace_Znth i v l) d = v.
+Proof.
+  intros [Hi0 Hi1].
+  unfold replace_Znth, Znth.
+  replace (Z.to_nat i) with (Z.to_nat i + 0)%nat by lia.
+  apply nth_replace_nth.
+  rewrite Zlength_correct in Hi1.
+  apply Z2Nat.inj_lt in Hi1; lia.
+Qed.
+
+Lemma zeros_succ : forall n, 0 <= n -> zeros (n + 1) = zeros n ++ (0 :: nil).
+Proof.
+  intros.
+  unfold zeros.
+  rewrite Z2Nat.inj_add by lia.
+  simpl.
+  rewrite repeat_app.
+  simpl.
+  reflexivity.
+Qed.
+
+Lemma store_map_empty :
+  forall {A B} (P: A -> B -> Assertion),
+    store_map P (@empty_map A B) --||-- emp.
+Proof.
+  intros A B P.
+  unfold store_map, empty_map.
+  unfold logic_equiv, derivable1.
+  unfold exp, andp, coq_prop, iter_sepcon, emp.
+  split.
+  - intros st H.
+    destruct H as [l [[HIn HNoDup] HIter]].
+    destruct l.
+    + exact HIter.
+    + exfalso.
+      match goal with
+      | HIn0: (forall x, In x (?hd :: ?tl) <-> exists b, None = Some b) |- _ =>
+          pose proof (HIn0 hd) as Hhd;
+          assert (In hd (hd :: tl)) as Hin by (simpl; auto);
+          apply Hhd in Hin;
+          destruct Hin as [b Hb];
+          discriminate Hb
+      end.
+  - intros st Hemp.
+    exists (@nil A).
+    split.
+    + split.
+      * intros a; split; intros Hin.
+        { inversion Hin. }
+        { destruct Hin as [b Hb]. discriminate Hb. }
+      * constructor.
+    + exact Hemp.
+Qed.
+
+Lemma dup_store_uint : forall p v1 v2,
+  p # UInt |-> v1 ** p # UInt |-> v2 |-- [| False |].
+Proof.
+  intros.
+  sep_apply store_uint_undef_store_uint.
+  sep_apply store_uint_undef_store_uint.
+  unfold undef_store_uint.
+  eapply derivable1_trans.
+  2: apply (dup_store_4bytes_noninit p).
+  entailer!.
+Qed.
+
+Lemma dup_store_val : forall p v1 v2,
+  store_val p v1 ** store_val p v2 |-- [| False |].
+Proof.
+  intros.
+  unfold store_val.
+  apply dup_store_uint.
+Qed.
+
+Lemma store_val_to_field : forall p v,
+  store_val p v |-- (&(p # "blist" ->ₛ "val")) # UInt |-> v.
+Proof.
+  intros.
+  unfold store_val.
+  entailer!.
+Qed.
+
+Lemma store_val_from_field : forall p v,
+  (&(p # "blist" ->ₛ "val")) # UInt |-> v |-- store_val p v.
+Proof.
+  intros.
+  unfold store_val.
+  entailer!.
+Qed.
+
+(* Axiom store_name_from_key :
+  forall p key_pre k,
+    &(p # "blist" ->ₛ "key") # Ptr |-> key_pre ** store_string key_pre k
+    |-- store_name k p. *)
+
+(* Axiom dll_singleton_from_fields :
+  forall x x_up x_down,
+    x <> NULL ->
+    &(x # "blist" ->ₛ "down") # Ptr |-> x_down **
+    &(x # "blist" ->ₛ "up") # Ptr |-> x_up
+    |-- dll x x_up (x :: nil). *)
+
+(* Axiom store_hash_skeleton_intro :
+  forall (x: addr) (m: list Z -> option addr)
+         (l lh: list addr) (b: Z -> option (addr * list addr))
+         (top bucks: addr),
+    contain_all_addrs m l ->
+    repr_all_heads lh b ->
+    contain_all_correct_addrs m b ->
+    &(x # "hashtbl" ->ₛ "top") # Ptr |-> top **
+    dll top NULL l **
+    &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks **
+    PtrArray.full bucks NBUCK lh **
+    store_map store_sll b **
+    store_map store_name m
+    |-- store_hash_skeleton x m. *)
+
+
+
+Definition hash_skeleton_inputs
+           (x: addr) (l lh: list addr) (b: Z -> option (addr * list addr))
+           (top bucks old_top old_down old_up next: addr)
+           (m: list Z -> option addr) : Assertion :=
+  (((((((( &(x # "hashtbl" ->ₛ "top") # Ptr |-> top **
+           dll top NULL l) **
+          &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks) **
+         PtrArray.full bucks 211 lh) **
+        store_map store_sll b) **
+       store_map store_name m) **
+      &(old_top # "blist" ->ₛ "down") # Ptr |-> old_down) **
+     &(old_top # "blist" ->ₛ "up") # Ptr |-> old_up) **
+    &(top # "blist" ->ₛ "next") # Ptr |-> next).
+
+
+Lemma dll_head_exists_with_TT :
+  forall x y l,
+    x <> NULL ->
+    dll x y l |-- EX x_down x_up l_tail,
+      [| l = x :: l_tail |] &&
+      &(x # "blist" ->ₛ "down") # Ptr |-> x_down **
+      &(x # "blist" ->ₛ "up") # Ptr |-> x_up **
+      TT.
+Proof.
+  intros x y l Hx.
+  sep_apply (dll_not_zero x y l Hx).
+  Intros x_down l_tail.
+  Exists x_down y l_tail.
+  entailer!.
+  apply derivable1_truep_intros.
+Qed.
+
+(* ---------------------------------------------------------------------- *)
+(* Proofs                                                                 *)
+(* ---------------------------------------------------------------------- *)
+
 Lemma proof_of_create_bucks_entail_wit_1 : create_bucks_entail_wit_1.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  Exists content_2 retval.
+  rewrite sublist_nil by lia.
+  simpl.
+  entailer!.
+Qed.
 
 Lemma proof_of_create_bucks_entail_wit_2 : create_bucks_entail_wit_2.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  rename H into Hi_lt.
+  rename H0 into Hi_nonneg.
+  rename H1 into Hi_le.
+  rename H2 into Hprefix.
+  rename H3 into Hretval.
+  Exists (replace_Znth i 0 content_2) bucks_base_2.
+  prop_apply PtrArray.full_Zlength; Intros.
+  match goal with
+  | H : Zlength (replace_Znth _ _ _) = _ |- _ =>
+      pose proof H as Hlen_repl
+  end.
+  pose proof Hlen_repl as Hlen_nat.
+  rewrite Zlength_correct in Hlen_nat.
+  assert (Hlen : Zlength content_2 = 211) by
+    (rewrite <- (Zlength_replace_Znth content_2 i 0); exact Hlen_repl).
+  assert (Hsplit: sublist 0 (i + 1) (replace_Znth i 0 content_2) =
+                  sublist 0 i (replace_Znth i 0 content_2) ++
+                  sublist i (i + 1) (replace_Znth i 0 content_2)) by
+    (apply sublist_split; [lia| rewrite Hlen_nat; lia]).
+  rewrite Hsplit.
+  rewrite (sublist_replace_prefix content_2 i 0) by lia.
+  rewrite (sublist_single i (replace_Znth i 0 content_2) 0) by (rewrite Hlen_nat; lia).
+  rewrite (Znth_replace_eq content_2 i 0 0) by (rewrite Hlen; lia).
+  rewrite Hprefix.
+  rewrite zeros_succ by lia.
+  entailer!.
+Qed.
 
 Lemma proof_of_create_bucks_return_wit_1 : create_bucks_return_wit_1.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  rename H into Hi_ge.
+  rename H0 into Hi_nonneg.
+  rename H1 into Hi_le.
+  rename H2 into Hprefix.
+  rename H3 into Hretval.
+  assert (i = 211) by lia; subst i.
+  prop_apply (PtrArray.full_Zlength bucks_base_2 211 content); Intros.
+  match goal with
+  | H : Zlength content = _ |- _ => pose proof H as Hlen
+  end.
+  assert (content = zeros 211).
+  { assert (Hsub : sublist 0 211 content = content).
+    { apply sublist_self; rewrite Hlen; reflexivity. }
+    apply (eq_trans (eq_sym Hprefix)) in Hsub.
+    symmetry; exact Hsub. }
+  subst content.
+  Exists bucks_base_2.
+  entailer!.
+Qed.
+
+(* -------- init_hashtbl -------- *)
+Definition b_init (x : Z) : option (Z * list Z):= 
+  if (Z.geb x 0 && Z.ltb x 211)%bool then Some (0, nil) 
+  else None.
+
+Lemma Zlength_zeros : forall n, 0 <= n -> Zlength (zeros n) = n.
+Proof.
+  intros n Hn.
+  unfold zeros.
+  rewrite Zlength_correct.
+Admitted.
+
+Lemma Zlength_zeros_211 : Zlength (zeros 211) = 211.
+Proof.
+  apply Zlength_zeros; lia.
+Qed.
+
+Lemma empty_contain_all_addrs : contain_all_addrs empty_map nil.
+Proof. 
+  unfold contain_all_addrs, empty_map. 
+  intros; split; intros; simpl in *; [destruct H; discriminate | tauto]. 
+Qed.
+
+Lemma empty_contain_all_correct_addrs: contain_all_correct_addrs empty_map b_init.
+Proof.
+  unfold contain_all_correct_addrs, empty_map, b_init. split; intros.
+  - discriminate.
+  - exfalso.
+    destruct (((Z.geb i 0) && (Z.ltb i 211))%bool) eqn:Hi.
+    + (* case true *)
+      simpl in H.
+      inversion H; subst.     (* 得到 l = nil *)
+      simpl in H0.            (* H0 : In p nil *)
+      contradiction.          (* 或者: inversion H0. *)
+    + (* case false *)
+      simpl in H.
+      discriminate.
+Qed.
+
+
+Lemma empty_repr_all_heads : repr_all_heads (zeros 211) b_init.
+Proof.
+  unfold repr_all_heads, b_init. intros.
+  split; intros.
+  - destruct H as [l Hl].
+    remember (((Z.geb i 0) && (Z.ltb i 211))%bool) as b eqn:Hb.
+    destruct b.
+    inversion Hl; subst; clear Hl.
+    assert (Hb' : ((Z.geb i 0) && (Z.ltb i 211))%bool = true).
+    { now symmetry. }
+    
+    (* 通过 apply 和 destruct 继续推理 *)
+    apply andb_true_iff in Hb'.
+    destruct Hb' as [Hi0 Hi211].
+    apply Z.geb_le in Hi0.
+    apply Z.ltb_lt in Hi211.
+    (* split.
+    * (* 0 <= i < Zlength (zeros 211) *)
+      pose proof Zlength_zeros_211.
+      rewrite H.
+      lia.
+    * (* Znth i (zeros 211) 0 = p, but p is already subst as 0 *)
+      rewrite (Znth_zeros 211 i) by lia.
+      reflexivity.
+
+    + (* Case b = false *)
+      discriminate. *)
+Admitted.
+
+Lemma dll_null: dll 0 NULL nil --||-- emp.
+Proof.
+  simpl.
+  unfold NULL.
+  split.
+  entailer!.
+  entailer!.
+Qed.
+
+Lemma store_sll_null: emp |-- store_map store_sll b_init.
+Admitted.
+
+
+Lemma store_name_null: emp |-- store_map store_name empty_map.
+Admitted.
 
 Lemma proof_of_init_hashtbl_return_wit_1 : init_hashtbl_return_wit_1.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  unfold store_hash_skeleton.
+  Exists nil (zeros 211) b_init 0 bucks_base.
+  pose proof empty_contain_all_addrs.
+  pose proof empty_repr_all_heads.
+  pose proof empty_contain_all_addrs.
+  pose proof dll_null.
+  pose proof store_sll_null.
+  pose proof store_name_null.
+  entailer!.
+  + unfold NBUCK.
+    entailer!.
+    destruct H2 as [Hdll_to_emp Hemp_to_dll].  (* 从 --||-- 拿到两个方向 *)
+    apply derivable1s_emp_sepcon_unfold.
+    - exact Hemp_to_dll.
+    - apply derivable1s_emp_sepcon_unfold.
+      * exact H3.
+      * exact H4.
+  + apply empty_contain_all_correct_addrs.
+Qed. 
+
+(* -------- create_hashtbl -------- *)
 
 Lemma proof_of_create_hashtbl_return_wit_1 : create_hashtbl_return_wit_1.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  apply derivable1s_emp_sepcon_unfold.
+  - apply derivable1_refl.
+  - setoid_rewrite <- (store_map_empty store_val).
+    entailer!.
+Qed.
+
+(* -------- hashtbl_add -------- *)
 
 Lemma proof_of_hashtbl_add_entail_wit_1 : hashtbl_add_entail_wit_1.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  entailer!.
+  - pose proof (Z.rem_bound_pos retval 211) as Hrem.
+    lia.
+  - pose proof (Z.rem_nonneg retval 211) as Hrem.
+    lia.
+Qed. 
+
+Lemma KP_insert_map_ext_same :
+  forall (m: list Z -> option addr) k p,
+    m k = Some p ->
+    (forall key, KP.insert_map m k p key = m key).
+Proof.
+  intros m k p Hmk key.
+  destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
+  - subst. rewrite KP.insert_map_same. rewrite Hmk. reflexivity.
+Admitted.
+  (* - rewrite KP.insert_map_diff by exact Hneq. reflexivity. *)
+
+Lemma store_name_intro : forall k node key_pre,
+  (&( node # "blist" ->ₛ "key") # Ptr |-> key_pre ** store_string key_pre k)
+  |-- store_name k node.
+Proof.
+  intros.
+  unfold store_name.
+  Exists key_pre.
+  entailer!.
+Qed.
+
+Definition b' (b : Z -> option (addr * list addr)) (idx new : Z)
+  : Z -> option (addr * list addr) :=
+  fun j =>
+    if Z.eq_dec j idx then
+      match b j with
+      | Some (_old_head, l_old) => Some (new, new :: l_old)
+      | None => Some (new, new :: nil)
+      end
+    else b j.
+
+Lemma contain_all_addrs_insert_cons :
+  forall (m : list Z -> option addr) (l : list addr) (k : list Z) (p : addr),
+    contain_all_addrs m l ->
+    m k = None ->
+    contain_all_addrs (KP.insert_map m k p) (p :: l).
+Proof.
+  (* 这里按你们 contain_all_addrs 的定义展开，用 KP.insert_map_same/diff 分 key=k 和 key<>k *)
+Admitted.
+
+Lemma repr_all_heads_update :
+  forall lh b idx new,
+    0 <= idx < Zlength lh ->
+    repr_all_heads lh b ->
+    (* 需要从旧 repr_all_heads 推出 b idx = Some(old_head, l_old) 的存在性 *)
+    repr_all_heads (replace_Znth idx new lh) (b' b idx new).
+Proof.
+  (* 按 repr_all_heads 定义展开，分 j=idx / j<>idx，用 Znth_replace_eq / Znth_replace_neq *)
+Admitted.
+
+Lemma dll_singleton_from_fields :
+  forall x,
+    x <> NULL ->
+    &(x # "blist" ->ₛ "down") # Ptr |-> NULL **
+    &(x # "blist" ->ₛ "up") # Ptr |-> NULL
+    |-- dll x NULL (x :: nil).
+Proof.
+  intros x Hx.
+  simpl dll.
+  Exists NULL.
+  entailer!.
+Qed.
+
+(* ------------------ store_map store_sll update (admit for now) ------------------ *)
+
+
+Lemma contain_all_correct_addrs_insert_update :
+  forall (m: list Z -> option addr) (b: Z -> option (addr * list addr))
+         (k: list Z) (p: addr) (idx: Z),
+    m k = None ->
+    idx = hash_string_k k mod NBUCK ->
+    contain_all_correct_addrs m b ->
+    (* 还需要 b 在 idx 处是 Some，以便把 p 加进去 *)
+    (exists ph l, b idx = Some (ph, l)) ->
+    contain_all_correct_addrs (KP.insert_map m k p) (b' b idx p).
+Proof.
+Admitted.
+
+Lemma store_map_store_sll_update_at_idx :
+  forall (bucks: addr) (lh: list addr) (b: Z -> option (addr * list addr))
+         (idx new top_ph: Z) (l: list addr),
+    0 <= idx < NBUCK ->
+    PtrArray.full bucks 211 (replace_Znth idx new lh) **
+    (&(new # "blist" ->ₛ "next") # Ptr |-> Znth idx lh 0 **
+     (&(new # "blist" ->ₛ "down") # Ptr |-> top_ph **
+      (&(new # "blist" ->ₛ "up") # Ptr |-> 0 **
+       (dll top_ph 0 l ** (store_map store_sll b ** TT)))))
+    |-- PtrArray.full bucks 211 (replace_Znth idx new lh) **
+        store_map store_sll (b' b idx new).
+Proof. Admitted.
 
 Lemma proof_of_hashtbl_add_return_wit_1 : hashtbl_add_return_wit_1.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  Exists retval_2.
+  destruct (m2 retval_2) eqn:Hm2_at_new.
+  - match goal with
+    | H : m2 retval_2 = Some ?v |- _ => rename v into v_old
+    end.
+    sep_apply (store_map_split store_val retval_2 v_old m2 Hm2_at_new).
+    sep_apply store_val_to_field.
+    sep_apply (dup_store_uint (&(retval_2 # "blist" ->ₛ "val")) v_old val_pre).
+    entailer!.
+  - set (m2' := PV.insert_map m2 retval_2 val_pre).
+    sep_apply (store_map_equiv_store_map_missing store_val m2 retval_2 Hm2_at_new).
+    assert (Houtside : forall a, a <> retval_2 -> m2 a = m2' a).
+    { intros a Ha.
+      unfold m2'.
+      symmetry.
+      rewrite PV.insert_map_diff by congruence.
+      reflexivity. }
+    pose proof (store_map_missing_i_equiv store_val m2 m2' retval_2 Houtside) as Heq.
+    destruct Heq as [Hmiss _].
+    sep_apply Hmiss.
+    assert (Hm2'_at_new : m2' retval_2 = Some val_pre).
+    { unfold m2'. apply PV.insert_map_same. }
+    sep_apply store_val_from_field.
+    sep_apply (store_map_merge store_val retval_2 val_pre m2' Hm2'_at_new).
+    
+    set (m1' := KP.insert_map m1 k retval_2).
 
+    (* 1) 把 store_map store_name m1 改写成 “k 缺失”的形态 *)
+    sep_apply (store_map_equiv_store_map_missing store_name m1 k H9).
+
+    (* 2) 把 “缺失形态”从 m1 迁移到 m1'：证明除 k 以外两张 map 一样 *)
+    assert (Houtside_name : forall key, key <> k -> m1 key = m1' key).
+    { intros key Hneq. unfold m1'. admit. }
+
+    pose proof (store_map_missing_i_equiv store_name m1 m1' k Houtside_name) as Heq_name.
+    destruct Heq_name as [Hmiss_name _].
+    sep_apply Hmiss_name.
+
+    (* 3) 构造 store_name k retval_2（已有 store_name_intro） *)
+    sep_apply (store_name_intro k retval_2 key_pre).
+
+    (* 4) merge 回 store_map store_name m1' *)
+    assert (Hins_name : m1' k = Some retval_2).
+    { unfold m1'. apply KP.insert_map_same. }
+
+    sep_apply (store_map_merge store_name k retval_2 m1' Hins_name).
+
+    unfold store_hash_skeleton.
+
+    set (idx := (retval % 211)).
+    set (b_new := b' b idx retval_2).
+    (* 在 unfold store_hash_skeleton 之后，按 (l, lh, b, top, bucks) 的顺序给见证 *)
+    Exists (retval_2 :: l)
+       (replace_Znth (retval % 211) retval_2 lh)
+       b_new                (* 不能再用旧 b；需要更新后的 b' *)
+       retval_2           (* top 应该是新 top *)
+       bucks_ph.
+    subst idx b_new.
+    entailer!.
+    + unfold NBUCK. admit.
+      (* sep_apply (store_map_store_sll_update_at_idx
+            bucks_ph lh b (retval % 211) retval_2 top_ph l). *)
+    + eapply contain_all_correct_addrs_insert_update; eauto.
+      * unfold NBUCK.
+        rewrite H5.
+        pose proof (hash_string_in_range k) as Hr.
+        admit.
+      * specialize (H7 (retval % 211) (Znth (retval % 211) lh 0)).
+        admit.
+    + admit.  
+    + eapply contain_all_addrs_insert_cons; eauto.
+Admitted.
+      
 Lemma proof_of_hashtbl_add_return_wit_2 : hashtbl_add_return_wit_2.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  Exists retval_2.
+  destruct (m2 retval_2) eqn:Hm2_at_new.
+  - match goal with
+    | H : m2 retval_2 = Some ?v |- _ => rename v into v_old
+    end.
+    sep_apply (store_map_split store_val retval_2 v_old m2 Hm2_at_new).
+    sep_apply store_val_to_field.
+    sep_apply (dup_store_uint (&(retval_2 # "blist" ->ₛ "val")) v_old val_pre).
+    entailer!.
+  - set (m2' := PV.insert_map m2 retval_2 val_pre).
+    sep_apply (store_map_equiv_store_map_missing store_val m2 retval_2 Hm2_at_new).
+    assert (Houtside : forall a, a <> retval_2 -> m2 a = m2' a).
+    { intros a Ha.
+      unfold m2'.
+      symmetry.
+      rewrite PV.insert_map_diff by congruence.
+      reflexivity. }
+    pose proof (store_map_missing_i_equiv store_val m2 m2' retval_2 Houtside) as Heq.
+    destruct Heq as [Hmiss _].
+    sep_apply Hmiss.
+    assert (Hm2'_at_new : m2' retval_2 = Some val_pre).
+    { unfold m2'. apply PV.insert_map_same. }
+    sep_apply store_val_from_field.
+    sep_apply (store_map_merge store_val retval_2 val_pre m2' Hm2'_at_new).
+
+    set (m1' := KP.insert_map m1 k retval_2).
+
+    (* 1) 把 store_map store_name m1 改写成 “k 缺失”的形态 *)
+    sep_apply (store_map_equiv_store_map_missing store_name m1 k H10).
+
+    (* 2) 把 “缺失形态”从 m1 迁移到 m1'：证明除 k 以外两张 map 一样 *)
+    assert (Houtside_name : forall key, key <> k -> m1 key = m1' key).
+    { intros key Hneq. unfold m1'. admit. }
+
+    pose proof (store_map_missing_i_equiv store_name m1 m1' k Houtside_name) as Heq_name.
+    destruct Heq_name as [Hmiss_name _].
+    sep_apply Hmiss_name.
+
+    (* 3) 构造 store_name k retval_2（已有 store_name_intro） *)
+    sep_apply (store_name_intro k retval_2 key_pre).
+
+    (* 4) merge 回 store_map store_name m1' *)
+    assert (Hins_name : m1' k = Some retval_2).
+    { unfold m1'. apply KP.insert_map_same. }
+
+    sep_apply (store_map_merge store_name k retval_2 m1' Hins_name).
+
+    unfold store_hash_skeleton.
+    set (idx := (retval % 211)).
+    set (b_new := b' b idx retval_2).
+    Exists (retval_2 :: l)
+        (replace_Znth idx retval_2 lh)
+        b_new
+        retval_2
+        bucks_ph.
+    subst idx b_new.
+    entailer!.
+Admitted.
 
 Lemma proof_of_hashtbl_add_which_implies_wit_1 : hashtbl_add_which_implies_wit_1.
-Proof. Admitted. 
+Proof. 
+  pre_process.
+  unfold store_hash_skeleton.
+  Intros l lh b top bucks.
+  unfold NBUCK, NULL.
+  Exists bucks top lh b l .
+  entailer!.
+  apply derivable1_truep_intros.
+Qed.
 
 Lemma proof_of_hashtbl_add_which_implies_wit_2 : hashtbl_add_which_implies_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_entail_wit_1 : hashtbl_find_entail_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_entail_wit_2 : hashtbl_find_entail_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_entail_wit_3 : hashtbl_find_entail_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_entail_wit_6_1 : hashtbl_find_entail_wit_6_1.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_entail_wit_6_2 : hashtbl_find_entail_wit_6_2.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_return_wit_1 : hashtbl_find_return_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_return_wit_2 : hashtbl_find_return_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_return_wit_3 : hashtbl_find_return_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_hashtbl_find_which_implies_wit_1 : hashtbl_find_which_implies_wit_1.
-Proof. Admitted. 
-
+Proof.
+  pre_process.
+  assert (top_ph <> NULL) as Htop by (unfold NULL; auto).
+  sep_apply (dll_head_exists_with_TT top_ph 0 l Htop).
+  Intros top_down top_up l_tail.
+  Exists top_up top_down l_tail.
+  entailer!.
+Qed.

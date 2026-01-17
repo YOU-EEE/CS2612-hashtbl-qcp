@@ -250,10 +250,13 @@ forall (retval: Z) (top_ph: Z) (bucks_ph: Z) ,
 (*----- Function hashtbl_add -----*)
 
 Definition hashtbl_add_safety_wit_1 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) ,
   [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (store_string key_pre k )
   **  ((( &( "buc" ) )) # Ptr  |->_)
@@ -274,10 +277,13 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_safety_wit_2 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) ,
   [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (store_string key_pre k )
   **  ((( &( "buc" ) )) # Ptr  |->_)
@@ -299,13 +305,16 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_safety_wit_3 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) ,
   [| (retval_2 <> 0) |] 
   &&  [| (0 <= (retval % ( 211 ) )) |] 
   &&  [| ((retval % ( 211 ) ) < 211) |] 
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
   **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
@@ -332,13 +341,16 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_safety_wit_4 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) ,
   [| (retval_2 <> 0) |] 
   &&  [| (0 <= (retval % ( 211 ) )) |] 
   &&  [| ((retval % ( 211 ) ) < 211) |] 
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
   **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
@@ -365,10 +377,13 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_entail_wit_1 := 
-forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
+forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) ,
   [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
@@ -385,6 +400,9 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
@@ -398,7 +416,7 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
 .
 
 Definition hashtbl_add_return_wit_1 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) ,
   [| (top_ph = 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (0 <= (retval % ( 211 ) )) |] 
@@ -406,6 +424,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (PtrArray.full bucks_ph 211 (replace_Znth ((retval % ( 211 ) )) (retval_2) (lh)) )
   **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
@@ -428,7 +449,7 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_return_wit_2 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
   [| (l = (cons (top_ph) (l_tail))) |] 
   &&  [| (top_ph <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
@@ -437,6 +458,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (PtrArray.full bucks_ph 211 (replace_Znth ((retval % ( 211 ) )) (retval_2) (lh)) )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
@@ -474,8 +498,11 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
 .
 
 Definition hashtbl_add_partial_solve_wit_2 := 
-forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) ,
-  [| ((m1 (k)) = None) |]
+forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) ,
+  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
+  &&  [| ((m1 (k)) = None) |]
   &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
   **  (dll top_ph 0 l )
@@ -486,7 +513,10 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
   **  (store_map store_val m2 )
   **  (store_string key_pre k )
 |--
-  [| ((m1 (k)) = None) |]
+  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
+  &&  [| ((m1 (k)) = None) |]
   &&  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  ((&((h_pre)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
@@ -499,12 +529,15 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
 .
 
 Definition hashtbl_add_partial_solve_wit_3 := 
-forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) ,
+forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) ,
   [| (0 <= (retval % ( 211 ) )) |] 
   &&  [| ((retval % ( 211 ) ) < 211) |] 
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
@@ -521,6 +554,9 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (store_string key_pre k )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
@@ -534,7 +570,7 @@ forall (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@l
 .
 
 Definition hashtbl_add_partial_solve_wit_4_pure := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) ,
   [| (top_ph <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (0 <= (retval % ( 211 ) )) |] 
@@ -542,6 +578,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
   **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
@@ -567,7 +606,7 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_partial_solve_wit_4_aux := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) ,
   [| (top_ph <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (0 <= (retval % ( 211 ) )) |] 
@@ -575,6 +614,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
   **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
@@ -599,6 +641,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  (dll top_ph 0 l )
@@ -619,7 +664,7 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 Definition hashtbl_add_partial_solve_wit_4 := hashtbl_add_partial_solve_wit_4_pure -> hashtbl_add_partial_solve_wit_4_aux.
 
 Definition hashtbl_add_partial_solve_wit_5 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) ,
   [| (top_ph = 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (0 <= (retval % ( 211 ) )) |] 
@@ -627,6 +672,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
   **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
@@ -650,6 +698,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
   **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
@@ -669,7 +720,7 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_partial_solve_wit_6 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
   [| (l = (cons (top_ph) (l_tail))) |] 
   &&  [| (top_ph <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
@@ -678,6 +729,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
   **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
@@ -704,6 +758,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))
   **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
@@ -725,7 +782,7 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_partial_solve_wit_7 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) (top_down: Z) (l_tail: (@list Z)) ,
   [| (l = (cons (top_ph) (l_tail))) |] 
   &&  [| (top_ph <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
@@ -734,6 +791,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (PtrArray.full bucks_ph 211 lh )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
@@ -760,6 +820,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |->_)
   **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
@@ -781,7 +844,7 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
 .
 
 Definition hashtbl_add_partial_solve_wit_8 := 
-forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (b: (Z -> (@option (Z * (@list Z))))) (lh: (@list Z)) (l: (@list Z)) (bucks_ph: Z) (top_ph: Z) (retval: Z) (retval_2: Z) ,
+forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z))) (m1: ((@list Z) -> (@option Z))) (bucks_ph: Z) (top_ph: Z) (lh: (@list Z)) (b: (Z -> (@option (Z * (@list Z))))) (l: (@list Z)) (retval: Z) (retval_2: Z) ,
   [| (top_ph = 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (0 <= (retval % ( 211 ) )) |] 
@@ -789,6 +852,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (PtrArray.full bucks_ph 211 lh )
   **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
@@ -812,6 +878,9 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| (0 <= retval) |] 
   &&  [| (retval <= 4294967295) |] 
   &&  [| (retval = (hash_string_k (k))) |] 
+  &&  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |] 
   &&  [| ((m1 (k)) = None) |]
   &&  (((bucks_ph + ((retval % ( 211 ) ) * sizeof(PTR) ) )) # Ptr  |->_)
   **  (PtrArray.missing_i bucks_ph (retval % ( 211 ) ) 0 211 lh )
@@ -834,8 +903,11 @@ Definition hashtbl_add_which_implies_wit_1 :=
 forall (m1: ((@list Z) -> (@option Z))) (h: Z) ,
   (store_hash_skeleton h m1 )
 |--
-  EX (b: (Z -> (@option (Z * (@list Z)))))  (lh: (@list Z))  (l: (@list Z))  (bucks_ph: Z)  (top_ph: Z) ,
-  ((&((h)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
+  EX (bucks_ph: Z)  (top_ph: Z)  (lh: (@list Z))  (b: (Z -> (@option (Z * (@list Z)))))  (l: (@list Z)) ,
+  [| (contain_all_addrs m1 l ) |] 
+  &&  [| (repr_all_heads lh b ) |] 
+  &&  [| (contain_all_correct_addrs m1 b ) |]
+  &&  ((&((h)  # "hashtbl" ->ₛ "top")) # Ptr  |-> top_ph)
   **  ((&((h)  # "hashtbl" ->ₛ "bucks")) # Ptr  |-> bucks_ph)
   **  (dll top_ph 0 l )
   **  (PtrArray.full bucks_ph 211 lh )
