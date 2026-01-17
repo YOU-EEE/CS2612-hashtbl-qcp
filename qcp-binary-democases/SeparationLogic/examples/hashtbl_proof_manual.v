@@ -211,14 +211,22 @@ Lemma store_hash_skeleton_intro :
   forall (x: addr) (m: list Z -> option addr)
          (l lh: list addr) (b: Z -> option (addr * list addr))
          (top bucks: addr),
-    (&(x # "hashtbl" ->ₛ "top") # Ptr |-> top **
-     &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks) **
-    PtrArray.full bucks 211 lh
+    contain_all_addrs m l ->
+    repr_all_heads lh b ->
+    contain_all_correct_addrs m b ->
+    &(x # "hashtbl" ->ₛ "top") # Ptr |-> top **
+    dll top NULL l **
+    &(x # "hashtbl" ->ₛ "bucks") # Ptr |-> bucks **
+    PtrArray.full bucks NBUCK lh **
+    store_map store_sll b **
+    store_map store_name m
     |-- store_hash_skeleton x m.
 Proof.
-  pre_process.
+  intros x m l lh b top bucks Haddrs Hheads Hcorrect.
   unfold store_hash_skeleton.
-Admitted.
+  Exists l lh b top bucks.
+  entailer!.
+Qed.
 
 
 Definition hash_skeleton_inputs
@@ -472,4 +480,3 @@ Proof.
   Exists top_up top_down l_tail.
   entailer!.
 Qed.
-
