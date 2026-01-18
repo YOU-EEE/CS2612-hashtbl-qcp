@@ -61,6 +61,7 @@ End BV.
 Lemma firstn_replace_nth_nat {A} (n: nat) (v: A) (l: list A) :
   firstn n (replace_nth n v l) = firstn n l.
 Proof.
+  (* 对 n 做归纳：替换第 n 位不会影响前 n 个元素 *)
   revert l v.
   induction n; intros; destruct l; simpl; auto; f_equal; apply IHn.
 Qed.
@@ -68,6 +69,7 @@ Qed.
 Lemma length_replace_nth {A} (n: nat) (v: A) (l: list A) :
   length (replace_nth n v l) = length l.
 Proof.
+  (* replace_nth 不改变长度 *)
   revert v l.
   induction n; intros v l.
   - destruct l; simpl; auto.
@@ -80,6 +82,7 @@ Lemma nth_replace_nth {A} (n: nat) (v d: A) (l: list A) :
   (n < length l)%nat ->
   nth n (replace_nth n v l) d = v.
 Proof.
+  (* 在合法索引处取到新值 *)
   revert l.
   induction n; intros l Hlen; destruct l; simpl in *; try lia; auto.
   apply IHn; lia.
@@ -89,6 +92,7 @@ Lemma nth_replace_nth_neq {A} (i j: nat) (v d: A) (l: list A) :
   i <> j ->
   nth j (replace_nth i v l) d = nth j l d.
 Proof.
+  (* 非目标索引处保持不变 *)
   revert i l.
   induction j; intros i l Hneq; destruct l; simpl;
     try (destruct i; simpl; try congruence; reflexivity).
@@ -102,6 +106,7 @@ Lemma sublist_replace_prefix {A} (l: list A) (i: Z) (v: A) :
   sublist 0 i (replace_Znth i v l) = sublist 0 i l.
 Proof.
   intros.
+  (* 前缀子串只依赖前 i 项 *)
   unfold sublist, replace_Znth.
   rewrite firstn_replace_nth_nat.
   reflexivity.
@@ -110,6 +115,7 @@ Qed.
 Lemma Zlength_replace_Znth {A} (l: list A) (i: Z) (v: A) :
   Zlength (replace_Znth i v l) = Zlength l.
 Proof.
+  (* Zlength 与 list length 对齐 *)
   unfold replace_Znth.
   rewrite !Zlength_correct, length_replace_nth.
   reflexivity.
@@ -120,6 +126,7 @@ Lemma Znth_replace_eq {A} (l: list A) (i: Z) (v d: A) :
   Znth i (replace_Znth i v l) d = v.
 Proof.
   intros [Hi0 Hi1].
+  (* 转换到 nat 索引后使用 nth_replace_nth *)
   unfold replace_Znth, Znth.
   replace (Z.to_nat i) with (Z.to_nat i + 0)%nat by lia.
   apply nth_replace_nth.
@@ -134,6 +141,7 @@ Lemma Znth_replace_neq {A} (l: list A) (i j: Z) (v d: A) :
   Znth j (replace_Znth i v l) d = Znth j l d.
 Proof.
   intros Hi Hj Hneq.
+  (* 不同索引时结果保持不变 *)
   unfold replace_Znth, Znth.
   apply nth_replace_nth_neq.
   intros Heq.
@@ -144,6 +152,7 @@ Qed.
 Lemma zeros_succ : forall n, 0 <= n -> zeros (n + 1) = zeros n ++ (0 :: nil).
 Proof.
   intros.
+  (* zeros 定义为 repeat 0：用 repeat_app 展开 *)
   unfold zeros.
   rewrite Z2Nat.inj_add by lia.
   simpl.
@@ -161,6 +170,7 @@ Proof.
   unfold logic_equiv, derivable1.
   unfold exp, andp, coq_prop, iter_sepcon, emp.
   split.
+  (* 从 store_map empty_map 推出 iter_sepcon 为空列表，因此是 emp *)
   - intros st H.
     destruct H as [l [[HIn HNoDup] HIter]].
     destruct l.
@@ -174,6 +184,7 @@ Proof.
           destruct Hin as [b Hb];
           discriminate Hb
       end.
+  (* 反向：由 emp 构造空列表作为 store_map 的见证 *)
   - intros st Hemp.
     exists (@nil A).
     split.
@@ -189,6 +200,7 @@ Lemma dup_store_uint : forall p v1 v2,
   p # UInt |-> v1 ** p # UInt |-> v2 |-- [| False |].
 Proof.
   intros.
+  (* 同一地址重复写入两次，违反可分离性 *)
   sep_apply store_uint_undef_store_uint.
   sep_apply store_uint_undef_store_uint.
   unfold undef_store_uint.
@@ -201,6 +213,7 @@ Lemma dup_store_val : forall p v1 v2,
   store_val p v1 ** store_val p v2 |-- [| False |].
 Proof.
   intros.
+  (* 直接展开为 dup_store_uint *)
   unfold store_val.
   apply dup_store_uint.
 Qed.
@@ -209,6 +222,7 @@ Lemma store_val_to_field : forall p v,
   store_val p v |-- (&(p # "blist" ->ₛ "val")) # UInt |-> v.
 Proof.
   intros.
+  (* store_val 的定义就是 val 字段 *)
   unfold store_val.
   entailer!.
 Qed.
@@ -217,6 +231,7 @@ Lemma store_val_from_field : forall p v,
   (&(p # "blist" ->ₛ "val")) # UInt |-> v |-- store_val p v.
 Proof.
   intros.
+  (* 反向同理 *)
   unfold store_val.
   entailer!.
 Qed.
@@ -277,6 +292,7 @@ Lemma dll_head_exists_with_TT :
       TT.
 Proof.
   intros x y l Hx.
+  (* 用 dll_not_zero 展开非空 dll 的头结点信息 *)
   sep_apply (dll_not_zero x y l Hx).
   Intros x_down l_tail.
   Exists x_down y l_tail.
@@ -291,6 +307,7 @@ Qed.
 Lemma proof_of_create_bucks_entail_wit_1 : create_bucks_entail_wit_1.
 Proof.
   pre_process.
+  (* 初始数组前缀为空，直接用 sublist_nil 化简 *)
   Exists content_2 retval.
   rewrite sublist_nil by lia.
   simpl.
@@ -313,6 +330,7 @@ Proof.
   end.
   pose proof Hlen_repl as Hlen_nat.
   rewrite Zlength_correct in Hlen_nat.
+  (* 用 replace_Znth 更新第 i 个桶后，保持整体长度与前缀子串性质 *)
   assert (Hlen : Zlength content_2 = 211) by
     (rewrite <- (Zlength_replace_Znth content_2 i 0); exact Hlen_repl).
   assert (Hsplit: sublist 0 (i + 1) (replace_Znth i 0 content_2) =
@@ -336,11 +354,13 @@ Proof.
   rename H1 into Hi_le.
   rename H2 into Hprefix.
   rename H3 into Hretval.
+  (* i 达到上界，说明已经写满 211 个桶 *)
   assert (i = 211) by lia; subst i.
   prop_apply (PtrArray.full_Zlength bucks_base_2 211 content); Intros.
   match goal with
   | H : Zlength content = _ |- _ => pose proof H as Hlen
   end.
+  (* 利用前缀性质证明 content 等于全 0 数组 *)
   assert (content = zeros 211).
   { assert (Hsub : sublist 0 211 content = content).
     { apply sublist_self; rewrite Hlen; reflexivity. }
@@ -359,6 +379,7 @@ Definition b_init (x : Z) : option (Z * list Z):=
 Lemma Zlength_zeros : forall n, 0 <= n -> Zlength (zeros n) = n.
 Proof.
   intros n Hn.
+  (* zeros = repeat 0：Zlength 与 repeat_length 对应 *)
   unfold zeros.
   rewrite Zlength_correct.
   rewrite repeat_length.
@@ -371,6 +392,7 @@ Lemma Znth_zeros : forall n i d,
   Znth i (zeros n) d = 0.
 Proof.
   intros n i d Hi.
+  (* 把 Znth 化为 nth_repeat *)
   assert (Hrange : 0 <= i < Zlength (zeros n)).
   { rewrite Zlength_zeros by lia. lia. }
   rewrite (Znth_indep (zeros n) i d 0) by exact Hrange.
@@ -387,6 +409,7 @@ Qed.
 Lemma empty_contain_all_addrs : contain_all_addrs empty_map nil.
 Proof. 
   unfold contain_all_addrs, empty_map. 
+  (* 空映射只包含空地址集合 *)
   intros; split; intros; simpl in *; [destruct H; discriminate | tauto]. 
 Qed.
 
@@ -394,6 +417,7 @@ Lemma empty_contain_all_correct_addrs: contain_all_correct_addrs empty_map b_ini
 Proof.
   unfold contain_all_correct_addrs, empty_map, b_init. split; intros.
   - discriminate.
+  (* 反向：b_init 的每个桶是空链表，因此不可能包含地址 *)
   - exfalso.
     destruct (((Z.geb i 0) && (Z.ltb i 211))%bool) eqn:Hi.
     + (* case true *)
@@ -411,6 +435,7 @@ Lemma empty_repr_all_heads : repr_all_heads (zeros 211) b_init.
 Proof.
   unfold repr_all_heads, b_init. intros.
   split; intros.
+  (* 正向：从 b_init 的 Some 推出范围与数组对应为 0 *)
   - destruct H as [l Hl].
     remember (((Z.geb i 0) && (Z.ltb i 211))%bool) as b eqn:Hb.
     destruct b.
@@ -428,6 +453,7 @@ Proof.
       * assert (Hz : Znth i (zeros 211) 0 = 0) by (apply Znth_zeros; lia).
         exact Hz.
     + discriminate.
+  (* 反向：从数组位置为 0 反推 b_init i = Some (0, nil) *)
   - destruct H as [Hi Hnth].
     destruct Hi as [Hi0 Hi1].
     assert (Hrange : 0 <= i < 211).
@@ -451,6 +477,7 @@ Lemma In_Zseq_iff :
     In a (Zseq s len) <-> exists n, (n < len)%nat /\ a = s + Z.of_nat n.
 Proof.
   intros s len; revert s.
+  (* 对 len 归纳，逐步拆分 Zseq 的 head/tail *)
   induction len; intros s a; simpl.
   - split; intros H.
     + contradiction.
@@ -472,6 +499,7 @@ Lemma In_Zseq_0_iff : forall a len,
   In a (Zseq 0 len) <-> 0 <= a < Z.of_nat len.
 Proof.
   intros a len; split; intros H.
+  (* 0 起始时可以转成整数范围判断 *)
   - apply In_Zseq_iff in H.
     destruct H as [n [Hlt Heq]].
     subst. split.
@@ -488,6 +516,7 @@ Qed.
 Lemma Zseq_NoDup : forall s len, NoDup (Zseq s len).
 Proof.
   intros s len; revert s.
+  (* Zseq 是严格递增序列，因此无重复 *)
   induction len; intros s; simpl.
   - constructor.
   - constructor.
@@ -501,6 +530,7 @@ Proof.
   simpl.
   unfold NULL.
   split.
+  (* dll 空链表与 emp 等价 *)
   entailer!.
   entailer!.
 Qed.
@@ -510,6 +540,7 @@ Proof.
   unfold store_map.
   Exists (Zseq 0 211%nat).
   entailer!.
+  (* 逐桶构造 iter_sepcon；每个桶都是空链表 *)
   - induction (Zseq 0 211%nat); simpl.
     + entailer!.
     + assert (Hhead :
@@ -542,6 +573,7 @@ Proof.
   - intros a; split; intros Hin.
     + exists (0, @nil addr).
       unfold b_init.
+      (* 由范围得到 b_init a = Some (0, nil) *)
       apply In_Zseq_0_iff in Hin.
       destruct Hin as [Hge Hlt].
       assert (Hgeb : Z.geb a 0 = true) by (apply Z.geb_le; lia).
@@ -559,6 +591,7 @@ Qed.
 
 Lemma store_name_null: emp |-- store_map store_name empty_map.
 Proof.
+  (* 空映射的 store_map 与 emp 等价 *)
   setoid_rewrite <- (store_map_empty store_name).
   entailer!.
 Qed.
@@ -567,6 +600,7 @@ Lemma proof_of_init_hashtbl_return_wit_1 : init_hashtbl_return_wit_1.
 Proof.
   pre_process.
   unfold store_hash_skeleton.
+  (* 见证为：空链表 + zeros 数组 + 空映射 *)
   Exists nil (zeros 211) b_init 0 bucks_base.
   pose proof empty_contain_all_addrs.
   pose proof empty_repr_all_heads.
@@ -577,6 +611,7 @@ Proof.
   entailer!.
   + unfold NBUCK.
     entailer!.
+    (* 反向方向上用 --||-- 拆出 emp 与 dll 的等价 *)
     destruct H2 as [Hdll_to_emp Hemp_to_dll].  (* 从 --||-- 拿到两个方向 *)
     apply derivable1s_emp_sepcon_unfold.
     - exact Hemp_to_dll.
@@ -591,6 +626,7 @@ Qed.
 Lemma proof_of_create_hashtbl_return_wit_1 : create_hashtbl_return_wit_1.
 Proof.
   pre_process.
+  (* 结果是 emp 与空的 store_val 组合 *)
   apply derivable1s_emp_sepcon_unfold.
   - apply derivable1_refl.
   - setoid_rewrite <- (store_map_empty store_val).
@@ -603,6 +639,7 @@ Lemma proof_of_hashtbl_add_entail_wit_1 : hashtbl_add_entail_wit_1.
 Proof.
   pre_process.
   entailer!.
+  (* 余数落在桶范围内 *)
   - pose proof (Z.rem_bound_pos retval 211) as Hrem.
     lia.
   - pose proof (Z.rem_nonneg retval 211) as Hrem.
@@ -615,6 +652,7 @@ Lemma KP_insert_map_ext_same :
     (forall key, KP.insert_map m k p key = m key).
 Proof.
   intros m k p Hmk key.
+  (* key 等于 k 或不等于 k 的两种情况 *)
   destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
   - subst. rewrite KP.insert_map_same. rewrite Hmk. reflexivity.
   - rewrite KP.insert_map_diff by (intro Heq; apply Hneq; symmetry; exact Heq).
@@ -626,6 +664,7 @@ Lemma store_name_intro : forall k node key_pre,
   |-- store_name k node.
 Proof.
   intros.
+  (* 直接展开 store_name，并提供 key_pre 作为见证 *)
   unfold store_name.
   Exists key_pre.
   entailer!.
@@ -651,6 +690,7 @@ Proof.
   unfold contain_all_addrs in *.
   intro p0.
   split; intros H.
+  (* 正向：在新 map 中出现的地址要么是新插入的 p，要么来自旧 l *)
   - destruct H as [key Hkey].
     destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
     + subst key.
@@ -663,6 +703,7 @@ Proof.
       assert (Hinl : In p0 l).
       { apply (proj1 Hcontain). exists key; exact Hkey. }
       simpl; right; exact Hinl.
+  (* 反向：列表中地址存在则可构造对应 key *)
   - simpl in H.
     destruct H as [Hp | Hin].
     + subst p0.
@@ -690,8 +731,10 @@ Proof.
   intros lh b idx new Hidx Hrepr.
   unfold repr_all_heads in *.
   intros j p; split; intros H.
+  (* 正向：从 b' 的 Some 推回数组范围与 Znth 等式 *)
   - destruct (Z.eq_dec j idx) as [Heq|Hneq].
     + subst j.
+      (* j=idx：b' 直接更新头结点 *)
       destruct H as [l Hb].
       unfold b' in Hb.
       destruct (Z.eq_dec idx idx) as [_|Hneq].
@@ -707,7 +750,8 @@ Proof.
            ++ rewrite Zlength_replace_Znth. exact Hidx.
            ++ rewrite (Znth_replace_eq lh idx p 0) by exact Hidx. reflexivity.
       * exfalso. apply Hneq. reflexivity.
-    + destruct H as [l Hb].
+    + (* j<>idx：继承旧的 repr_all_heads *)
+      destruct H as [l Hb].
       unfold b' in Hb.
       destruct (Z.eq_dec j idx) as [Heq|Hneq'].
       * exfalso. apply Hneq. exact Heq.
@@ -720,8 +764,10 @@ Proof.
            by (try exact Hidx; try exact Hrange;
                intro Heq; apply Hneq; symmetry; exact Heq);
          exact Hnth].
+  (* 反向：从数组范围与 Znth 等式构造 b' 的 Some 见证 *)
   - destruct (Z.eq_dec j idx) as [Heq|Hneq].
     + subst j.
+      (* j=idx：构造 new::l_old 或 new::nil *)
       destruct H as [Hrange Hnth].
       pose proof (Znth_replace_eq lh idx new 0 Hidx) as Hz.
       rewrite Hz in Hnth. subst p.
@@ -735,7 +781,8 @@ Proof.
         unfold b'. destruct (Z.eq_dec idx idx) as [_|Hneq].
         -- rewrite Hbidx. reflexivity.
         -- exfalso. apply Hneq. reflexivity.
-    + destruct H as [Hrange Hnth].
+    + (* j<>idx：回退到旧 b 的见证 *)
+      destruct H as [Hrange Hnth].
       rewrite Zlength_replace_Znth in Hrange.
       assert (Hnth' : Znth j lh 0 = p).
       { rewrite (Znth_replace_neq lh idx j new 0) in Hnth
@@ -759,6 +806,7 @@ Lemma dll_singleton_from_fields :
     |-- dll x NULL (x :: nil).
 Proof.
   intros x Hx.
+  (* 单结点 dll 的展开 *)
   simpl dll.
   Exists NULL.
   entailer!.
@@ -776,9 +824,11 @@ Lemma contain_all_correct_addrs_insert_update :
     contain_all_correct_addrs (KP.insert_map m k p) (b' b idx p).
 Proof.
   intros m b k p idx Hmk Hidx Hcorr.
+  (* 新 key 的哈希值固定为 idx，更新 b 的对应桶 *)
   pose proof Hidx as Hidx0.
   destruct Hcorr as [Hfwd Hbwd].
   split.
+  (* 正向：新插入的 key 映射到 idx 桶，旧 key 保持一致 *)
   - intros key p0 Hm'.
     destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
     + subst key.
@@ -807,6 +857,7 @@ Proof.
         destruct (Z.eq_dec h idx) as [Heq|Hneq'].
         -- exfalso. apply Hneq_idx. exact Heq.
         -- simpl. exists ph. exists l. split; [exact Hb | exact Hin].
+  (* 反向：从桶中的元素反推 key；新插入的元素只能来自 k *)
   - intros i ph l p0 Hb' Hin.
     destruct (Z.eq_dec i idx) as [Heq|Hneq].
     + subst i.
@@ -862,6 +913,7 @@ Lemma store_map_store_sll_update_at_idx :
 Proof.
   intros bucks lh b idx new l_idx Hidx Hnew Hbidx.
   set (old_head := Znth idx lh 0).
+  (* 先把 store_map 在 idx 处拆出，再把头指针换成 new *)
   sep_apply (store_map_split store_sll idx (old_head, l_idx) b Hbidx).
   assert (Houtside : forall j, j <> idx -> b j = b' b idx new j).
   { intros j Hneq. unfold b'.
@@ -871,6 +923,7 @@ Proof.
   pose proof (store_map_missing_i_equiv store_sll b (b' b idx new) idx Houtside) as Heq.
   destruct Heq as [Hmiss _].
   sep_apply Hmiss.
+  (* 本桶内容更新为 new :: l_idx *)
   assert (Hsll :
             &(new # "blist" ->ₛ "next") # Ptr |-> old_head **
             store_sll idx (old_head, l_idx)
@@ -899,6 +952,7 @@ Lemma store_map_store_sll_update_at_idx_frame :
         store_map store_sll (b' b idx new) ** R.
 Proof.
   intros bucks lh b idx new l_idx R Hidx Hnew Hbidx.
+  (* 用单点更新引理并加上 frame R *)
   apply derivable1_sepcon_mono.
   - eapply (store_map_store_sll_update_at_idx bucks lh b idx new l_idx); eauto.
   - apply derivable1_refl.
@@ -912,11 +966,13 @@ Proof.
   - match goal with
     | H : m2 retval_2 = Some ?v |- _ => rename v into v_old
     end.
+    (* 已存在值：拆出字段并证明重复写冲突 *)
     sep_apply (store_map_split store_val retval_2 v_old m2 Hm2_at_new).
     sep_apply store_val_to_field.
     sep_apply (dup_store_uint (&(retval_2 # "blist" ->ₛ "val")) v_old val_pre).
     entailer!.
   - set (m2' := PV.insert_map m2 retval_2 val_pre).
+    (* 不存在值：更新 value map 并把 store_val 合并回去 *)
     sep_apply (store_map_equiv_store_map_missing store_val m2 retval_2 Hm2_at_new).
     assert (Houtside : forall a, a <> retval_2 -> m2 a = m2' a).
     { intros a Ha.
@@ -957,6 +1013,7 @@ Proof.
 
     sep_apply (store_map_merge store_name k retval_2 m1' Hins_name).
 
+    (* 更新完 name/value map 后，重建 store_hash_skeleton *)
     unfold store_hash_skeleton.
 
     set (idx := (retval % 211)).
@@ -976,6 +1033,7 @@ Proof.
           as Hlen_lh
     end.
     assert (Hidx_lh : 0 <= retval % 211 < Zlength lh) by (rewrite Hlen_lh; lia).
+    (* 从 repr_all_heads 得到该桶的链表见证 *)
     pose proof (H7 (retval % 211) (Znth (retval % 211) lh 0)) as Hrepr_idx.
     assert (Hexists : exists l_idx, b (retval % 211) = Some (Znth (retval % 211) lh 0, l_idx)).
     { apply (proj2 Hrepr_idx). split; [exact Hidx_lh | reflexivity]. }
@@ -983,6 +1041,7 @@ Proof.
     entailer!.
     1: { unfold NBUCK.
       assert (Hnew : retval_2 <> NULL) by (unfold NULL; lia).
+      (* 先更新桶头，再把 dll 头指针更新为新结点 *)
       sepcon_lift (store_map store_sll b).
       sepcon_lift (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0).
       sepcon_lift (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh)).
@@ -1058,11 +1117,13 @@ Proof.
   - match goal with
     | H : m2 retval_2 = Some ?v |- _ => rename v into v_old
     end.
+    (* 已存在值时同样得到冲突 *)
     sep_apply (store_map_split store_val retval_2 v_old m2 Hm2_at_new).
     sep_apply store_val_to_field.
     sep_apply (dup_store_uint (&(retval_2 # "blist" ->ₛ "val")) v_old val_pre).
     entailer!.
   - set (m2' := PV.insert_map m2 retval_2 val_pre).
+    (* 不存在值：先更新 value map，再更新 name map *)
     sep_apply (store_map_equiv_store_map_missing store_val m2 retval_2 Hm2_at_new).
     assert (Houtside : forall a, a <> retval_2 -> m2 a = m2' a).
     { intros a Ha.
@@ -1103,6 +1164,7 @@ Proof.
 
     sep_apply (store_map_merge store_name k retval_2 m1' Hins_name).
 
+    (* 同样在此重建整体哈希表骨架 *)
     unfold store_hash_skeleton.
     set (idx := (retval % 211)).
     set (b_new := b' b idx retval_2).
@@ -1121,6 +1183,8 @@ Proof.
     entailer!.
     1: { unfold NBUCK.
       assert (Hnew : retval_2 <> NULL) by (unfold NULL; lia).
+      (* 第二种情况：dll 已有头结点，合并后新结点作为链表头 *)
+      (* 第二种情形同样需要桶内链表见证 *)
       pose proof (H8 (retval % 211) (Znth (retval % 211) lh 0)) as Hrepr_idx.
       assert (Hexists : exists l_idx, b (retval % 211) = Some (Znth (retval % 211) lh 0, l_idx)).
       { apply (proj2 Hrepr_idx). split; [exact Hidx_lh | reflexivity]. }
@@ -1129,6 +1193,7 @@ Proof.
       sepcon_lift (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0).
       sepcon_lift (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh)).
       sepcon_assoc_change.
+      (* R 作为 frame：包含 dll 结构与新结点的 up/down 字段 *)
       set (R :=
         (dll top_ph retval_2 l **
          (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> top_ph **
@@ -1151,6 +1216,7 @@ Proof.
       subst R.
       sepcon_assoc_change.
       sepcon_lift (TT)%sac.
+      (* 消去 TT，并把 dll 重新折叠为以新结点为头 *)
       set (P :=
         PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh) **
         (store_map store_sll (b' b (retval % 211) retval_2) **
@@ -1183,6 +1249,7 @@ Proof.
   unfold store_hash_skeleton.
   Intros l lh b top bucks.
   unfold NBUCK, NULL.
+  (* 直接重排见证即可 *)
   Exists bucks top lh b l .
   entailer!.
   apply derivable1_truep_intros.
@@ -1191,6 +1258,7 @@ Qed.
 Lemma proof_of_hashtbl_add_which_implies_wit_2 : hashtbl_add_which_implies_wit_2.
 Proof.
   pre_process.
+  (* 用 dll_head_exists_with_TT 拆出头结点字段 *)
   assert (top_ph <> NULL) as Htop by (unfold NULL; auto).
   sep_apply (dll_head_exists_with_TT top_ph 0 l Htop).
   Intros top_down top_up l_tail.
