@@ -464,9 +464,7 @@ forall (val_pre: Z) (key_pre: Z) (h_pre: Z) (k: (@list Z)) (m2: (Z -> (@option Z
   &&  [| ((m1 (k)) = None) |]
   &&  (PtrArray.full bucks_ph 211 (replace_Znth ((retval % ( 211 ) )) (retval_2) (lh)) )
   **  ((&((h_pre)  # "hashtbl" ->ₛ "top")) # Ptr  |-> retval_2)
-  **  ((&((top_ph)  # "blist" ->ₛ "down")) # Ptr  |-> top_down)
-  **  ((&((top_ph)  # "blist" ->ₛ "up")) # Ptr  |-> retval_2)
-  **  (TT )
+  **  (dll top_ph retval_2 l )
   **  ((&((retval_2)  # "blist" ->ₛ "key")) # Ptr  |-> key_pre)
   **  ((&((retval_2)  # "blist" ->ₛ "val")) # UInt  |-> val_pre)
   **  ((&((retval_2)  # "blist" ->ₛ "next")) # Ptr  |-> (Znth (retval % ( 211 ) ) lh 0))

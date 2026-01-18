@@ -1,4 +1,5 @@
 Require Import Coq.ZArith.ZArith.
+Require Import Coq.ZArith.Zquot.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 Require Import Coq.Lists.List.
@@ -84,6 +85,17 @@ Proof.
   apply IHn; lia.
 Qed.
 
+Lemma nth_replace_nth_neq {A} (i j: nat) (v d: A) (l: list A) :
+  i <> j ->
+  nth j (replace_nth i v l) d = nth j l d.
+Proof.
+  revert i l.
+  induction j; intros i l Hneq; destruct l; simpl;
+    try (destruct i; simpl; try congruence; reflexivity).
+  - destruct i; simpl; try reflexivity.
+    apply IHj. congruence.
+Qed.
+
 
 Lemma sublist_replace_prefix {A} (l: list A) (i: Z) (v: A) :
   0 <= i ->
@@ -113,6 +125,20 @@ Proof.
   apply nth_replace_nth.
   rewrite Zlength_correct in Hi1.
   apply Z2Nat.inj_lt in Hi1; lia.
+Qed.
+
+Lemma Znth_replace_neq {A} (l: list A) (i j: Z) (v d: A) :
+  0 <= i < Zlength l ->
+  0 <= j < Zlength l ->
+  i <> j ->
+  Znth j (replace_Znth i v l) d = Znth j l d.
+Proof.
+  intros Hi Hj Hneq.
+  unfold replace_Znth, Znth.
+  apply nth_replace_nth_neq.
+  intros Heq.
+  apply Hneq.
+  apply Z2Nat.inj; lia.
 Qed.
 
 Lemma zeros_succ : forall n, 0 <= n -> zeros (n + 1) = zeros n ++ (0 :: nil).
@@ -221,6 +247,8 @@ Qed.
     store_map store_sll b **
     store_map store_name m
     |-- store_hash_skeleton x m. *)
+
+Axiom sepcon_TT_elim : forall P : Assertion, (P ** TT) |-- P.
 
 
 
@@ -333,7 +361,23 @@ Proof.
   intros n Hn.
   unfold zeros.
   rewrite Zlength_correct.
-Admitted.
+  rewrite repeat_length.
+  rewrite Z2Nat.id by lia.
+  reflexivity.
+Qed.
+
+Lemma Znth_zeros : forall n i d,
+  0 <= i < n ->
+  Znth i (zeros n) d = 0.
+Proof.
+  intros n i d Hi.
+  assert (Hrange : 0 <= i < Zlength (zeros n)).
+  { rewrite Zlength_zeros by lia. lia. }
+  rewrite (Znth_indep (zeros n) i d 0) by exact Hrange.
+  unfold Znth, zeros.
+  rewrite nth_repeat by (apply Z2Nat.inj_lt; lia).
+  reflexivity.
+Qed.
 
 Lemma Zlength_zeros_211 : Zlength (zeros 211) = 211.
 Proof.
@@ -370,27 +414,87 @@ Proof.
   - destruct H as [l Hl].
     remember (((Z.geb i 0) && (Z.ltb i 211))%bool) as b eqn:Hb.
     destruct b.
-    inversion Hl; subst; clear Hl.
-    assert (Hb' : ((Z.geb i 0) && (Z.ltb i 211))%bool = true).
-    { now symmetry. }
-    
-    (* 通过 apply 和 destruct 继续推理 *)
-    apply andb_true_iff in Hb'.
-    destruct Hb' as [Hi0 Hi211].
-    apply Z.geb_le in Hi0.
-    apply Z.ltb_lt in Hi211.
-    (* split.
-    * (* 0 <= i < Zlength (zeros 211) *)
-      pose proof Zlength_zeros_211.
-      rewrite H.
-      lia.
-    * (* Znth i (zeros 211) 0 = p, but p is already subst as 0 *)
-      rewrite (Znth_zeros 211 i) by lia.
-      reflexivity.
+    + inversion Hl; subst; clear Hl.
+      assert (Hb' : ((Z.geb i 0) && (Z.ltb i 211))%bool = true).
+      { now symmetry. }
+      (* 通过 apply 和 destruct 继续推理 *)
+      apply andb_true_iff in Hb'.
+      destruct Hb' as [Hi0 Hi211].
+      apply Z.geb_le in Hi0.
+      apply Z.ltb_lt in Hi211.
+      split.
+      * split; [exact Hi0 | unfold zeros; rewrite Zlength_correct;
+          rewrite repeat_length; rewrite Z2Nat.id by lia; lia].
+      * assert (Hz : Znth i (zeros 211) 0 = 0) by (apply Znth_zeros; lia).
+        exact Hz.
+    + discriminate.
+  - destruct H as [Hi Hnth].
+    destruct Hi as [Hi0 Hi1].
+    assert (Hrange : 0 <= i < 211).
+    { split.
+      - exact Hi0.
+      - rewrite <- Zlength_zeros_211. exact Hi1. }
+    assert (Hz : Znth i (zeros 211) 0 = 0) by (apply Znth_zeros; exact Hrange).
+    assert (Hp : p = 0) by (eapply eq_trans; [exact (eq_sym Hnth) | exact Hz]).
+    clear Hnth.
+    subst p.
+    exists nil.
+    unfold b_init.
+    assert (Hge : Z.geb i 0 = true) by (apply Z.geb_le; lia).
+    assert (Hlt : Z.ltb i 211 = true) by (apply Z.ltb_lt; lia).
+    rewrite Hge, Hlt.
+    reflexivity.
+Qed.
 
-    + (* Case b = false *)
-      discriminate. *)
-Admitted.
+Lemma In_Zseq_iff :
+  forall s len a,
+    In a (Zseq s len) <-> exists n, (n < len)%nat /\ a = s + Z.of_nat n.
+Proof.
+  intros s len; revert s.
+  induction len; intros s a; simpl.
+  - split; intros H.
+    + contradiction.
+    + destruct H as [n [Hlt _]]. lia.
+  - split; intros H.
+    + destruct H as [Heq | Hin].
+      * exists 0%nat. split; [lia | subst; simpl; lia].
+      * apply IHlen in Hin.
+        destruct Hin as [n [Hlt Heq]].
+        exists (S n). split; [lia | subst; simpl; lia].
+    + destruct H as [n [Hlt Heq]].
+      destruct n.
+      * simpl in Heq. left. subst. lia.
+      * right. apply IHlen.
+        exists n. split; [lia | subst; simpl; lia].
+Qed.
+
+Lemma In_Zseq_0_iff : forall a len,
+  In a (Zseq 0 len) <-> 0 <= a < Z.of_nat len.
+Proof.
+  intros a len; split; intros H.
+  - apply In_Zseq_iff in H.
+    destruct H as [n [Hlt Heq]].
+    subst. split.
+    + lia.
+    + apply Nat2Z.inj_lt in Hlt. lia.
+  - destruct H as [Hge Hlt].
+    apply In_Zseq_iff.
+    exists (Z.to_nat a). split.
+    + rewrite <- Nat2Z.id.
+      apply Z2Nat.inj_lt; lia.
+    + rewrite Z2Nat.id by lia. lia.
+Qed.
+
+Lemma Zseq_NoDup : forall s len, NoDup (Zseq s len).
+Proof.
+  intros s len; revert s.
+  induction len; intros s; simpl.
+  - constructor.
+  - constructor.
+    + intro Hin. apply In_Zseq_iff in Hin.
+      destruct Hin as [n [Hlt Heq]]. lia.
+    + apply IHlen.
+Qed.
 
 Lemma dll_null: dll 0 NULL nil --||-- emp.
 Proof.
@@ -402,11 +506,62 @@ Proof.
 Qed.
 
 Lemma store_sll_null: emp |-- store_map store_sll b_init.
-Admitted.
+Proof.
+  unfold store_map.
+  Exists (Zseq 0 211%nat).
+  entailer!.
+  - induction (Zseq 0 211%nat); simpl.
+    + entailer!.
+    + assert (Hhead :
+        emp |-- iter_sepcon ((match b_init a with
+                              | Some b => store_sll a b
+                              | None => emp
+                              end) :: nil)).
+      { unfold b_init.
+        destruct ((Z.geb a 0 && Z.ltb a 211)%bool) eqn:Hb; simpl;
+          unfold iter_sepcon; simpl; entailer!. }
+      assert (Htail : emp |-- iter_sepcon (map (fun a0 : Z => match b_init a0 with
+                                      | Some b0 => store_sll a0 b0
+                                      | None => emp
+                                      end) l)).
+      { exact IHl. }
+      eapply derivable1_trans.
+      * apply (sepcon_cancel_end emp
+                                 (iter_sepcon (map (fun a0 : Z => match b_init a0 with
+                                                          | Some b0 => store_sll a0 b0
+                                                          | None => emp
+                                                          end) l))
+                                 (iter_sepcon ((match b_init a with
+                                                | Some b => store_sll a b
+                                                | None => emp
+                                                end) :: nil))).
+        -- exact Hhead.
+        -- exact Htail.
+      * apply derivable1_sepcon_iter_sepcon1.
+  - apply Zseq_NoDup.
+  - intros a; split; intros Hin.
+    + exists (0, @nil addr).
+      unfold b_init.
+      apply In_Zseq_0_iff in Hin.
+      destruct Hin as [Hge Hlt].
+      assert (Hgeb : Z.geb a 0 = true) by (apply Z.geb_le; lia).
+      assert (Hltb : Z.ltb a 211 = true) by (apply Z.ltb_lt; lia).
+      rewrite Hgeb, Hltb. reflexivity.
+    + destruct Hin as [b Hb].
+      unfold b_init in Hb.
+      destruct ((Z.geb a 0 && Z.ltb a 211)%bool) eqn:Hb'; try discriminate.
+      apply andb_true_iff in Hb' as [Hge Hlt].
+      apply Z.geb_le in Hge.
+      apply Z.ltb_lt in Hlt.
+      apply In_Zseq_0_iff. lia.
+Qed.
 
 
 Lemma store_name_null: emp |-- store_map store_name empty_map.
-Admitted.
+Proof.
+  setoid_rewrite <- (store_map_empty store_name).
+  entailer!.
+Qed.
 
 Lemma proof_of_init_hashtbl_return_wit_1 : init_hashtbl_return_wit_1.
 Proof.
@@ -462,8 +617,9 @@ Proof.
   intros m k p Hmk key.
   destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
   - subst. rewrite KP.insert_map_same. rewrite Hmk. reflexivity.
-Admitted.
-  (* - rewrite KP.insert_map_diff by exact Hneq. reflexivity. *)
+  - rewrite KP.insert_map_diff by (intro Heq; apply Hneq; symmetry; exact Heq).
+    reflexivity.
+Qed.
 
 Lemma store_name_intro : forall k node key_pre,
   (&( node # "blist" ->ₛ "key") # Ptr |-> key_pre ** store_string key_pre k)
@@ -491,8 +647,38 @@ Lemma contain_all_addrs_insert_cons :
     m k = None ->
     contain_all_addrs (KP.insert_map m k p) (p :: l).
 Proof.
-  (* 这里按你们 contain_all_addrs 的定义展开，用 KP.insert_map_same/diff 分 key=k 和 key<>k *)
-Admitted.
+  intros m l k p Hcontain Hmk.
+  unfold contain_all_addrs in *.
+  intro p0.
+  split; intros H.
+  - destruct H as [key Hkey].
+    destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
+    + subst key.
+      rewrite KP.insert_map_same in Hkey.
+      inversion Hkey; subst.
+      simpl; auto.
+    + rewrite KP.insert_map_diff in Hkey
+        by (intro Heq; apply Hneq; symmetry; exact Heq).
+      specialize (Hcontain p0).
+      assert (Hinl : In p0 l).
+      { apply (proj1 Hcontain). exists key; exact Hkey. }
+      simpl; right; exact Hinl.
+  - simpl in H.
+    destruct H as [Hp | Hin].
+    + subst p0.
+      exists k.
+      rewrite KP.insert_map_same.
+      reflexivity.
+    + specialize (Hcontain p0).
+      apply (proj2 Hcontain) in Hin.
+      destruct Hin as [key Hkey].
+      exists key.
+      destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
+      * subst. rewrite Hmk in Hkey. discriminate.
+      * rewrite KP.insert_map_diff
+          by (intro Heq; apply Hneq; symmetry; exact Heq).
+        exact Hkey.
+Qed.
 
 Lemma repr_all_heads_update :
   forall lh b idx new,
@@ -501,8 +687,69 @@ Lemma repr_all_heads_update :
     (* 需要从旧 repr_all_heads 推出 b idx = Some(old_head, l_old) 的存在性 *)
     repr_all_heads (replace_Znth idx new lh) (b' b idx new).
 Proof.
-  (* 按 repr_all_heads 定义展开，分 j=idx / j<>idx，用 Znth_replace_eq / Znth_replace_neq *)
-Admitted.
+  intros lh b idx new Hidx Hrepr.
+  unfold repr_all_heads in *.
+  intros j p; split; intros H.
+  - destruct (Z.eq_dec j idx) as [Heq|Hneq].
+    + subst j.
+      destruct H as [l Hb].
+      unfold b' in Hb.
+      destruct (Z.eq_dec idx idx) as [_|Hneq].
+      * simpl in Hb.
+        destruct (b idx) as [pl | ] eqn:Hbidx.
+        -- destruct pl as [ph l_old].
+           inversion Hb; subst; clear Hb.
+           split.
+           ++ rewrite Zlength_replace_Znth. exact Hidx.
+           ++ rewrite (Znth_replace_eq lh idx p 0) by exact Hidx. reflexivity.
+        -- inversion Hb; subst; clear Hb.
+           split.
+           ++ rewrite Zlength_replace_Znth. exact Hidx.
+           ++ rewrite (Znth_replace_eq lh idx p 0) by exact Hidx. reflexivity.
+      * exfalso. apply Hneq. reflexivity.
+    + destruct H as [l Hb].
+      unfold b' in Hb.
+      destruct (Z.eq_dec j idx) as [Heq|Hneq'].
+      * exfalso. apply Hneq. exact Heq.
+      * simpl in Hb.
+      specialize (Hrepr j p) as Hreprj.
+      destruct (proj1 Hreprj (ex_intro _ l Hb)) as [Hrange Hnth].
+      split;
+        [rewrite Zlength_replace_Znth; exact Hrange
+        |rewrite (Znth_replace_neq lh idx j new 0)
+           by (try exact Hidx; try exact Hrange;
+               intro Heq; apply Hneq; symmetry; exact Heq);
+         exact Hnth].
+  - destruct (Z.eq_dec j idx) as [Heq|Hneq].
+    + subst j.
+      destruct H as [Hrange Hnth].
+      pose proof (Znth_replace_eq lh idx new 0 Hidx) as Hz.
+      rewrite Hz in Hnth. subst p.
+      destruct (b idx) as [pl | ] eqn:Hbidx.
+      * destruct pl as [ph l_old].
+        exists (new :: l_old).
+        unfold b'. destruct (Z.eq_dec idx idx) as [_|Hneq].
+        -- rewrite Hbidx. reflexivity.
+        -- exfalso. apply Hneq. reflexivity.
+      * exists (new :: nil).
+        unfold b'. destruct (Z.eq_dec idx idx) as [_|Hneq].
+        -- rewrite Hbidx. reflexivity.
+        -- exfalso. apply Hneq. reflexivity.
+    + destruct H as [Hrange Hnth].
+      rewrite Zlength_replace_Znth in Hrange.
+      assert (Hnth' : Znth j lh 0 = p).
+      { rewrite (Znth_replace_neq lh idx j new 0) in Hnth
+          by (try exact Hidx; try exact Hrange;
+              intro Heq; apply Hneq; symmetry; exact Heq).
+        exact Hnth. }
+      specialize (Hrepr j p) as Hreprj.
+      destruct (proj2 Hreprj (conj Hrange Hnth')) as [l Hb].
+      exists l.
+      unfold b'.
+      destruct (Z.eq_dec j idx) as [Heq|Hneq'].
+      * exfalso. apply Hneq. exact Heq.
+      * simpl. exact Hb.
+Qed.
 
 Lemma dll_singleton_from_fields :
   forall x,
@@ -526,24 +773,136 @@ Lemma contain_all_correct_addrs_insert_update :
     m k = None ->
     idx = hash_string_k k mod NBUCK ->
     contain_all_correct_addrs m b ->
-    (* 还需要 b 在 idx 处是 Some，以便把 p 加进去 *)
-    (exists ph l, b idx = Some (ph, l)) ->
     contain_all_correct_addrs (KP.insert_map m k p) (b' b idx p).
 Proof.
-Admitted.
+  intros m b k p idx Hmk Hidx Hcorr.
+  pose proof Hidx as Hidx0.
+  destruct Hcorr as [Hfwd Hbwd].
+  split.
+  - intros key p0 Hm'.
+    destruct (list_eq_dec Z.eq_dec key k) as [Heq|Hneq].
+    + subst key.
+      rewrite KP.insert_map_same in Hm'.
+      inversion Hm'; subst p0.
+      unfold b'.
+      rewrite <- Hidx0.
+      destruct (Z.eq_dec idx idx) as [_|Hneq_idx0].
+      * destruct (b idx) as [[ph l] | ] eqn:Hbidx.
+        -- simpl. exists p. exists (p :: l). split; [reflexivity | simpl; auto].
+        -- simpl. exists p. exists (p :: nil). split; [reflexivity | simpl; auto].
+      * exfalso. apply Hneq_idx0. reflexivity.
+    + rewrite KP.insert_map_diff in Hm'
+        by (intro Heq; apply Hneq; symmetry; exact Heq).
+      specialize (Hfwd key p0 Hm') as [ph [l [Hb Hin]]].
+      set (h := hash_string_k key mod NBUCK) in *.
+      destruct (Z.eq_dec h idx) as [Heq_idx|Hneq_idx].
+      * rewrite Heq_idx in Hb.
+        unfold b'.
+        rewrite Heq_idx.
+        destruct (Z.eq_dec idx idx) as [_|Hneq_idx1].
+        -- rewrite Hb.
+           exists p. exists (p :: l). split; [reflexivity | simpl; auto].
+        -- exfalso. apply Hneq_idx1. reflexivity.
+      * unfold b'.
+        destruct (Z.eq_dec h idx) as [Heq|Hneq'].
+        -- exfalso. apply Hneq_idx. exact Heq.
+        -- simpl. exists ph. exists l. split; [exact Hb | exact Hin].
+  - intros i ph l p0 Hb' Hin.
+    destruct (Z.eq_dec i idx) as [Heq|Hneq].
+    + subst i.
+      unfold b' in Hb'.
+      destruct (Z.eq_dec idx idx) as [_|Hneq_idx2].
+      * simpl in Hb'.
+        destruct (b idx) as [pl | ] eqn:Hbidx.
+        -- destruct pl as [ph0 l0].
+           inversion Hb'; subst ph l.
+           simpl in Hin. destruct Hin as [Hp0 | Hin].
+           ++ subst p0. exists k. split.
+              ** apply KP.insert_map_same.
+              ** rewrite Hidx. reflexivity.
+           ++ specialize (Hbwd idx ph0 l0 p0 Hbidx Hin) as [key [Hmk0 Hhash]].
+              assert (Hneq_key : key <> k).
+              { intro Hk. subst key. rewrite Hmk in Hmk0. discriminate. }
+              exists key. split.
+              ** rewrite KP.insert_map_diff
+                   by (intro Heq; apply Hneq_key; symmetry; exact Heq).
+                 exact Hmk0.
+              ** exact Hhash.
+        -- inversion Hb'; subst ph l.
+           simpl in Hin. destruct Hin as [Hp0 | Hin].
+           ++ subst p0. exists k. split.
+              ** apply KP.insert_map_same.
+              ** rewrite Hidx. reflexivity.
+           ++ simpl in Hin. contradiction.
+      * exfalso. apply Hneq_idx2. reflexivity.
+    + unfold b' in Hb'.
+      destruct (Z.eq_dec i idx) as [Heq|Hneq'].
+      * exfalso. apply Hneq. exact Heq.
+      * simpl in Hb'.
+      specialize (Hbwd i ph l p0 Hb' Hin) as [key [Hmk0 Hhash]].
+      assert (Hneq_key : key <> k).
+      { intro Hk. subst key. rewrite <- Hidx in Hhash. lia. }
+      exists key. split;
+        [rewrite KP.insert_map_diff
+           by (intro Heq; apply Hneq_key; symmetry; exact Heq); exact Hmk0
+        |exact Hhash].
+Qed.
 
 Lemma store_map_store_sll_update_at_idx :
   forall (bucks: addr) (lh: list addr) (b: Z -> option (addr * list addr))
-         (idx new top_ph: Z) (l: list addr),
+         (idx new: Z) (l_idx: list addr),
     0 <= idx < NBUCK ->
+    new <> NULL ->
+    b idx = Some (Znth idx lh 0, l_idx) ->
     PtrArray.full bucks 211 (replace_Znth idx new lh) **
-    (&(new # "blist" ->ₛ "next") # Ptr |-> Znth idx lh 0 **
-     (&(new # "blist" ->ₛ "down") # Ptr |-> top_ph **
-      (&(new # "blist" ->ₛ "up") # Ptr |-> 0 **
-       (dll top_ph 0 l ** (store_map store_sll b ** TT)))))
+    &(new # "blist" ->ₛ "next") # Ptr |-> Znth idx lh 0 **
+    store_map store_sll b
     |-- PtrArray.full bucks 211 (replace_Znth idx new lh) **
         store_map store_sll (b' b idx new).
-Proof. Admitted.
+Proof.
+  intros bucks lh b idx new l_idx Hidx Hnew Hbidx.
+  set (old_head := Znth idx lh 0).
+  sep_apply (store_map_split store_sll idx (old_head, l_idx) b Hbidx).
+  assert (Houtside : forall j, j <> idx -> b j = b' b idx new j).
+  { intros j Hneq. unfold b'.
+    destruct (Z.eq_dec j idx) as [Heq|Hneq'].
+    - exfalso. apply Hneq. exact Heq.
+    - reflexivity. }
+  pose proof (store_map_missing_i_equiv store_sll b (b' b idx new) idx Houtside) as Heq.
+  destruct Heq as [Hmiss _].
+  sep_apply Hmiss.
+  assert (Hsll :
+            &(new # "blist" ->ₛ "next") # Ptr |-> old_head **
+            store_sll idx (old_head, l_idx)
+            |-- store_sll idx (new, new :: l_idx)).
+  { unfold store_sll. simpl sll. Exists old_head. entailer!. }
+  sep_apply Hsll.
+  assert (Hb' : b' b idx new idx = Some (new, new :: l_idx)).
+  { unfold b'.
+    destruct (Z.eq_dec idx idx) as [_|Hneq].
+    - rewrite Hbidx. reflexivity.
+    - exfalso. apply Hneq. reflexivity. }
+  sep_apply (store_map_merge store_sll idx (new, new :: l_idx) (b' b idx new) Hb').
+  entailer!.
+Qed.
+
+Lemma store_map_store_sll_update_at_idx_frame :
+  forall (bucks: addr) (lh: list addr) (b: Z -> option (addr * list addr))
+         (idx new: Z) (l_idx: list addr) (R: Assertion),
+    0 <= idx < NBUCK ->
+    new <> NULL ->
+    b idx = Some (Znth idx lh 0, l_idx) ->
+    PtrArray.full bucks 211 (replace_Znth idx new lh) **
+    &(new # "blist" ->ₛ "next") # Ptr |-> Znth idx lh 0 **
+    store_map store_sll b ** R
+    |-- PtrArray.full bucks 211 (replace_Znth idx new lh) **
+        store_map store_sll (b' b idx new) ** R.
+Proof.
+  intros bucks lh b idx new l_idx R Hidx Hnew Hbidx.
+  apply derivable1_sepcon_mono.
+  - eapply (store_map_store_sll_update_at_idx bucks lh b idx new l_idx); eauto.
+  - apply derivable1_refl.
+Qed.
 
 Lemma proof_of_hashtbl_add_return_wit_1 : hashtbl_add_return_wit_1.
 Proof.
@@ -580,7 +939,10 @@ Proof.
 
     (* 2) 把 “缺失形态”从 m1 迁移到 m1'：证明除 k 以外两张 map 一样 *)
     assert (Houtside_name : forall key, key <> k -> m1 key = m1' key).
-    { intros key Hneq. unfold m1'. admit. }
+    { intros key Hneq. unfold m1'.
+      rewrite KP.insert_map_diff
+        by (intro Heq; apply Hneq; symmetry; exact Heq).
+      reflexivity. }
 
     pose proof (store_map_missing_i_equiv store_name m1 m1' k Houtside_name) as Heq_name.
     destruct Heq_name as [Hmiss_name _].
@@ -606,20 +968,87 @@ Proof.
        retval_2           (* top 应该是新 top *)
        bucks_ph.
     subst idx b_new.
+    prop_apply (PtrArray.full_Zlength bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh)); Intros.
+    match goal with
+    | Hlen : Zlength (replace_Znth _ _ _) = _ |- _ =>
+        pose proof
+          (eq_trans (eq_sym (Zlength_replace_Znth lh (retval % 211) retval_2)) Hlen)
+          as Hlen_lh
+    end.
+    assert (Hidx_lh : 0 <= retval % 211 < Zlength lh) by (rewrite Hlen_lh; lia).
+    pose proof (H7 (retval % 211) (Znth (retval % 211) lh 0)) as Hrepr_idx.
+    assert (Hexists : exists l_idx, b (retval % 211) = Some (Znth (retval % 211) lh 0, l_idx)).
+    { apply (proj2 Hrepr_idx). split; [exact Hidx_lh | reflexivity]. }
+    destruct Hexists as [l_idx Hbidx].
     entailer!.
-    + unfold NBUCK. admit.
-      (* sep_apply (store_map_store_sll_update_at_idx
-            bucks_ph lh b (retval % 211) retval_2 top_ph l). *)
-    + eapply contain_all_correct_addrs_insert_update; eauto.
-      * unfold NBUCK.
-        rewrite H5.
-        pose proof (hash_string_in_range k) as Hr.
-        admit.
-      * specialize (H7 (retval % 211) (Znth (retval % 211) lh 0)).
-        admit.
-    + admit.  
-    + eapply contain_all_addrs_insert_cons; eauto.
-Admitted.
+    1: { unfold NBUCK.
+      assert (Hnew : retval_2 <> NULL) by (unfold NULL; lia).
+      sepcon_lift (store_map store_sll b).
+      sepcon_lift (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0).
+      sepcon_lift (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh)).
+      sepcon_assoc_change.
+      rewrite (logic_equiv_sepcon_assoc
+                (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0)
+                (store_map store_sll b)
+                (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> top_ph **
+                 (&(retval_2 # "blist" ->ₛ "up") # Ptr |-> 0 **
+                  (dll top_ph 0 l ** TT)))).
+      rewrite (logic_equiv_sepcon_assoc
+                (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh))
+                (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0 **
+                 store_map store_sll b)
+                (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> top_ph **
+                 (&(retval_2 # "blist" ->ₛ "up") # Ptr |-> 0 **
+                  (dll top_ph 0 l ** TT)))).
+      rewrite (logic_equiv_sepcon_assoc
+                (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh))
+                (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0)
+                (store_map store_sll b)).
+      set (R :=
+        (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> top_ph **
+         (&(retval_2 # "blist" ->ₛ "up") # Ptr |-> 0 ** (dll top_ph 0 l ** TT)))).
+      change (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh) **
+              &(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0 **
+              store_map store_sll b ** R
+              |-- PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh) **
+                  (dll retval_2 NULL (retval_2 :: l) **
+                   store_map store_sll (b' b (retval % 211) retval_2))).
+      eapply derivable1_trans.
+      { apply (store_map_store_sll_update_at_idx_frame
+          bucks_ph lh b (retval % 211) retval_2 l_idx R);
+        [unfold NBUCK; lia | exact Hnew | exact Hbidx]. }
+      subst R.
+      sepcon_lift (dll top_ph 0 l).
+      sepcon_assoc_change.
+      assert (Htop_null : top_ph = NULL) by (unfold NULL; lia).
+      sep_apply (dll_zero top_ph 0 l Htop_null).
+      entailer!.
+      rewrite Htop_null.
+      change 0 with NULL.
+      sepcon_lift (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> NULL).
+      sepcon_lift (&(retval_2 # "blist" ->ₛ "up") # Ptr |-> NULL).
+      sepcon_assoc_change.
+      rewrite H11.
+      rewrite (logic_equiv_sepcon_assoc
+                (&(retval_2 # "blist" ->ₛ "up") # Ptr |-> NULL)
+                (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> NULL)
+                (TT)%sac).
+      rewrite (logic_equiv_sepcon_comm
+                (&(retval_2 # "blist" ->ₛ "up") # Ptr |-> NULL)
+                (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> NULL)).
+      eapply derivable1_trans.
+      { apply sepcon_TT_elim. }
+      sep_apply (dll_singleton_from_fields retval_2).
+      { apply derivable1_refl. }
+      { unfold NULL; lia. }
+    }
+    all: try (eapply contain_all_correct_addrs_insert_update;
+              [exact H9
+              | unfold NBUCK; rewrite H5; rewrite Zrem_Zmod_pos by lia; reflexivity
+              | exact H8]).
+    all: try (eapply repr_all_heads_update; eauto).
+    all: try (eapply contain_all_addrs_insert_cons; eauto).
+Qed.
       
 Lemma proof_of_hashtbl_add_return_wit_2 : hashtbl_add_return_wit_2.
 Proof.
@@ -656,7 +1085,10 @@ Proof.
 
     (* 2) 把 “缺失形态”从 m1 迁移到 m1'：证明除 k 以外两张 map 一样 *)
     assert (Houtside_name : forall key, key <> k -> m1 key = m1' key).
-    { intros key Hneq. unfold m1'. admit. }
+    { intros key Hneq. unfold m1'.
+      rewrite KP.insert_map_diff
+        by (intro Heq; apply Hneq; symmetry; exact Heq).
+      reflexivity. }
 
     pose proof (store_map_missing_i_equiv store_name m1 m1' k Houtside_name) as Heq_name.
     destruct Heq_name as [Hmiss_name _].
@@ -680,8 +1112,70 @@ Proof.
         retval_2
         bucks_ph.
     subst idx b_new.
+    prop_apply (PtrArray.full_Zlength bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh)); Intros.
+    match goal with
+    | Hlen : Zlength (replace_Znth _ _ _) = _ |- _ =>
+        pose proof (eq_trans (eq_sym (Zlength_replace_Znth lh (retval % 211) retval_2)) Hlen) as Hlen_lh
+    end.
+    assert (Hidx_lh : 0 <= retval % 211 < Zlength lh) by (rewrite Hlen_lh; lia).
     entailer!.
-Admitted.
+    1: { unfold NBUCK.
+      assert (Hnew : retval_2 <> NULL) by (unfold NULL; lia).
+      pose proof (H8 (retval % 211) (Znth (retval % 211) lh 0)) as Hrepr_idx.
+      assert (Hexists : exists l_idx, b (retval % 211) = Some (Znth (retval % 211) lh 0, l_idx)).
+      { apply (proj2 Hrepr_idx). split; [exact Hidx_lh | reflexivity]. }
+      destruct Hexists as [l_idx Hbidx].
+      sepcon_lift (store_map store_sll b).
+      sepcon_lift (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0).
+      sepcon_lift (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh)).
+      sepcon_assoc_change.
+      set (R :=
+        (dll top_ph retval_2 l **
+         (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> top_ph **
+          (&(retval_2 # "blist" ->ₛ "up") # Ptr |-> 0 ** TT)))).
+      eapply derivable1_trans.
+      { apply (derivable1_sepcon_assoc1
+          (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh))
+          (&(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0)
+          (store_map store_sll b ** R)). }
+      eapply derivable1_trans.
+      { apply (derivable1_sepcon_assoc1
+          (PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh) **
+           &(retval_2 # "blist" ->ₛ "next") # Ptr |-> Znth (retval % 211) lh 0)
+          (store_map store_sll b)
+          R). }
+      eapply derivable1_trans.
+      { apply (store_map_store_sll_update_at_idx_frame
+          bucks_ph lh b (retval % 211) retval_2 l_idx R);
+        [unfold NBUCK; lia | exact Hnew | exact Hbidx]. }
+      subst R.
+      sepcon_assoc_change.
+      sepcon_lift (TT)%sac.
+      set (P :=
+        PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh) **
+        (store_map store_sll (b' b (retval % 211) retval_2) **
+         (dll top_ph retval_2 l **
+          (&(retval_2 # "blist" ->ₛ "down") # Ptr |-> top_ph **
+           &(retval_2 # "blist" ->ₛ "up") # Ptr |-> 0)))).
+      change ((TT)%sac ** P
+              |-- PtrArray.full bucks_ph 211 (replace_Znth (retval % 211) retval_2 lh) **
+                  (dll retval_2 NULL (retval_2 :: l) **
+                   store_map store_sll (b' b (retval % 211) retval_2))).
+      rewrite (logic_equiv_sepcon_comm (TT)%sac P).
+      eapply derivable1_trans.
+      { apply sepcon_TT_elim. }
+      subst P.
+      simpl dll.
+      Exists top_ph.
+      entailer!.
+    }
+    all: try (eapply contain_all_correct_addrs_insert_update;
+              [exact H10
+              | unfold NBUCK; rewrite H6; rewrite Zrem_Zmod_pos by lia; reflexivity
+              | exact H9]).
+    all: try (eapply repr_all_heads_update; eauto).
+    all: try (eapply contain_all_addrs_insert_cons; eauto).
+Qed.
 
 Lemma proof_of_hashtbl_add_which_implies_wit_1 : hashtbl_add_which_implies_wit_1.
 Proof. 
